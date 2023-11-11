@@ -1,0 +1,32 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('comentarios', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+            $table->foreignId('usuario_id')->constrained('users'); // Relación con el usuario que hizo el comentario
+            $table->foreignId('restaurante_id')->constrained('restaurantes'); // Relación con el restaurante
+            $table->text('contenido');
+            $table->integer('calificacion');
+            // Otros campos relevantes para el comentario
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('comentarios');
+    }
+};
