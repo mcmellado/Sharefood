@@ -4,29 +4,31 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateContactosTable extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('contactos', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('usuario_id')->constrained('users'); // ID del usuario que realiza el contacto
+            $table->foreignId('otro_usuario_id')->constrained('users'); // ID del otro usuario involucrado
+            $table->text('mensaje');
             $table->timestamps();
-            $table->foreignId('usuario_id')->constrained('users'); // Usuario principal
-            $table->foreignId('contacto_id')->constrained('users'); // Usuario de contacto
-            $table->boolean('bloqueado')->default(false);
-            // Otros campos relevantes para la relación de contacto
         });
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('contactos');
     }
-};
-
+}
