@@ -27,19 +27,28 @@
                     @csrf 
                     <div class="mb-3">
                         <label for="usuario_correo" class="form-label">Usuario o correo electrónico:</label>
-                        <input type="text" class="form-control" id="usuario_correo" name="usuario_correo">
+                        <input type="text" class="form-control @error('usuario_correo') is-invalid @enderror" id="usuario_correo" name="usuario_correo" value="{{ old('usuario_correo') }}">
+                        @error('usuario_correo')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Contraseña:</label>
-                        <input type="password" class="form-control" id="password" name="password">
-                    </div>
-                    <div class="mb-3 form-check">
+                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="contrasenia" name="password">
+                        @error('password')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>                    
+                    {{-- <div class="mb-3 form-check">
                         <input type="checkbox" class="form-check-input" id="recuerdame" name="recuerdame">
                         <label class="form-check-label" for="recuerdame">Recuérdame</label>
-                        <a href="#" class="ms-2">He olvidado mi contraseña</a>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Iniciar sesión</button>
-                </form>
+                            <a href="#" class="ms-2">He olvidado mi contraseña</a> 
+                    </div> --}}
+                    <button type="submit" class="btn btn-dark">Iniciar sesión</button>
+                </form>     
+            </div>
+            <div class="text-center mt-3">
+                <p class="text-dark ">¿Aún no tienes cuenta? <b> <a href="{{ route('registro') }}" class="text-dark">Regístrate aquí</a> </b> </p>
             </div>
         </div>
     </div>
