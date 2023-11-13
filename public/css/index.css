@@ -1,0 +1,41 @@
+body {
+    background-color: #D5EB9B; /* Verde claro para el fondo */
+    color: #333; /* Color de texto predeterminado */
+}
+
+.header {
+    background-color: #333; /* Fondo oscuro para la barra de navegación */
+    color: #D5EB9B; /* Color de texto claro */
+    
+}
+
+.bienvenido {
+    color: #333; /* Texto oscuro para el título Bienvenido */
+}
+
+.login {
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+footer {
+    background-color: #333; /* Fondo del pie de página */
+    color: #D5EB9B; /* Color de texto claro en el pie de página */
+    padding: 1rem;
+}
+    
+nav {
+    background-color: #333; /* Fondo oscuro para el menú de navegación */
+    padding: 1rem;
+}
+
+/* Estilo adicional para los enlaces de navegación */
+nav a {
+    color: #D5EB9B; /* Color de texto claro para los enlaces de navegación */
+    text-decoration: none; /* Sin subrayado en los enlaces */
+}
+
+.bg-custom {
+    background-color: #333; 
+    color: #D5EB9B;
+}
