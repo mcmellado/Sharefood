@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/jpg" href="./media/imagenes/favicon.ico"/>
-    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
     <title>Bienvenido a ShareFood</title>
 </head>
 <body>
@@ -23,17 +23,18 @@
 
         <div class="row justify-content-center mt-5">
             <div class="col-md-6">
-                <form>
+                <form method="POST" action="{{route('inicia-sesion') }}">
+                    @csrf 
                     <div class="mb-3">
-                        <label for="correo" class="form-label">Usuario o correo electrónico:</label>
-                        <input type="text" class="form-control" id="correo">
+                        <label for="usuario_correo" class="form-label">Usuario o correo electrónico:</label>
+                        <input type="text" class="form-control" id="usuario_correo" name="usuario_correo">
                     </div>
                     <div class="mb-3">
-                        <label for="contrasenia" class="form-label">Contraseña:</label>
-                        <input type="password" class="form-control" id="contrasenia">
+                        <label for="password" class="form-label">Contraseña:</label>
+                        <input type="password" class="form-control" id="password" name="password">
                     </div>
                     <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="recuerdame">
+                        <input type="checkbox" class="form-check-input" id="recuerdame" name="recuerdame">
                         <label class="form-check-label" for="recuerdame">Recuérdame</label>
                         <a href="#" class="ms-2">He olvidado mi contraseña</a>
                     </div>
