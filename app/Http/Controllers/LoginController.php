@@ -70,7 +70,7 @@ class LoginController extends Controller
             return redirect()->intended('dashboard')->withSuccess('Inicio de sesión correcto');
         }
     
-        // Si el intento de autenticación falla, el único error posible es la contraseña incorrecta.
+        // Si el intento de autenticación falla, el único error posible es la contraseña incorrecta
         return redirect("/login")->withErrors(['password' => 'La contraseña es incorrecta'])->withInput($request->except('password'));
     }
 
