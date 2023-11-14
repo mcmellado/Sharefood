@@ -1,3 +1,5 @@
+/* registro.css */
+
 body {
     background-color: #D5EB9B; 
     color: #333; 
@@ -6,16 +8,21 @@ body {
 .header {
     background-color: #333; 
     color: #D5EB9B; 
-    
+    padding: 1rem;
 }
 
-.bienvenido {
-    color: #333; 
+.container {
+    margin-top: 2rem;
 }
 
-.login {
-    padding: 2rem;
-    border-radius: 10px;
+.footer {
+    background-color: #333; 
+    color: #D5EB9B; 
+    padding: 1rem;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
 }
 
 footer {
@@ -32,11 +39,6 @@ nav {
 nav a {
     color: #D5EB9B; 
     text-decoration: none; 
-}
-
-.bg-custom {
-    background-color: #333; 
-    color: #D5EB9B;
 }
 
 .btn-dark {
