@@ -24,6 +24,5 @@
             @yield('content')
         </main>
     </div>
-    <!-- ... Otros scripts ... -->
 </body>
 </html>
