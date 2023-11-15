@@ -58,7 +58,7 @@ class LoginController extends Controller
         $userExists = User::where($credentialField, $request->input('usuario_correo'))->exists();
     
         if (!$userExists) {
-            return redirect("/login")->withErrors(['usuario_correo' => 'El usuario no existe'])->withInput($request->except('password'));
+            return redirect("/")->withErrors(['usuario_correo' => 'El usuario no existe'])->withInput($request->except('password'));
         }
     
         $credentials = [
@@ -67,12 +67,13 @@ class LoginController extends Controller
         ];
     
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('dashboard')->withSuccess('Inicio de sesión correcto');
+            return redirect()->route('index')->withSuccess('Inicio de sesión correcto');
         }
     
         // Si el intento de autenticación falla, el único error posible es la contraseña incorrecta
-        return redirect("/login")->withErrors(['password' => 'La contraseña es incorrecta'])->withInput($request->except('password'));
+        return redirect()->route('login')->withErrors(['password' => 'La contraseña es incorrecta'])->withInput($request->except('password'));
     }
+    
 
 }
 

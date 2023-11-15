@@ -9,6 +9,7 @@ Route::view('/perfil', 'perfil')->name('perfil');
 Route::view('/index', 'index')->name('index');
 
 
+
 Route::post('/validar-registro', [RegisterController::class, 'register'])->name('validar-registro');
 Route::match(['get', 'post'], '/inicia-sesion', [LoginController::class, 'login'])->name('inicia-sesion');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
