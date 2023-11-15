@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RestauranteController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
@@ -14,10 +15,11 @@ Route::post('/validar-registro', [RegisterController::class, 'register'])->name(
 Route::match(['get', 'post'], '/inicia-sesion', [LoginController::class, 'login'])->name('inicia-sesion');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// Utiliza RegisterController para las rutas de registro
 Route::get('/registro', [RegisterController::class, 'showRegistrationForm'])->name('registro');
 Route::post('/registro', [RegisterController::class, 'register'])->name('registro-post');
 Route::get('/index', [RegisterController::class, 'index'])->name('index');
 Route::get('/registro', [RegisterController::class, 'showRegistrationForm'])->name('registro');
 Route::post('/registro', [RegisterController::class, 'register']);
 Route::view('/index', 'index')->name('index');
+
+Route::get('/restaurantes', [RestauranteController::class, 'index'])->name('restaurantes');

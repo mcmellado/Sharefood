@@ -1,0 +1,18 @@
+/* app.css */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.custom-navbar {
+    background-color: #1a202c; /* Color de fondo de la barra de navegación */
+}
+
+.custom-navbar a {
+    color: #d5deb2; /* Color del texto no activo */
+    transition: color 0.3s ease; /* Transición para el cambio de color al pasar el ratón */
+}
+
+.custom-navbar a:hover {
+    color: #8cc84b; /* Color del texto al pasar el ratón */
+}

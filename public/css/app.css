@@ -1,0 +1,34 @@
+
+nav {
+    background-color: #333;
+    padding: 1rem;
+}
+
+.navbar {
+    background-color: #333;
+}
+
+.navbar a {
+    color: white;
+    margin-right: 15px; /* Ajusta el margen derecho según tu preferencia */
+    transition: color 0.3s; /* Agregamos una transición de color para suavizar el cambio */
+    position: relative;
+    left: 40px;
+
+}
+
+.navbar a:hover {
+    color: #4CAF50; /* Verde cuando el ratón está encima */
+}
+
+.navbar-text {
+    color: white;
+    margin-left: auto; /* Esto empujará "Sharefood" hacia la derecha */
+    margin-right: 20px; /* Ajusta el margen derecho según tu preferencia */
+    transition: color 0.3s; /* Agregamos una transición de color para suavizar el cambio */
+    font-size: 2em;
+    position: relative;
+    left: 40px;
+}
+
+

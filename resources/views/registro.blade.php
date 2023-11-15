@@ -14,7 +14,7 @@
 <body>
 
     <header class="header">
-        <nav class="container-sm">
+        <nav class="container-sm">  
             <a href="#" class="text-decoration-none text-light me-3">Sobre nosotros</a>
             <a href="#" class="text-decoration-none text-light">Contacto</a>
         </nav>
