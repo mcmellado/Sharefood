@@ -1,4 +1,6 @@
 
+/* css del navbar  */
+
 nav {
     background-color: #333;
     padding: 1rem;
@@ -10,25 +12,41 @@ nav {
 
 .navbar a {
     color: white;
-    margin-right: 15px; /* Ajusta el margen derecho según tu preferencia */
-    transition: color 0.3s; /* Agregamos una transición de color para suavizar el cambio */
+    margin-right: 15px;
+    transition: color 0.3s;
     position: relative;
-    left: 40px;
+    left: 80px;
 
 }
 
 .navbar a:hover {
-    color: #4CAF50; /* Verde cuando el ratón está encima */
+    color: #4CAF50; 
 }
 
 .navbar-text {
     color: white;
-    margin-left: auto; /* Esto empujará "Sharefood" hacia la derecha */
-    margin-right: 20px; /* Ajusta el margen derecho según tu preferencia */
-    transition: color 0.3s; /* Agregamos una transición de color para suavizar el cambio */
+    margin-left: auto;
+    margin-right: 20px; 
+    transition: color 0.3s; 
     font-size: 2em;
     position: relative;
     left: 40px;
 }
 
+/* css del footer  */
+
+body {
+    margin-bottom: 100px; /* Ajusta según sea necesario para dejar espacio para el footer */
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #333; /* Ajusta el color de fondo según tus necesidades */
+    color: white; /* Ajusta el color del texto según tus necesidades */
+    text-align: center;
+    padding: 10px;
+    margin-top: 0; /* Elimina el margen superior para evitar duplicar el espacio */
+}
 
