@@ -9,11 +9,9 @@ class RestaurantesTableSeeder extends Seeder
 {
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        DB::statement('SET CONSTRAINTS ALL DEFERRED');
 
         DB::table('restaurantes')->truncate();
-
-        DB::statement('SET FOREIGN_KEY_CHECKS=1');
 
         DB::table('restaurantes')->insert([
             [
@@ -47,5 +45,7 @@ class RestaurantesTableSeeder extends Seeder
                 'telefono' => '+998877665',
             ],
         ]);
+
+        DB::statement('SET CONSTRAINTS ALL IMMEDIATE');
     }
 }

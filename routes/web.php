@@ -23,3 +23,4 @@ Route::post('/registro', [RegisterController::class, 'register']);
 Route::view('/index', 'index')->name('index');
 
 Route::get('/restaurantes', [RestauranteController::class, 'index'])->name('restaurantes');
+Route::get('/restaurantes/buscar', [RestauranteController::class, 'buscar'])->name('restaurantes.buscar');

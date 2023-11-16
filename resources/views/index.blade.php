@@ -2,15 +2,16 @@
 
 @section('contenido')
 
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-6">
-            <h1>Bienvenido a Sharefooding</h1>
-            <p>Descubre nuevos restaurantes, realiza reservas y comparte tus experiencias culinarias.</p>
+
+<div class="container">
+    <form action="{{ route('restaurantes.buscar') }}" method="GET">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Buscar restaurantes..." name="q">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+            </div>
         </div>
-        <div class="col-md-6">
-        </div>
-    </div>
+    </form>
 </div>
 
 <div class="container mt-5">
@@ -26,9 +27,5 @@
         </div>
     </div>
 </div>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 @endsection

@@ -21,4 +21,5 @@ class Restaurante extends Model
     {
         return $this->hasMany(Comentario::class);
     }
+    
 }
