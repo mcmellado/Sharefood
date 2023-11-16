@@ -1,4 +1,4 @@
-# Sharefooding
+# Sharefood
 
 Sharefooding es una plataforma web que conecta a los usuarios con restaurantes, permitiéndoles explorar, reservar y evaluar diferentes establecimientos. Además, ofrece funciones sociales como la interacción con otros usuarios y la gestión de perfiles.
 
