@@ -16,12 +16,12 @@ class RestauranteController extends Controller
     {
         $query = $request->input('q');
 
-        // Realiza la búsqueda en la base de datos utilizando Eloquent
-        $restaurantes = Restaurante::where('nombre', 'like', '%' . $query . '%')
-            ->orWhere('descripcion', 'like', '%' . $query . '%')
+        $restaurantes = Restaurante::where('nombre', 'ilike', "%$query%")
+            ->orWhere('direccion', 'ilike', "%$query%")
+            ->orWhere('sitio_web', 'ilike', "%$query%")
+            ->orWhere('telefono', 'ilike', "%$query%")
             ->get();
 
         return view('restaurantes.resultados', compact('restaurantes', 'query'));
     }
-
 }
