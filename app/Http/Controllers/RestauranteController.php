@@ -12,16 +12,15 @@ class RestauranteController extends Controller
         return view('restaurantes.index');
     }
 
-    public function buscar(Request $request)
-    {
-        $query = $request->input('q');
+public function buscarSugerencias(Request $request)
+{
+    $query = $request->input('q');
 
-        $restaurantes = Restaurante::where('nombre', 'ilike', "%$query%")
-            ->orWhere('direccion', 'ilike', "%$query%")
-            ->orWhere('sitio_web', 'ilike', "%$query%")
-            ->orWhere('telefono', 'ilike', "%$query%")
-            ->get();
+    // Supongamos que tienes algunos datos de prueba
+    $sugerencias = ['Sushi', 'Pizza', 'Parrilla', 'Vegetariano'];
 
-        return view('restaurantes.resultados', compact('restaurantes', 'query'));
-    }
+    return response()->json($sugerencias);
+}
+
+
 }

@@ -6,19 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comentario extends Model
 {
-    protected $fillable = [
-        'contenido',
-        // Otras propiedades de tu modelo de comentario
+    protected $fillable = 
+    ['usuario_id', 
+    'restaurante_id', 
+    'contenido', 
+    'imagen',
     ];
 
-    // Puedes definir relaciones con otros modelos aquí, por ejemplo, con usuarios o restaurantes
     public function usuario()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'usuario_id');
     }
 
     public function restaurante()
     {
-        return $this->belongsTo(Restaurante::class);
+        return $this->belongsTo(Restaurante::class, 'restaurante_id');
     }
 }

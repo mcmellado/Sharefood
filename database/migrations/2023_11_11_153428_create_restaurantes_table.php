@@ -20,6 +20,7 @@ class CreateRestaurantesTable extends Migration
             $table->string('sitio_web')->nullable();
             $table->string('telefono')->nullable();
             $table->string('gastronomia')->nullable();
+            $table->string('imagen')->nullable();
             $table->timestamps();
         });
     }

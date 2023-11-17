@@ -14,6 +14,7 @@ class Restaurante extends Model
         'direccion',
         'sitio_web',
         'telefono',
+        'imagen'
     ];
 
     // Puedes definir relaciones con otros modelos aquí, por ejemplo, comentarios
