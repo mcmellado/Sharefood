@@ -3,6 +3,9 @@
 @section('contenido')
 
 <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+
 <title> ShareFood </title>
 
 <div class="container mt-5">
@@ -17,6 +20,20 @@
     </form>
 </div>
 
+<div class="mejores-locales mt-5">
+    <h2 class="mb-4">Los 5 Locales con Mejor Puntuación</h2>
+    <ul class="list-group">
+        @php
+            $mejoresLocales = \App\Models\Restaurante::orderByDesc('puntuacion')->take(5)->get();
+        @endphp
+        @foreach($mejoresLocales as $local)
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>{{ $local->nombre }}</span>
+                <span class="badge badge-warning badge-pill">{{ $local->puntuacion }} &#9733;</span>
+            </li>
+        @endforeach
+    </ul>
+</div>
 
 <script>
     var desplegable = document.getElementById('sugerencias-desplegable');
