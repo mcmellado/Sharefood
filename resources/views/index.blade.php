@@ -19,6 +19,8 @@
         </div>
     </form>
 </div>
+<br>
+<br>
 
 <div class="mejores-locales mt-5">
     <h2 class="mb-4">Los 5 Locales con Mejor Puntuación</h2>
