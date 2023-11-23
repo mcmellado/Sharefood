@@ -1,21 +1,22 @@
-<!-- resources/views/restaurantes/index.blade.php -->
-
 @extends('layouts.app')
 
 @section('contenido')
 
+<link rel="stylesheet" href="{{ asset('css/index.css') }}">
+<title> ShareFood </title>
+
 <div class="container mt-5">
     <form action="{{ route('restaurantes.buscar') }}" method="GET">
-        <div class="input-group mb-3">
+        <div class="input-group mb-3 position-relative"> 
             <input type="text" class="form-control" placeholder="Buscar restaurantes..." name="q" id="buscar-input">
-            <!-- Desplegable para las sugerencias -->
-            <ul class="nav" id="sugerencias-desplegable"></ul>
+            <div class="sugerencias-desplegable position-absolute" id="sugerencias-desplegable"></div>
             <div class="input-group-append">
                 <button class="btn btn-outline-secondary" type="submit">Buscar</button>
             </div>
         </div>
     </form>
 </div>
+
 
 <script>
     var desplegable = document.getElementById('sugerencias-desplegable');
@@ -25,18 +26,16 @@
         var query = this.value;
 
         if (query.length >= 3) {
-            // Supongamos que tienes la ruta correcta en tu aplicación
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', '/restaurantes/buscar-sugerencias?q=' + query, true);
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    var sugerencias = JSON.parse(xhr.responseText);
-                    actualizarDesplegableSugerencias(sugerencias);
-                }
-            };
-            xhr.send();
+            fetch(`/restaurantes/buscar-sugerencias?q=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    actualizarDesplegableSugerencias(data);
+                })
+                .catch(error => {
+                    console.error('Error al obtener sugerencias:', error);
+                });
         } else {
-            desplegable.style.display = 'none';
+            desplegable.innerHTML = ''; 
         }
     });
 
@@ -49,13 +48,25 @@
         }
 
         sugerencias.forEach(function (sugerencia) {
-            var listItem = document.createElement('li');
-            listItem.innerHTML = '<a href="#">' + sugerencia + '</a>';
-            desplegable.appendChild(listItem);
+            var sugerenciaItem = document.createElement('div');
+            sugerenciaItem.className = 'sugerencia-item';
+            sugerenciaItem.textContent = sugerencia.nombre;
+            sugerenciaItem.addEventListener('click', function () {
+                inputBuscar.value = sugerencia.nombre;
+                desplegable.style.display = 'none';
+            });
+
+            desplegable.appendChild(sugerenciaItem);
         });
 
         desplegable.style.display = 'block';
     }
+
+    document.addEventListener('click', function (event) {
+        if (!desplegable.contains(event.target)) {
+            desplegable.style.display = 'none';
+        }
+    });
 </script>
 
 @endsection

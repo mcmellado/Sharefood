@@ -12,15 +12,19 @@ class RestauranteController extends Controller
         return view('restaurantes.index');
     }
 
-public function buscarSugerencias(Request $request)
-{
-    $query = $request->input('q');
+    public function buscarSugerencias(Request $request)
 
-    // Supongamos que tienes algunos datos de prueba
-    $sugerencias = ['Sushi', 'Pizza', 'Parrilla', 'Vegetariano'];
+    {
+        $query = $request->input('q');
 
-    return response()->json($sugerencias);
-}
+        $restaurantes = Restaurante::whereRaw('LOWER(nombre) LIKE ?', ["%".strtolower($query)."%"])
+            ->orWhereRaw('LOWER(direccion) LIKE ?', ["%".strtolower($query)."%"])
+            ->orWhereRaw('LOWER(gastronomia) LIKE ?', ["%".strtolower($query)."%"])
+            ->limit(5)
+            ->get();
+    
+        return response()->json($restaurantes);
+    }
 
 
 }

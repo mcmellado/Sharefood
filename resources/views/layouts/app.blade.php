@@ -34,7 +34,7 @@
     </nav>
 
     <!-- Contenido de la página -->
-      @yield('contenido') -> @section('contenido')
+      @yield('contenido')  @section('contenido')
 
     <!-- Footer -->
     <footer class="mt-5 bg-dark text-white text-center p-3 fixed-bottom">

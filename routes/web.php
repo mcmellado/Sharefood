@@ -15,6 +15,7 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout'); // Ce
 Route::get('/registro', [RegisterController::class, 'showRegistrationForm'])->name('registro'); // Mostrar formulario de registro de usuario
 Route::post('/registro', [RegisterController::class, 'register'])->name('registro-post'); // Procesar registro de usuarios
 Route::get('/registro-restaurante', [RegistroRestauranteController::class, 'registroRestaurante'])->name('registro-restaurante');
+Route::get('/restaurantes/buscar-sugerencias', [RestauranteController::class, 'buscarSugerencias'])->name('restaurantes.buscar-sugerencias');
 
 
 // Rutas para el registro y gestión de restaurantes
