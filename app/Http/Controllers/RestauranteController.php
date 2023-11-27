@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Restaurante;
+use App\Models\Comentario;
 use Illuminate\Http\Request;
 
 class RestauranteController extends Controller
@@ -34,8 +35,30 @@ class RestauranteController extends Controller
         return response()->json($restaurantes);
     }
 
-    public function obtenerMejoresLocales()
+    public function comentar(Request $request, $restauranteId)
     {
-        return Restaurante::orderByDesc('puntuacion')->take(5)->get();
+  
+        $request->validate([
+            'contenido' => 'required|string|max:255',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
+        ]);
+
+       
+        $comentario = new Comentario([
+            'contenido' => $request->input('contenido'),
+            'usuario_id' => auth()->user()->id, 
+            'restaurante_id' => $restauranteId,
+        ]);
+
+        
+        if ($request->hasFile('imagen')) {
+            $imagenPath = $request->file('imagen')->store('comentarios', 'public');
+            $comentario->imagen = $imagenPath;
+        }
+
+        $comentario->save();
+
+        return redirect()->back()->with('success', 'Comentario agregado correctamente');
     }
 }
+
