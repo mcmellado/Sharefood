@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class RestaurantesTableSeeder extends Seeder
 {
@@ -15,7 +16,6 @@ class RestaurantesTableSeeder extends Seeder
 
         DB::statement('SET CONSTRAINTS ALL IMMEDIATE');
 
-        // Insertar datos de restaurantes con puntuación
         DB::table('restaurantes')->insert([
             [
                 'nombre' => 'La Parrilla del Valle',
@@ -24,6 +24,7 @@ class RestaurantesTableSeeder extends Seeder
                 'telefono' => '+123456789',
                 'gastronomia' => 'Asados',
                 'puntuacion' => 6,
+                'slug' => Str::slug('La Parrilla del Valle'),
             ],
             [
                 'nombre' => 'Sabores del Mar',
@@ -32,6 +33,7 @@ class RestaurantesTableSeeder extends Seeder
                 'telefono' => '+987654321',
                 'gastronomia' => 'Mariscos',
                 'puntuacion' => 8,
+                'slug' => Str::slug('Sabores del Mar'),
             ],
             [
                 'nombre' => 'Pizzería Bella Italia',
@@ -40,6 +42,7 @@ class RestaurantesTableSeeder extends Seeder
                 'telefono' => '+112233445',
                 'gastronomia' => 'Pizza',
                 'puntuacion' => 7,
+                'slug' => Str::slug('Pizzería Bella Italia'),
             ],
             [
                 'nombre' => 'Comida Mexicana Tradicional',
@@ -48,6 +51,7 @@ class RestaurantesTableSeeder extends Seeder
                 'telefono' => '+554433221',
                 'gastronomia' => 'Mexicana',
                 'puntuacion' => 9,
+                'slug' => Str::slug('Comida Mexicana Tradicional'),
             ],
             [
                 'nombre' => 'Sushi Express',
@@ -56,6 +60,7 @@ class RestaurantesTableSeeder extends Seeder
                 'telefono' => '+998877665',
                 'gastronomia' => 'Sushi',
                 'puntuacion' => 8,
+                'slug' => Str::slug('Sushi Express'),
             ],
             [
                 'nombre' => 'Cafetería Aromas',
@@ -64,6 +69,7 @@ class RestaurantesTableSeeder extends Seeder
                 'telefono' => '+765432109',
                 'gastronomia' => 'Café',
                 'puntuacion' => 7,
+                'slug' => Str::slug('Cafetería Aromas'),
             ],
             [
                 'nombre' => 'Rincón Argentino',
@@ -72,6 +78,7 @@ class RestaurantesTableSeeder extends Seeder
                 'telefono' => '+987654321',
                 'gastronomia' => 'Carnes',
                 'puntuacion' => 9,
+                'slug' => Str::slug('Rincón Argentino'),
             ],
             [
                 'nombre' => 'Vegetariano Verde',
@@ -80,6 +87,7 @@ class RestaurantesTableSeeder extends Seeder
                 'telefono' => '+123456789',
                 'gastronomia' => 'Vegetariana',
                 'puntuacion' => 8,
+                'slug' => Str::slug('Vegetariano Verde'),
             ],
             [
                 'nombre' => 'Panadería Dulce Aroma',
@@ -88,6 +96,7 @@ class RestaurantesTableSeeder extends Seeder
                 'telefono' => '+112233445',
                 'gastronomia' => 'Panadería',
                 'puntuacion' => 7,
+                'slug' => Str::slug('Panadería Dulce Aroma'),
             ],
             [
                 'nombre' => 'Bar Tapas y Copas',
@@ -96,6 +105,7 @@ class RestaurantesTableSeeder extends Seeder
                 'telefono' => '+554433221',
                 'gastronomia' => 'Tapas',
                 'puntuacion' => 9,
+                'slug' => Str::slug('Bar Tapas y Copas'),
             ],
         ]);
     }

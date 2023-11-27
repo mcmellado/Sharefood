@@ -12,6 +12,14 @@ class RestauranteController extends Controller
         $restaurantes = Restaurante::orderByDesc('puntuacion')->get();
       
     }
+
+    public function mostrarPerfil($slug)
+    {
+        $restaurante = Restaurante::where('slug', $slug)->firstOrFail();
+
+        return view('perfil-restaurante', compact('restaurante'));
+    }
+
     
     public function buscarSugerencias(Request $request)
     {

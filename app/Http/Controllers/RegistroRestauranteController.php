@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Restaurante;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class RegistroRestauranteController extends Controller
 {
@@ -19,6 +20,7 @@ class RegistroRestauranteController extends Controller
     {
         return view('registro-restaurante');
     }
+
 
 
     public function validarRegistro(Request $request)
@@ -54,7 +56,7 @@ class RegistroRestauranteController extends Controller
         $restaurante = new Restaurante();
         $restaurante->nombre = $request->nombre;
         $restaurante->direccion = $request->direccion;
-        $restaurante->id = $user->id; 
+        $restaurante->slug = Str::slug($request->nombre);
         $restaurante->save();
 
         return redirect()->route('index')->withSuccess('Usuario registrado y logado correctamente');

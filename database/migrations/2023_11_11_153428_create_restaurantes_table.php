@@ -23,6 +23,7 @@ class CreateRestaurantesTable extends Migration
             $table->string('imagen')->nullable();
             $table->timestamps();
             $table->unsignedTinyInteger('puntuacion')->default(0)->nullable(false)->unsigned()->comment('Puntuación del 0 al 10');
+            $table->string('slug')->unique()->nullable();
         });
     }
 
@@ -35,4 +36,5 @@ class CreateRestaurantesTable extends Migration
     {
         Schema::dropIfExists('restaurantes');
     }
+
 }

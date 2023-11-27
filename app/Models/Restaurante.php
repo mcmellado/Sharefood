@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Restaurante extends Model
 {
@@ -15,7 +16,8 @@ class Restaurante extends Model
         'sitio_web',
         'telefono',
         'imagen',
-        'puntuacion'
+        'puntuacion',
+        'slug'
     ];
 
     public function comentarios()
@@ -27,5 +29,11 @@ class Restaurante extends Model
     {
         return view('restaurantes.restaurante');
     }
+
+    public function setSlugAttribute($value)
+    {
+        $this->attributes['slug'] = Str::slug($value);
+    }
+    
     
 }

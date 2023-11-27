@@ -31,6 +31,11 @@ Route::get('/perfil', [PerfilController::class, 'mostrarPerfil'])->name('perfil'
 // Rutas relacionadas con la visualización y búsqueda de restaurantes
 Route::view('/restaurantes', 'restaurantes')->name('restaurantes'); // Mostrar vista de restaurantes
 Route::get('/restaurantes/buscar', [RestauranteController::class, 'buscar'])->name('restaurantes.buscar'); // Procesar búsqueda de restaurantes
+Route::get('/restaurantes/{slug}', [RestauranteController::class, 'mostrarPerfil'])->name('restaurantes.perfil');
+
+
+
+
 
 
 
