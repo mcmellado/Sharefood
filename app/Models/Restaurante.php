@@ -18,10 +18,14 @@ class Restaurante extends Model
         'puntuacion'
     ];
 
-    // Puedes definir relaciones con otros modelos aquí, por ejemplo, comentarios
     public function comentarios()
     {
         return $this->hasMany(Comentario::class);
+    }
+
+    public function restaurante()
+    {
+        return view('restaurantes.restaurante');
     }
     
 }

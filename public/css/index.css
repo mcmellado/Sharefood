@@ -28,22 +28,22 @@
 
 
 #carruselPrincipal {
-    max-width: 400px; /* Ajusta el ancho máximo según sea necesario */
-    margin: 20px auto; /* Centra el carrusel y ajusta el margen según sea necesario */
+    max-width: 400px; 
+    margin: 20px auto; 
  }
  
  .carousel-inner {
-    border-radius: 10px; /* Ajusta la esquina redondeada del carrusel según sea necesario */
+    border-radius: 10px;
  }
  
  .carousel-item img {
-    height: 200px; /* Ajusta la altura deseada */
-    object-fit: cover; /* Hace que la imagen cubra completamente el contenedor */
-    width: 100%; /* Garantiza que la imagen ocupe todo el ancho del contenedor */
+    height: 200px; 
+    object-fit: cover; 
+    width: 100%; 
  }
  
  .carousel-control-prev, .carousel-control-next {
-    width: 30px; /* Ajusta el tamaño de los controles según sea necesario */
+    width: 30px; 
  }
 
  .w-100 {

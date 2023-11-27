@@ -23,7 +23,14 @@ Route::post('/registro-restaurante', [RegistroRestauranteController::class, 'val
 Route::post('/validar-registro-restaurante', [RegistroRestauranteController::class, 'validarRegistro'])->name('validar-registro-restaurante'); // Procesar registro de restaurantes
 
 // Rutas relacionadas con la visualización y búsqueda de restaurantes
-Route::view('/restaurantes', 'restaurantes.index')->name('restaurantes'); // Mostrar vista de restaurantes
+Route::view('/restaurantes', 'restaurantes')->name('restaurantes'); // Mostrar vista de restaurantes
 Route::get('/restaurantes/buscar', [RestauranteController::class, 'buscar'])->name('restaurantes.buscar'); // Procesar búsqueda de restaurantes
 Route::get('/index', [RegistroRestauranteController::class, 'index'])->name('index');
 Route::get('/perfil', [PerfilController::class, 'mostrarPerfil'])->name('perfil');
+// Rutas relacionadas con la visualización y búsqueda de restaurantes
+// Rutas relacionadas con la visualización y búsqueda de restaurantes
+Route::view('/restaurantes', 'restaurantes')->name('restaurantes'); // Mostrar vista de restaurantes
+Route::get('/restaurantes/buscar', [RestauranteController::class, 'buscar'])->name('restaurantes.buscar'); // Procesar búsqueda de restaurantes
+
+
+
