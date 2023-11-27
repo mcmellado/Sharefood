@@ -5,9 +5,6 @@
 <link rel="stylesheet" href="{{ asset('css/index.css') }}">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
-
-<title> ShareFood </title>
-
 <div class="container mt-5">
     <form action="{{ route('restaurantes.buscar') }}" method="GET">
         <div class="input-group mb-3 position-relative"> 
@@ -28,22 +25,26 @@
         @php
             $mejoresLocales = \App\Models\Restaurante::orderByDesc('puntuacion')->take(5)->get();
         @endphp
-        @foreach($mejoresLocales as $local)
+        @forelse($mejoresLocales as $local)
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <span>{{ $local->nombre }}</span>
+                <a href="{{ route('restaurantes.perfil', $local->slug) }}">
+                    <span>{{ $local->nombre }}</span>
+                </a>
                 <span class="badge badge-warning badge-pill">{{ $local->puntuacion }} &#9733;</span>
             </li>
-        @endforeach
+        @empty
+            <p>No hay locales disponibles.</p>
+        @endforelse
     </ul>
 </div>
 
 <div id="carruselPrincipal" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <img src="imagenes/imagen1.png" class="d-block w-100" alt="Imagen 1">
+            <img src="{{ asset('imagenes/imagen1.png') }}" class="d-block w-100" alt="Imagen 1">
         </div>
         <div class="carousel-item">
-            <img src="imagenes/imagen2.jpg" class="d-block w-100" alt="Imagen 2">
+            <img src="{{ asset('imagenes/imagen2.jpg') }}" class="d-block w-100" alt="Imagen 2">
         </div>
     </div>
     <a class="carousel-control-prev" href="#carruselPrincipal" role="button" data-slide="prev">
@@ -54,9 +55,7 @@
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="sr-only">Siguiente</span>
     </a>
- </div>
- 
-
+</div>
 
 <script>
     var desplegable = document.getElementById('sugerencias-desplegable');
@@ -90,12 +89,13 @@
         sugerencias.forEach(function (sugerencia) {
             var sugerenciaItem = document.createElement('div');
             sugerenciaItem.className = 'sugerencia-item';
-            sugerenciaItem.textContent = sugerencia.nombre;
-            sugerenciaItem.addEventListener('click', function () {
-                inputBuscar.value = sugerencia.nombre;
-                desplegable.style.display = 'none';
-            });
 
+            // Crear un enlace al perfil del restaurante
+            var enlacePerfil = document.createElement('a');
+            enlacePerfil.href = `/restaurantes/${sugerencia.slug}`;
+            enlacePerfil.textContent = sugerencia.nombre;
+
+            sugerenciaItem.appendChild(enlacePerfil);
             desplegable.appendChild(sugerenciaItem);
         });
 
