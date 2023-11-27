@@ -39,16 +39,12 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>                    
-                    {{-- <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="recuerdame" name="recuerdame">
-                        <label class="form-check-label" for="recuerdame">Recuérdame</label>
-                            <a href="#" class="ms-2">He olvidado mi contraseña</a> 
-                    </div> --}}
                     <button type="submit" class="btn btn-dark">Iniciar sesión</button>
                 </form>     
             </div>
             <div class="text-center mt-3">
                 <p class="text-dark ">¿Aún no tienes cuenta? <b> <a href="{{ route('registro') }}" class="text-dark">Regístrate aquí</a> </b> </p>
+                <a href="" class="text-dark">Entrar sin registro</a>
             </div>
         </div>
     </div>

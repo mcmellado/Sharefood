@@ -25,3 +25,29 @@
 .input-group .btn { 
     left: 10px;
 }
+
+
+#carruselPrincipal {
+    max-width: 400px; /* Ajusta el ancho máximo según sea necesario */
+    margin: 20px auto; /* Centra el carrusel y ajusta el margen según sea necesario */
+ }
+ 
+ .carousel-inner {
+    border-radius: 10px; /* Ajusta la esquina redondeada del carrusel según sea necesario */
+ }
+ 
+ .carousel-item img {
+    height: 200px; /* Ajusta la altura deseada */
+    object-fit: cover; /* Hace que la imagen cubra completamente el contenedor */
+    width: 100%; /* Garantiza que la imagen ocupe todo el ancho del contenedor */
+ }
+ 
+ .carousel-control-prev, .carousel-control-next {
+    width: 30px; /* Ajusta el tamaño de los controles según sea necesario */
+ }
+
+ .w-100 {
+    width: 20%!important;
+    height: 80%;
+}
+ 
