@@ -25,6 +25,9 @@ Route::view('/restaurantes', 'restaurantes')->name('restaurantes'); // Mostrar v
 Route::get('/restaurantes/buscar-sugerencias', [RestauranteController::class, 'buscarSugerencias'])->name('restaurantes.buscar-sugerencias');
 Route::get('/restaurantes/buscar', [RestauranteController::class, 'buscar'])->name('restaurantes.buscar'); // Procesar búsqueda de restaurantes
 Route::get('/index', [RegistroRestauranteController::class, 'index'])->name('index');
-Route::get('/perfil', [PerfilController::class, 'mostrarPerfil'])->name('perfil');
 Route::get('/restaurantes/{slug}', [RestauranteController::class, 'mostrarPerfil'])->name('restaurantes.perfil');
 Route::post('/restaurantes/comentar/{restauranteId}', [RestauranteController::class, 'comentar'])->name('restaurantes.comentar'); //comentar en restaurantes
+
+Route::get('/{nombreUsuario}', [PerfilController::class, 'show'])->name('perfil');
+
+
