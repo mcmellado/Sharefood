@@ -5,6 +5,18 @@
 <link rel="stylesheet" href="{{ asset('css/restaurante-perfil.css') }}">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
+<style>
+    /* Estilo adicional para permitir el scroll */
+    body {
+        margin-bottom: 70px; /* Ajusta este valor según sea necesario para evitar que el pie de página bloquee el contenido */
+    }
+
+    #comentarios-existentes {
+        max-height: 300px; /* Establece la altura máxima para la sección de comentarios existentes */
+        overflow-y: auto; /* Añade scroll vertical si el contenido excede la altura máxima */
+    }
+</style>
+
 <div class="container mt-5">
     <div class="card">
         <div class="card-body">
@@ -36,7 +48,7 @@
                     <div class="media mt-3">
                         {{-- Detalles del comentario --}}
                         <div class="media-body">
-                            <h5 class="mt-0">{{ $comentario->usuario->name }}:</h5>
+                            <h5 class="mt-0">{{ $comentario->usuario->usuario }}:</h5>
                             {{ $comentario->contenido }}
                         </div>
                     </div>
