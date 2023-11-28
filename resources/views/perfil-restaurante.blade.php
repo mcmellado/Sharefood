@@ -5,19 +5,7 @@
 <link rel="stylesheet" href="{{ asset('css/restaurante-perfil.css') }}">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
-<style>
-    /* Estilo adicional para permitir el scroll */
-    body {
-        margin-bottom: 70px; /* Ajusta este valor según sea necesario para evitar que el pie de página bloquee el contenido */
-    }
-
-    #comentarios-existentes {
-        max-height: 300px; /* Establece la altura máxima para la sección de comentarios existentes */
-        overflow-y: auto; /* Añade scroll vertical si el contenido excede la altura máxima */
-    }
-</style>
-
-<div class="container mt-5">
+<div class="container mt-5 scrollable-container"> <!-- Agrega la clase scrollable-container -->
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -28,10 +16,8 @@
                     <p>Teléfono: {{ $restaurante->telefono }}</p>
                     <p>Sitio web: <a href="{{ $restaurante->sitio_web }}" target="_blank">{{ $restaurante->sitio_web }}</a></p>
                     <p>Puntuación: {{ $restaurante->puntuacion }} &#9733;</p>
-                    {{-- Agrega más detalles del restaurante según tus necesidades --}}
                 </div>
                 <div class="col-md-4">
-                    {{-- Puedes agregar aquí la lógica para mostrar la imagen del restaurante --}}
                     {{-- <img src="{{ asset($restaurante->imagen) }}" alt="{{ $restaurante->nombre }}" class="img-fluid"> --}}
                 </div>
             </div>
@@ -43,7 +29,7 @@
             <h3>Comentarios</h3>
 
             {{-- Mostrar comentarios existentes --}}
-            <div id="comentarios-existentes">
+            <div id="comentarios-existentes" class="scrollable-content"> <!-- Agrega la clase scrollable-content -->
                 @forelse ($restaurante->comentarios as $comentario)
                     <div class="media mt-3">
                         {{-- Detalles del comentario --}}

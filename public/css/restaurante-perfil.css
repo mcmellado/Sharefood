@@ -1,0 +1,9 @@
+.scrollable-container {
+    max-height: 700px; /* Ajusta la altura máxima según tus necesidades */
+    overflow-y: auto;
+}
+
+.scrollable-content {
+    max-height: 300px; /* Ajusta la altura máxima según tus necesidades */
+    overflow-y: auto;
+}
