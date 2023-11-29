@@ -1,0 +1,6 @@
+.img-perfil {
+    max-width: 200px; /* Ajusta el ancho máximo según tus necesidades */
+    max-height: 200px; /* Ajusta la altura máxima según tus necesidades */
+    width: auto;
+    height: auto;
+}
