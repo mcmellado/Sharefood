@@ -21,8 +21,6 @@ class RegistroRestauranteController extends Controller
         return view('registro-restaurante');
     }
 
-
-
     public function validarRegistro(Request $request)
     {
         $request->validate([
