@@ -1,6 +1,19 @@
 .img-perfil {
-    max-width: 200px; /* Ajusta el ancho máximo según tus necesidades */
-    max-height: 200px; /* Ajusta la altura máxima según tus necesidades */
+    max-width: 200px;
+    max-height: 200px;
     width: auto;
     height: auto;
+    margin: 0 auto; 
+}
+
+.text-center-btn {
+    text-align: center;
+}
+
+.btn-modificar {
+    margin-top: 15px;
+}
+
+.btn-cerrar-sesion {
+    margin-top: px;
 }

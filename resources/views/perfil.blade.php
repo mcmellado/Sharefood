@@ -17,11 +17,18 @@
             <p><strong>Correo Electrónico:</strong> {{ $usuario->email }}</p>
             <p><strong>Teléfono:</strong> {{ $usuario->telefono }}</p>
             <p><strong>Biografía:</strong> {{ $usuario->biografia }}</p>
+            
             @auth
                 @if(Auth::user()->id === $usuario->id)
-                <p><a href="{{ route('perfil.modificar', ['nombreUsuario' => $usuario->usuario]) }}" class="btn btn-primary">Modificar Perfil</a></p>
+                    <p><a href="{{ route('perfil.modificar', ['nombreUsuario' => $usuario->usuario]) }}" class="btn btn-primary btn-modificar">Modificar Perfil</a></p>
                 @endif
             @endauth
+
+            @if(Auth::check())
+                <div class="btn btn-cerrarsesion mt-3">
+                    <a href="{{ route('logout') }}" class="btn btn-danger btn-cerrar-sesion">Cerrar Sesión</a>
+                </div>
+            @endif
         </div>
     </div>
 </div>

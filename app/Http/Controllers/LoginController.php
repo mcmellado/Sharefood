@@ -71,6 +71,12 @@ class LoginController extends Controller
     
         return redirect()->route('login')->withErrors(['password' => 'La contraseña es incorrecta'])->withInput($request->except('password'));
     }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('login');
+    }
            
 
 }
