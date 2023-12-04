@@ -3,7 +3,7 @@
     max-height: 200px;
     width: auto;
     height: auto;
-    margin: 0 auto; 
+    margin: 0 auto; /* Centra la imagen en el contenedor */
 }
 
 .text-center-btn {
@@ -15,5 +15,6 @@
 }
 
 .btn-cerrar-sesion {
-    margin-top: px;
+    margin-top: 15px;
+    margin-right: 1000px; /* Ajusta el margen izquierdo según sea necesario */
 }

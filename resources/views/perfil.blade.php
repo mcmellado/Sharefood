@@ -25,10 +25,11 @@
             @endauth
 
             @if(Auth::check())
-                <div class="btn btn-cerrarsesion mt-3">
-                    <a href="{{ route('logout') }}" class="btn btn-danger btn-cerrar-sesion">Cerrar Sesión</a>
-                </div>
+            <div class="text-center text-center-btn mt-3">
+                <a href="{{ route('logout') }}" class="btn btn-danger btn-cerrar-sesion">Cerrar Sesión</a>
+            </div>
             @endif
+            
         </div>
     </div>
 </div>
