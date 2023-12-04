@@ -7,3 +7,13 @@
     max-height: 300px; /* Ajusta la altura máxima según tus necesidades */
     overflow-y: auto;
 }
+
+#confirmacion-reserva {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    display: none;
+}
+

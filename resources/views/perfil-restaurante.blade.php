@@ -1,11 +1,25 @@
 @extends('layouts.app')
 
 @section('contenido')
-
 <link rel="stylesheet" href="{{ asset('css/restaurante-perfil.css') }}">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
 <div class="container mt-5 scrollable-container">
+    {{-- Alerta de Reserva Confirmada --}}
+    @if(session('reserva-confirmada'))
+        <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+            {{ session('reserva-confirmada') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <script>
+            $(document).ready(function(){
+                $('#confirmacionReserva').modal('show');
+            });
+        </script>
+    @endif
+
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -47,7 +61,7 @@
     @auth
         <div id="agregar-comentario" class="card mt-4">
             <div class="card-body">
-                <form action="{{ route('restaurantes.comentar', ['restauranteId' => $restaurante->id]) }}" method="POST">
+                <form action="{{ route('restaurantes.comentar', ['restauranteId' => $restaurante->slug]) }}" method="POST">
                     @csrf
                     <div class="form-group">
                         <label for="contenido">Agregar Comentario:</label>
@@ -57,16 +71,15 @@
                 </form>
             </div>
         </div>
-
-        {{-- Botón para hacer reserva --}}
-        <div id="hacer-reserva" class="card mt-4">
-            <div class="card-body">
-                <a href="{{ route('restaurantes.nuevaReserva', ['restauranteId' => $restaurante->id]) }}" class="btn btn-success">Hacer Reserva</a>
-            </div>
-        </div>
     @else
         <p class="mt-4">Inicia sesión para dejar un comentario o realizar una reserva.</p>
     @endauth
-</div>
 
+    {{-- Botón para hacer reserva --}}
+    <div id="hacer-reserva" class="card mt-4">
+        <div class="card-body">
+            <a href="{{ route('restaurantes.nuevaReserva', ['slug' => $restaurante->slug]) }}" class="btn btn-success">Hacer Reserva</a>
+        </div>
+    </div>
+</div>
 @endsection

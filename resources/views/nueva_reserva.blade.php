@@ -6,7 +6,7 @@
     <div class="card">
         <div class="card-body">
             <h1>Hacer Reserva</h1>
-            <form action="{{ route('restaurantes.guardarReserva', ['restauranteId' => $restauranteId]) }}" method="POST" onsubmit="return validarReserva()">
+            <form action="{{ route('restaurantes.guardarReserva', ['slug' => $restaurante->slug]) }}" method="POST" onsubmit="return validarReserva()">
                 @csrf
                 <div class="form-group">
                     <label for="fecha">Fecha de la Reserva:</label>
