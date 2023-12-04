@@ -2,6 +2,9 @@
 
 @section('contenido')
 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="{{ asset('css/nueva_reserva.css') }}">
+
 <div class="container mt-5">
     <div class="card">
         <div class="card-body">
@@ -33,7 +36,7 @@
         }
 
         return true; 
-    }
+    } 
 </script>
 
 @endsection
