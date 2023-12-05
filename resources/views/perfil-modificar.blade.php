@@ -35,6 +35,8 @@
                 </div>
 
                 <button type="submit" class="btn btn-success">Guardar Cambios</button>
+               
+                <a href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-danger">Cancelar</a>
             </form>
         </div>
     </div>
