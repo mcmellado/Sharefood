@@ -71,15 +71,15 @@
                 </form>
             </div>
         </div>
+
+        {{-- Botón para hacer reserva solo si el usuario está autenticado --}}
+        <div id="hacer-reserva" class="card mt-4">
+            <div class="card-body">
+                <a href="{{ route('restaurantes.nuevaReserva', ['slug' => $restaurante->slug]) }}" class="btn btn-success">Hacer Reserva</a>
+            </div>
+        </div>
     @else
         <p class="mt-4">Inicia sesión para dejar un comentario o realizar una reserva.</p>
     @endauth
-
-    {{-- Botón para hacer reserva --}}
-    <div id="hacer-reserva" class="card mt-4">
-        <div class="card-body">
-            <a href="{{ route('restaurantes.nuevaReserva', ['slug' => $restaurante->slug]) }}" class="btn btn-success">Hacer Reserva</a>
-        </div>
-    </div>
 </div>
 @endsection

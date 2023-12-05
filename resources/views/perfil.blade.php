@@ -7,28 +7,44 @@
 
 <div class="container mt-5">
     <div class="card">
-        <div class="card-body">
-            <h1>Perfil de {{ $usuario->usuario }}</h1>
-
+        <div class="card-body text-center">
             @if($usuario->imagen)
-                <img src="{{ '/storage/' . $usuario->imagen }}" alt="{{ $usuario->usuario }}" class="img-fluid mt-3 img-perfil">
+                <img src="{{ '/storage/' . $usuario->imagen }}" alt="{{ $usuario->usuario }}" class="img-fluid mt-3 img-perfil rounded-circle">
             @endif
-            
-            <p><strong>Correo Electrónico:</strong> {{ $usuario->email }}</p>
-            <p><strong>Teléfono:</strong> {{ $usuario->telefono }}</p>
-            <p><strong>Biografía:</strong> {{ $usuario->biografia }}</p>
-            
-            @auth
-                @if(Auth::user()->id === $usuario->id)
-                    <p><a href="{{ route('perfil.modificar', ['nombreUsuario' => $usuario->usuario]) }}" class="btn btn-primary btn-modificar">Modificar Perfil</a></p>
-                @endif
-            @endauth
 
-            @if(Auth::check())
-            <div class="text-center text-center-btn mt-3">
-                <a href="{{ route('logout') }}" class="btn btn-danger btn-cerrar-sesion">Cerrar Sesión</a>
+            <h1 class="mt-3">{{ $usuario->usuario }}</h1>
+            
+            <table class="table mt-3">
+                <tbody>
+                    <tr>
+                        <th scope="row">Correo Electrónico</th>
+                        <td>{{ $usuario->email }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Teléfono</th>
+                        <td>{{ $usuario->telefono }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Biografía</th>
+                        <td>{{ $usuario->biografia }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="mt-3">
+                @if(Auth::check())
+                    <a href="{{ route('logout') }}" class="btn btn-danger btn-cerrar-sesion mr-2">Cerrar Sesión</a>
+                @endif
+            
+                @auth
+                    @if(Auth::user()->id === $usuario->id)
+                        <a href="{{ route('perfil.modificar', ['nombreUsuario' => $usuario->usuario]) }}" class="btn btn-primary btn-modificar mr-2">Modificar Perfil</a>
+                    @endif
+                @endauth
+            
+                {{-- Botón Ver Reservas con un margen superior ajustado --}}
+                <a href="{{ route('perfil.reservas', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-info btn-ver-reservas mt-3">Ver Reservas</a>
             </div>
-            @endif
             
         </div>
     </div>

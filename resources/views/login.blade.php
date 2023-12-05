@@ -44,7 +44,7 @@
             </div>
             <div class="text-center mt-3">
                 <p class="text-dark ">¿Aún no tienes cuenta? <b> <a href="{{ route('registro') }}" class="text-dark">Regístrate aquí</a> </b> </p>
-                <a href="" class="text-dark">Entrar sin registro</a>
+                <a href="{{ route('index') }}" class="text-dark">Entrar sin registro</a>
             </div>
         </div>
     </div>

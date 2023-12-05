@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Reserva;
 
 class PerfilController extends Controller
 {
@@ -54,6 +55,17 @@ class PerfilController extends Controller
         $user->save();
     
         return redirect()->route('perfil', ['nombreUsuario' => $user->usuario])->withSuccess('Perfil modificado correctamente');
+    }
+
+    public function verReservas($nombreUsuario)
+    {
+        // Obtén el usuario actual autenticado
+        $usuario = Auth::user();
+
+        // Puedes cargar las reservas del usuario aquí
+        $reservas = $usuario->reservas;
+
+        return view('ver-reservas', compact('usuario', 'reservas'));
     }
     
 }

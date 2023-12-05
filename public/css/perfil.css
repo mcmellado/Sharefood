@@ -16,5 +16,21 @@
 
 .btn-cerrar-sesion {
     margin-top: 15px;
-    margin-right: 1000px; /* Ajusta el margen izquierdo según sea necesario */
+    margin-right: 1000px; 
+}
+
+.btn-ver-reservas {
+    bottom: 5px;
+    margin-top: 15px;
+    margin-right: 1000px; 
+}
+
+.btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; 
+}
+
+.btn-container .btn {
+    margin-right: 10px; 
 }
