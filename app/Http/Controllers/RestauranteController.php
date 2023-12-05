@@ -35,30 +35,36 @@ class RestauranteController extends Controller
         return response()->json($restaurantes);
     }
 
-    public function comentar(Request $request, $restauranteId)
+    public function comentar(Request $request, $slug)
     {
-  
         $request->validate([
             'contenido' => 'required|string|max:255',
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
         ]);
-
-       
-        $comentario = new Comentario([
-            'contenido' => $request->input('contenido'),
-            'usuario_id' => auth()->user()->id, 
-            'restaurante_id' => $restauranteId,
-        ]);
-
-        
-        if ($request->hasFile('imagen')) {
-            $imagenPath = $request->file('imagen')->store('comentarios', 'public');
-            $comentario->imagen = $imagenPath;
+    
+        $restaurante = Restaurante::where('slug', $slug)->first();
+    
+        if ($restaurante) {
+            $restauranteId = $restaurante->id;
+    
+            $comentario = new Comentario([
+                'contenido' => $request->input('contenido'),
+                'usuario_id' => auth()->user()->id, 
+                'restaurante_id' => $restauranteId,
+            ]);
+    
+            if ($request->hasFile('imagen')) {
+                $imagenPath = $request->file('imagen')->store('comentarios', 'public');
+                $comentario->imagen = $imagenPath;
+            }
+    
+            $comentario->save();
+    
+            return redirect()->back()->with('success', 'Comentario agregado correctamente');
+        } else {
+            // Manejar el caso en el que no se encuentra el restaurante
+            return redirect()->back()->with('error', 'No se encontró el restaurante para comentar.');
         }
-
-        $comentario->save();
-
-        return redirect()->back()->with('success', 'Comentario agregado correctamente');
     }
 }
 

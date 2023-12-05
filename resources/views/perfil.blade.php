@@ -32,18 +32,18 @@
             </table>
             
             <div class="mt-3">
+                @auth
                 @if(Auth::check())
                     <a href="{{ route('logout') }}" class="btn btn-danger btn-cerrar-sesion mr-2">Cerrar Sesión</a>
                 @endif
             
-                @auth
                     @if(Auth::user()->id === $usuario->id)
                         <a href="{{ route('perfil.modificar', ['nombreUsuario' => $usuario->usuario]) }}" class="btn btn-primary btn-modificar mr-2">Modificar Perfil</a>
                     @endif
                 @endauth
             
                 {{-- Botón Ver Reservas con un margen superior ajustado --}}
-                <a href="{{ route('perfil.reservas', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-info btn-ver-reservas mt-3">Ver Reservas</a>
+                <a href="{{ route('perfil.reservas', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-info btn-ver-reservas mr-2">Ver Reservas</a>
             </div>
             
         </div>
