@@ -59,10 +59,9 @@ class PerfilController extends Controller
 
     public function verReservas($nombreUsuario)
     {
-        // Obtén el usuario actual autenticado
+
         $usuario = Auth::user();
 
-        // Puedes cargar las reservas del usuario aquí
         $reservas = $usuario->reservas;
 
         return view('ver-reservas', compact('usuario', 'reservas'));

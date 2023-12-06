@@ -28,6 +28,7 @@ Route::get('/restaurantes/buscar', [RestauranteController::class, 'buscar'])->na
 Route::get('/index', [RegistroRestauranteController::class, 'index'])->name('index');
 Route::get('/restaurantes/{slug}', [RestauranteController::class, 'mostrarPerfil'])->name('restaurantes.perfil');
 Route::post('/restaurantes/comentar/{restauranteId}', [RestauranteController::class, 'comentar'])->name('restaurantes.comentar');
+Route::delete('/restaurantes/comentarios/{comentarioId}', [RestauranteController::class, 'eliminarComentario'])->name('restaurantes.eliminarComentario');
 
 Route::get('/{nombreUsuario}', [PerfilController::class, 'show'])->name('perfil');
 Route::get('/{nombreUsuario}/modificar', [PerfilController::class, 'mostrarFormularioModificar'])->name('perfil.modificar');
@@ -41,3 +42,4 @@ Route::get('/perfil/reservas/{nombreUsuario}', [PerfilController::class, 'verRes
 Route::get('/restaurantes/{slug}/nueva-reserva', [ReservaController::class, 'nuevaReserva'])->name('restaurantes.nuevaReserva');
 Route::post('/restaurantes/{slug}/guardar-reserva', [ReservaController::class, 'guardarReserva'])->name('restaurantes.guardarReserva');
 Route::get('/restaurantes/{slug}/confirmar-reserva', [ReservaController::class, 'confirmarReserva'])->name('restaurantes.confirmarReserva');
+

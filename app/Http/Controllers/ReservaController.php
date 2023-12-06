@@ -10,7 +10,7 @@ class ReservaController extends Controller
 {
     public function nuevaReserva($slug)
     {
-        // Obtener el restaurante por el slug
+        
         $restaurante = Restaurante::where('slug', $slug)->firstOrFail();
 
         return view('nueva_reserva', ['restaurante' => $restaurante]);
@@ -27,10 +27,10 @@ class ReservaController extends Controller
             'fecha' => $request->fecha,
             'hora' => $request->hora,
         ]);
-        // Agregar mensaje de confirmación
+        
         session()->flash('reserva-confirmada', 'Tu reserva ha sido confirmada. ¡Gracias por elegir nuestro restaurante!');
 
-        // Redirigir al perfil del restaurante
+        
         return redirect()->route('restaurantes.perfil', ['slug' => $slug]);
     }
 

@@ -27,7 +27,7 @@ class RegistroRestauranteController extends Controller
             'nombre' => 'required|string|max:255',
             'direccion' => 'required|string|max:255',
             'usuario' => 'required|string|max:255|unique:users',
-            'email' => 'required|email|unique:users', // Nueva regla para el email
+            'email' => 'required|email|unique:users', 
             'password' => 'required|string|min:6|confirmed',
         ], [
             'nombre.required' => 'El campo de nombre del restaurante es obligatorio.',

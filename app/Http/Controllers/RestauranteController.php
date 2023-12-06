@@ -62,9 +62,20 @@ class RestauranteController extends Controller
     
             return redirect()->back()->with('success', 'Comentario agregado correctamente');
         } else {
-            // Manejar el caso en el que no se encuentra el restaurante
             return redirect()->back()->with('error', 'No se encontró el restaurante para comentar.');
         }
+    }
+
+    public function eliminarComentario($comentarioId)
+    {
+        $comentario = Comentario::findOrFail($comentarioId);
+
+        if (auth()->user()->id == $comentario->usuario_id) {
+            $comentario->delete();
+            return redirect()->back()->with('mensaje', 'Comentario eliminado exitosamente.');
+        }
+
+        return redirect()->back()->with('mensaje', 'No tienes permisos para eliminar este comentario.');
     }
 }
 

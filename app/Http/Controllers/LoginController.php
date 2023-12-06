@@ -21,7 +21,7 @@ class LoginController extends Controller
 
     public function register(Request $request) {
 
-        // Validar los datos
+        
         $request->validate([
             'usuario' => 'required|unique:users',
             'email' => 'required|email|unique:users',

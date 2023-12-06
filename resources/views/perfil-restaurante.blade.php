@@ -48,6 +48,17 @@
                         <div class="media-body">
                             <h5 class="mt-0">{{ $comentario->usuario->usuario }}:</h5>
                             {{ $comentario->contenido }}
+
+                            @auth
+                                @if(auth()->user()->id == $comentario->usuario_id)
+                                    {{-- Formulario para eliminar comentario --}}
+                                    <form action="{{ route('restaurantes.eliminarComentario', ['comentarioId' => $comentario->id]) }}" method="POST" class="mt-2">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger">Eliminar Comentario</button>
+                                    </form>
+                                @endif
+                            @endauth
                         </div>
                     </div>
                 @empty
