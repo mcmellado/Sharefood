@@ -38,17 +38,27 @@
         </div>
     </div>
 
+    {{-- Mostrar horarios si existen --}}
+    @if ($restaurante->horarios)
+        <div class="card mt-4">
+            <div class="card-body">
+                <h3>Horarios:</h3>
+                @foreach ($restaurante->horarios as $horario)
+                    <p>{{ $horario->dia_semana }}: {{ \Carbon\Carbon::parse($horario->hora_apertura)->format('H:i') }} - {{ \Carbon\Carbon::parse($horario->hora_cierre)->format('H:i') }}</p>
+                @endforeach
+            </div>
+        </div>
+    @endif
+
     <div class="card mt-4">
         <div class="card-body">
-            <h3>Comentarios</h3>
-
+            <h3>Comentarios:</h3>
             <div id="comentarios-existentes" class="scrollable-content">
                 @forelse ($restaurante->comentarios as $comentario)
                     <div class="media mt-3">
                         <div class="media-body">
                             <h5 class="mt-0">{{ $comentario->usuario->usuario }}:</h5>
                             {{ $comentario->contenido }}
-
                             @auth
                                 @if(auth()->user()->id == $comentario->usuario_id)
                                     {{-- Formulario para eliminar comentario --}}

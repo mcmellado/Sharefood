@@ -34,6 +34,11 @@ class Restaurante extends Model
     {
         $this->attributes['slug'] = Str::slug($value);
     }
+
+    public function horarios()
+{
+    return $this->hasMany(Horario::class);
+}
     
     
 }
