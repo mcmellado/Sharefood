@@ -30,7 +30,7 @@ class HorariosTableSeeder extends Seeder
 
     foreach ($dias as $dia) {
         list($horaApertura, $horaCierre) = $this->generateRealisticTimeRange();
-
+        
         $horaApertura->modify('+30 minutes');
         $horaCierre->modify('+30 minutes');
 

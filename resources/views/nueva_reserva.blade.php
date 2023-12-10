@@ -28,14 +28,32 @@
 <script>
     function validarReserva() {
         var fechaInput = document.getElementById('fecha');
-        var fechaSeleccionada = new Date(fechaInput.value);
-        var fechaActual = new Date();
-        if (fechaSeleccionada < fechaActual) {
-            alert('La fecha de la reserva no puede ser anterior a la fecha actual.');
-            return false; 
+        var horaInput = document.getElementById('hora');
+        var fechaSeleccionada = new Date(fechaInput.value + 'T' + horaInput.value);
+        var diaSemana = fechaSeleccionada.toLocaleDateString('es', { weekday: 'long' });
+
+        // json_encode es una función de php que convierte una estructura de datos de PHP en una cadena json, lo que hace que pueda obtener los horarios del restaurante
+        // y me los incorpora en javascript :)
+        var horariosRestaurante = { json_encode($restaurante->horarios) };
+
+        var horarioParaDia = horariosRestaurante.find(function (horario) {
+            return horario.dia_semana.toLowerCase() === diaSemana.toLowerCase();
+        });
+
+        if (!horarioParaDia) {
+            alert('El restaurante no está abierto los ' + diaSemana + 's.');
+            return false;
         }
 
-        return true; 
+        var horaApertura = new Date('1970-01-01T' + horarioParaDia.hora_apertura);
+        var horaCierre = new Date('1970-01-01T' + horarioParaDia.hora_cierre);
+
+        if (fechaSeleccionada < horaApertura || fechaSeleccionada > horaCierre) {
+            alert('La reserva debe estar dentro del horario de apertura (' + horarioParaDia.hora_apertura + ' - ' + horarioParaDia.hora_cierre + ').');
+            return false;
+        }
+
+        return true;
     } 
 </script>
 
