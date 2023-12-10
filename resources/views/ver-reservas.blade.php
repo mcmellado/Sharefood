@@ -14,7 +14,7 @@
             {{-- Muestra las reservas --}}
             @if ($reservas->count() > 0)
                 <div class="scrollable-table">
-                    <table class="table">
+                    <table class="table">   
                         <thead>
                             <tr>
                                 <th>Restaurante</th>

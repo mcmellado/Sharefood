@@ -5,8 +5,9 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RestauranteController;
 use App\Http\Controllers\RegistroRestauranteController;
 use App\Http\Controllers\PerfilController;
-use App\Http\Controllers\ReservaController; // Agregado el controlador de Reserva
+use App\Http\Controllers\ReservaController; 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
 
 // Rutas para la autenticación de usuarios
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
@@ -42,4 +43,12 @@ Route::get('/perfil/reservas/{nombreUsuario}', [PerfilController::class, 'verRes
 Route::get('/restaurantes/{slug}/nueva-reserva', [ReservaController::class, 'nuevaReserva'])->name('restaurantes.nuevaReserva');
 Route::post('/restaurantes/{slug}/guardar-reserva', [ReservaController::class, 'guardarReserva'])->name('restaurantes.guardarReserva');
 Route::get('/restaurantes/{slug}/confirmar-reserva', [ReservaController::class, 'confirmarReserva'])->name('restaurantes.confirmarReserva');
+
+// Rutas para el panel de administrador
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/admin/panel', [AdminController::class, 'index'])->name('admin.panel_admin');
+});
+
+
+
 
