@@ -1,8 +1,8 @@
-<?php
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+<?php 
+
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Str;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreateUsersTable extends Migration
 {
@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('telefono')->unique()->nullable();
             $table->string('password');
             $table->boolean('is_admin')->default(0);
+            $table->boolean('validacion')->default(1); 
             $table->rememberToken();
             $table->string('imagen')->nullable();
             $table->text('biografia')->nullable();
