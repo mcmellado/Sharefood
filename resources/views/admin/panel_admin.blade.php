@@ -1,4 +1,3 @@
-<!-- resources/views/admin/panel_admin.blade.php -->
 @extends('layouts.app')
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -10,6 +9,33 @@
         <div class="row">
             <div class="col-md-12">
                 <h3>Usuarios</h3>
+                @if(session('contrasena-cambiada'))
+                    <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+                        {{ session('contrasena-cambiada') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
+
+                @if(session('usuario-eliminado'))
+                    <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+                        {{ session('usuario-eliminado') }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                @endif
+
+                @if(session('usuario-modificado'))
+                    <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+                        {{ session('usuario-modificado') }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                @endif
+
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>

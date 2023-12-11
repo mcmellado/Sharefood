@@ -30,7 +30,7 @@ class AdminController extends Controller
         $user = User::find($id);
         $user->delete();
 
-        return redirect()->route('admin.panel_admin');
+        return redirect()->route('admin.panel_admin')->with('usuario-eliminado', 'Usuario eliminado correctamente');
     }
 
     public function mostrarFormularioModificar($usuarioId)
@@ -64,7 +64,7 @@ class AdminController extends Controller
 
         $usuario->save();
 
-        return redirect()->route('admin.panel_admin')->with('success', 'Perfil de usuario actualizado correctamente');
+        return redirect()->route('admin.panel_admin')->with('usuario-modificado', 'Perfil de usuario actualizado correctamente');
     }
 
 
@@ -85,7 +85,7 @@ class AdminController extends Controller
         $usuario->password = Hash::make($request->password);
         $usuario->save();
 
-        return redirect()->route('admin.panel_admin')->with('success', 'Contraseña de usuario cambiada correctamente');
+        return redirect()->route('admin.panel_admin')->with('contrasena-cambiada', 'Contraseña de usuario cambiada correctamente');
     }
 
 }
