@@ -47,15 +47,18 @@ class LoginController extends Controller
             ? 'email'
             : 'usuario';
 
+        $user = User::where($credentialField, $request->input('usuario_correo'))->first();
+
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['password' => 'El usuario no existe'])->withInput($request->except('password'));
+        }
+
         $credentials = [
             $credentialField => $request->input('usuario_correo'),
             'password' => $request->input('password'),
         ];
 
         if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-
-            // Verificar si el usuario está validado
             if (!$user->validacion) {
                 Auth::logout();
                 return redirect()->route('login')->withErrors(['password' => 'Usuario no validado']);
