@@ -54,6 +54,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/admin/usuarios/{usuarioId}/modificar', [AdminController::class, 'modificarPerfil'])->name('admin.usuarios.modificar.guardar');
     Route::get('/admin/usuarios/{usuarioId}/cambiar-contrasena', [AdminController::class, 'mostrarFormularioCambiarContrasena'])->name('admin.usuarios.cambiar-contrasena-admin');
     Route::put('/admin/usuarios/{usuarioId}/cambiar-contrasena', [AdminController::class, 'cambiarContrasena'])->name('admin.usuarios.cambiar-contrasena-admin.guardar');
+    Route::get('/admin/usuarios/{usuarioId}/comentarios', [AdminController::class, 'verComentarios'])->name('admin.usuarios.ver-comentarios');
+    Route::get('/admin/usuarios/{usuarioId}/reservas', [AdminController::class, 'verReservas'])->name('admin.usuarios.ver-reservas');
+    Route::delete('/admin/comentarios/{comentarioId}/eliminar', [AdminController::class, 'eliminarComentario'])->name('admin.comentarios.eliminar');
+
 });
 
 

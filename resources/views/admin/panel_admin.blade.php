@@ -21,18 +21,18 @@
                 @if(session('usuario-eliminado'))
                     <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
                         {{ session('usuario-eliminado') }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                 @endif
 
                 @if(session('usuario-modificado'))
                     <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
                         {{ session('usuario-modificado') }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                 @endif
 
@@ -70,6 +70,8 @@
                                         </form>
                                         <a href="{{ route('admin.usuarios.modificar', $user->id) }}" class="btn btn-primary btn-sm">Modificar</a>
                                         <a href="{{ route('admin.usuarios.cambiar-contrasena-admin', $user->id) }}" class="btn btn-warning btn-sm">Cambiar Contraseña</a>
+                                        <a href="{{ route('admin.usuarios.ver-comentarios', $user->id) }}" class="btn btn-info btn-sm">Ver Comentarios</a>
+                                        <a href="{{ route('admin.usuarios.ver-reservas', $user->id) }}" class="btn btn-info btn-sm">Ver Reservas</a>
                                     </td>
                                 </tr>
                             @empty

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;    
+use Illuminate\Support\Facades\Hash;
+use App\Models\Comentario;
+    
 
 use Illuminate\Http\Request;
 
@@ -87,5 +89,34 @@ class AdminController extends Controller
 
         return redirect()->route('admin.panel_admin')->with('contrasena-cambiada', 'Contraseña de usuario cambiada correctamente');
     }
+
+        public function verComentarios($usuarioId)
+    {
+        $usuario = User::findOrFail($usuarioId);
+        $comentarios = Comentario::where('usuario_id', $usuario->id)->get();
+
+    return view('admin.ver-comentarios', compact('usuario', 'comentarios'));
+
+
+        return view('admin.ver-comentarios', compact('usuario', 'comentarios'));
+    }
+
+    public function verReservas($usuarioId)
+    {
+        $usuario = User::findOrFail($usuarioId);
+        $reservas = $usuario->reservas; 
+
+        return view('admin.ver-reservas', compact('usuario', 'reservas'));
+    }
+
+    public function eliminarComentario($comentarioId)
+{
+    $comentario = Comentario::findOrFail($comentarioId);
+
+    $comentario->delete();
+
+    return redirect()->back()->with('comentario-eliminado', 'El comentario ha sido eliminado.');
+}
+
 
 }
