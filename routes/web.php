@@ -50,6 +50,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/admin/panel', [AdminController::class, 'index'])->name('admin.panel_admin');
     Route::post('/admin/validar/{id}', [AdminController::class, 'validar'])->name('admin.validar');
     Route::delete('/admin/eliminar/{id}', [AdminController::class, 'eliminar'])->name('admin.eliminar');
+    Route::get('/admin/usuarios/{usuarioId}/modificar', [AdminController::class, 'mostrarFormularioModificar'])->name('admin.usuarios.modificar');
+    Route::put('/admin/usuarios/{usuarioId}/modificar', [AdminController::class, 'modificarPerfil'])->name('admin.usuarios.modificar.guardar');
+    Route::get('/admin/usuarios/{usuarioId}/cambiar-contrasena', [AdminController::class, 'mostrarFormularioCambiarContrasena'])->name('admin.usuarios.cambiar-contrasena-admin');
+    Route::put('/admin/usuarios/{usuarioId}/cambiar-contrasena', [AdminController::class, 'cambiarContrasena'])->name('admin.usuarios.cambiar-contrasena-admin.guardar');
 });
 
 
