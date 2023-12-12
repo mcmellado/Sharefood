@@ -1,11 +1,12 @@
-
-<link rel="stylesheet" href="{{ asset('css/ver-comentarios.css') }}">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-
+<!-- resources/views/admin/ver-comentarios.blade.php -->
 
 @extends('layouts.app')
 
 @section('contenido')
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="{{ asset('css/ver-comentarios.css') }}">
+
     <div class="container">
         <h2 class="mt-4 mb-4">Comentarios de {{ $usuario->usuario }}</h2>
 
@@ -27,23 +28,26 @@
                             <p>Sitio del restaurante no disponible</p>
                         @endif
 
-                        <!-- Agregar un formulario para permitir al admin eliminar el comentario -->
                         <form method="post" action="{{ route('admin.comentarios.eliminar', $comentario->id) }}" style="display:inline">
                             @csrf
                             @method('delete')
-                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que quieres eliminar este comentario?')">Eliminar</button>
                         </form>
+
+                        @if(session('comentario-eliminado-' . $comentario->id))
+                            <div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+                                {{ session('comentario-eliminado-' . $comentario->id) }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        @endif
                     </div>
                 </div>
             @empty
                 <p>No hay comentarios.</p>
             @endforelse
         </div>
-
-        <!-- Agregar un enlace de regreso al panel del admin al final de la página -->
-        <a href="{{ route('admin.panel_admin') }}" class="btn btn-primary btn-return-admin">Volver al Panel de Administrador</a>
+        <a href="{{ route('admin.panel_admin') }}" class="btn btn-primary btn-return-admin mt-3">Volver al Panel de Administrador</a>
     </div>
 @endsection
-
-
-

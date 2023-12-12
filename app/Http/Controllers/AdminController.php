@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Comentario;
+use App\Models\Reserva;
 use Illuminate\Support\Carbon;
     
 
@@ -110,10 +111,16 @@ class AdminController extends Controller
     {
         $usuario = User::findOrFail($usuarioId);
         $reservas = $usuario->reservas; 
-
+    
+        foreach ($reservas as $reserva) {
+            if (!$reserva->fecha_reserva instanceof Carbon) {
+                $reserva->fecha_reserva = Carbon::parse($reserva->fecha_reserva);
+            }
+        }
+    
         return view('admin.ver-reservas', compact('usuario', 'reservas'));
     }
-
+    
     public function eliminarComentario($comentarioId)
 {
     $comentario = Comentario::findOrFail($comentarioId);
@@ -123,5 +130,30 @@ class AdminController extends Controller
     return redirect()->back()->with('comentario-eliminado', 'El comentario ha sido eliminado.');
 }
 
+public function cancelarReserva($reservaId)
+{
+    $reserva = Reserva::findOrFail($reservaId);
+    $reserva->delete();
+
+    return redirect()->back()->with('reserva-cancelada', 'La reserva ha sido cancelada exitosamente.');
+}
+
+public function mostrarFormularioModificarReserva($reservaId)
+{
+    $reserva = Reserva::findOrFail($reservaId);
+    return view('admin.modificar-reserva-admin', compact('reserva'));
+}
+
+public function modificarReserva(Request $request, $reservaId)
+{
+    $reserva = Reserva::findOrFail($reservaId);
+
+    $request->validate([
+        'nueva_fecha' => 'required|date',
+        'nueva_hora' => 'required|date_format:H:i',
+    ]);
+
+    return redirect()->route('admin.reservas.modificar-reserva')->with('reserva-modificada', 'Reserva modificada correctamente');
+}
 
 }

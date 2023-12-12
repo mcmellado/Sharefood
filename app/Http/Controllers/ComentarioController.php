@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Comentario; 
 use App\Models\User;
 
-
 class ComentarioController extends Controller
 {
     public function mostrarComentarios($usuarioId)

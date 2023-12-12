@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-
 @section('contenido')
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
     <div class="container">
         <h2 class="mt-4 mb-4">Bienvenido al Panel de Administrador</h2>
 
@@ -40,21 +40,21 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Email</th>
-                                <th>Teléfono</th>
-                                <th>Acciones</th>
+                                <th class="text-center">ID</th>
+                                <th class="text-center">Nombre</th>
+                                <th class="text-center">Email</th>
+                                <th class="text-center">Teléfono</th>
+                                <th class="text-center">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($users as $user)
                                 <tr>
-                                    <td>{{ $user->id }}</td>
-                                    <td>{{ $user->usuario }}</td>
-                                    <td>{{ $user->email }}</td>
-                                    <td>{{ $user->telefono ?? 'N/A' }}</td>
-                                    <td>
+                                    <td class="text-center">{{ $user->id }}</td>
+                                    <td class="text-center">{{ $user->usuario }}</td>
+                                    <td class="text-center">{{ $user->email }}</td>
+                                    <td class="text-center">{{ $user->telefono ?? 'N/A' }}</td>
+                                    <td class="text-center">
                                         <form method="post" action="{{ route('admin.validar', $user->id) }}" style="display:inline">
                                             @csrf
                                             @if ($user->validacion)
@@ -76,7 +76,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5">No hay usuarios registrados.</td>
+                                    <td colspan="5" class="text-center">No hay usuarios registrados.</td>
                                 </tr>
                             @endforelse
                         </tbody>

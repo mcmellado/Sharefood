@@ -58,6 +58,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/admin/usuarios/{usuarioId}/reservas', [AdminController::class, 'verReservas'])->name('admin.usuarios.ver-reservas');
     Route::delete('/admin/comentarios/{comentarioId}/eliminar', [AdminController::class, 'eliminarComentario'])->name('admin.comentarios.eliminar');
     Route::get('/admin/usuarios/{usuarioId}/comentarios', [AdminController::class, 'verComentarios'])->name('admin.usuarios.ver-comentarios');
+    Route::delete('/admin/reservas/{reservaId}/cancelar', [AdminController::class, 'cancelarReserva'])->name('admin.reservas.cancelar');
+    Route::put('/admin/reservas/modificar/{reservaId}', [AdminController::class, 'modificarReserva'])->name('admin.reservas.modificar-reserva');
+    Route::put('admin/reservas/{reservaId}', [AdminController::class, 'modificarReserva'])->name('admin.reservas.guardar-modificacion');
+    Route::put('/admin/reservas/modificar/{reservaId}', [AdminController::class, 'modificarReserva'])->name('admin.reservas.modificar-reserva');
+
 });
 
 
