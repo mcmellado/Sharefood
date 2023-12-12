@@ -8,13 +8,13 @@
 <div class="container mt-5">
     <div class="card">
         <div class="card-body">
-            <h1>Modificar Reserva</h1>
-            <form action="{{ route('admin.reservas.modificar-reserva', ['reservaId' => $reserva->id]) }}" method="POST" onsubmit="return validarReserva()">
+            <h1 class="mb-4">Modificar Reserva</h1>
+            <form action="{{ route('admin.reservas.guardar-modificacion', ['reservaId' => $reserva->id]) }}" method="POST" onsubmit="return validarReserva()">
                 @csrf
                 @method('put') 
                 <div class="form-group">
                     <label for="nueva_fecha">Nueva Fecha de Reserva:</label>
-                    <input type="date" class="form-control" id="nueva_fecha" name="nueva_fecha" value="{{ $reserva->fecha_reserva ? $reserva->fecha_reserva->format('Y-m-d') : '' }}" required>
+                    <input type="date" class="form-control" id="nueva_fecha" name="nueva_fecha" value="{{ optional($reserva->fecha_reserva)->format('Y-m-d') }}" required>
                 </div>
                 <div class="form-group">
                     <label for="nueva_hora">Nueva Hora de Reserva:</label>

@@ -47,7 +47,6 @@ Route::get('/restaurantes/{slug}/confirmar-reserva', [ReservaController::class, 
 // Rutas para el panel de administrador
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/admin/panel', [AdminController::class, 'index'])->name('admin.panel_admin');
-    Route::get('/admin/panel', [AdminController::class, 'index'])->name('admin.panel_admin');
     Route::post('/admin/validar/{id}', [AdminController::class, 'validar'])->name('admin.validar');
     Route::delete('/admin/eliminar/{id}', [AdminController::class, 'eliminar'])->name('admin.eliminar');
     Route::get('/admin/usuarios/{usuarioId}/modificar', [AdminController::class, 'mostrarFormularioModificar'])->name('admin.usuarios.modificar');
@@ -59,9 +58,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('/admin/comentarios/{comentarioId}/eliminar', [AdminController::class, 'eliminarComentario'])->name('admin.comentarios.eliminar');
     Route::get('/admin/usuarios/{usuarioId}/comentarios', [AdminController::class, 'verComentarios'])->name('admin.usuarios.ver-comentarios');
     Route::delete('/admin/reservas/{reservaId}/cancelar', [AdminController::class, 'cancelarReserva'])->name('admin.reservas.cancelar');
-    Route::put('/admin/reservas/modificar/{reservaId}', [AdminController::class, 'modificarReserva'])->name('admin.reservas.modificar-reserva');
-    Route::put('admin/reservas/{reservaId}', [AdminController::class, 'modificarReserva'])->name('admin.reservas.guardar-modificacion');
-    Route::put('/admin/reservas/modificar/{reservaId}', [AdminController::class, 'modificarReserva'])->name('admin.reservas.modificar-reserva');
+    Route::put('/admin/reservas/guardar-modificacion/{reservaId}', [AdminController::class, 'modificarReserva'])->name('admin.reservas.guardar-modificacion');
+    Route::get('/admin/reservas/modificar/{reservaId}', [AdminController::class, 'mostrarFormularioModificarReserva'])->name('admin.reservas.modificar-reserva');
+    Route::put('/admin/reservas/guardar-modificacion/{reservaId}', [AdminController::class, 'modificarReserva'])->name('admin.reservas.guardar-modificacion');
+    Route::put('/admin/reservas/modificar/{reservaId}', [AdminController::class, 'modificarReserva'])->name('admin.reservas.modificar');
+    Route::get('/admin/ver-reservas/{usuarioId}', [AdminController::class, 'verReservas'])->name('admin.ver-reservas');
+
+
 
 });
 

@@ -153,7 +153,17 @@ public function modificarReserva(Request $request, $reservaId)
         'nueva_hora' => 'required|date_format:H:i',
     ]);
 
-    return redirect()->route('admin.reservas.modificar-reserva')->with('reserva-modificada', 'Reserva modificada correctamente');
-}
+    $reserva->fecha = $request->input('nueva_fecha');
+    $reserva->hora = $request->input('nueva_hora');
+    $reserva->save();
+
+    // Obtener el ID del usuario a través de la relación
+    $usuarioId = $reserva->usuario->id;
+    return redirect()->route('admin.ver-reservas', ['usuarioId' => $reserva->usuario->id])->with('reserva-modificada', 'Reserva modificada exitosamente.');
 
 }
+
+
+} 
+
+
