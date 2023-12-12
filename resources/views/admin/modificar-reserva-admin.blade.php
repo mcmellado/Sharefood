@@ -33,6 +33,29 @@
         var nuevaHoraInput = document.getElementById('nueva_hora');
         
         var nuevaFecha = new Date(nuevaFechaInput.value + 'T' + nuevaHoraInput.value);
+        var diaSemana = nuevaFecha.toLocaleDateString('es', { weekday: 'long' });
+
+        // Obtener el restaurante asociado a la reserva
+        var restauranteId = "{{ $reserva->restaurante_id }}";
+        var horariosRestaurante = {!! json_encode(App\Models\Restaurante::find($reserva->restaurante_id)->horarios) !!};
+
+        var horarioParaDia = horariosRestaurante.find(function (horario) {
+            return horario.dia_semana.toLowerCase() === diaSemana.toLowerCase();
+        });
+
+        if (!horarioParaDia) {
+            alert('El restaurante no está abierto los ' + diaSemana + 's.');
+            return false;
+        }
+
+        var horaApertura = new Date('1970-01-01T' + horarioParaDia.hora_apertura);
+        var horaCierre = new Date('1970-01-01T' + horarioParaDia.hora_cierre);
+
+        if (nuevaFecha < horaApertura || nuevaFecha > horaCierre) {
+            alert('La reserva debe estar dentro del horario de apertura (' + horarioParaDia.hora_apertura + ' - ' + horarioParaDia.hora_cierre + ').');
+            return false;
+        }
+
         var fechaActual = new Date();
 
         if (nuevaFecha < fechaActual) {

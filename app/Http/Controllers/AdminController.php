@@ -157,6 +157,9 @@ public function modificarReserva(Request $request, $reservaId)
     $reserva->hora = $request->input('nueva_hora');
     $reserva->save();
 
+       $restaurante = $reserva->restaurante;
+       $horariosRestaurante = $restaurante->horarios;
+
     // Obtener el ID del usuario a través de la relación
     $usuarioId = $reserva->usuario->id;
     return redirect()->route('admin.ver-reservas', ['usuarioId' => $reserva->usuario->id])->with('reserva-modificada', 'Reserva modificada exitosamente.');
