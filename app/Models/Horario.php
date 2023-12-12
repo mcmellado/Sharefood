@@ -9,7 +9,7 @@ class Horario extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['dia_semana', 'hora_apertura', 'hora_cierre'];
+    protected $fillable = ['dia_semana', 'hora_apertura', 'hora_cierre', 'fecha_publicacion'];
 
     public function restaurante()
     {

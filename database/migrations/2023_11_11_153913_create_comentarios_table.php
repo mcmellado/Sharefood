@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->foreignId('restaurante_id')->constrained('restaurantes');
             $table->text('contenido');
             $table->string('imagen')->nullable();
+            $table->timestamp('fecha_publicacion')->useCurrent();
             $table->timestamps();
         });
     }

@@ -1,0 +1,16 @@
+.comment-container {
+    max-height: calc(100vh - 300px); /* Ajusta este valor según tus necesidades */
+    overflow-y: auto;
+}
+
+.comment-container .card {
+    margin-bottom: 15px;
+}
+
+.comment-container .card-body {
+    padding: 15px;
+}
+
+.btn-return-admin {
+    margin-top: 20px;
+}

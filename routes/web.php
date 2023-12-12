@@ -57,7 +57,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/admin/usuarios/{usuarioId}/comentarios', [AdminController::class, 'verComentarios'])->name('admin.usuarios.ver-comentarios');
     Route::get('/admin/usuarios/{usuarioId}/reservas', [AdminController::class, 'verReservas'])->name('admin.usuarios.ver-reservas');
     Route::delete('/admin/comentarios/{comentarioId}/eliminar', [AdminController::class, 'eliminarComentario'])->name('admin.comentarios.eliminar');
-
+    Route::get('/admin/usuarios/{usuarioId}/comentarios', [AdminController::class, 'verComentarios'])->name('admin.usuarios.ver-comentarios');
 });
 
 

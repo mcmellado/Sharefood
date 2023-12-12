@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Comentario;
+use Illuminate\Support\Carbon;
     
 
 use Illuminate\Http\Request;
@@ -90,16 +91,20 @@ class AdminController extends Controller
         return redirect()->route('admin.panel_admin')->with('contrasena-cambiada', 'Contraseña de usuario cambiada correctamente');
     }
 
-        public function verComentarios($usuarioId)
+    public function verComentarios($usuarioId)
     {
         $usuario = User::findOrFail($usuarioId);
         $comentarios = Comentario::where('usuario_id', $usuario->id)->get();
-
-    return view('admin.ver-comentarios', compact('usuario', 'comentarios'));
-
-
+    
+        foreach ($comentarios as $comentario) {
+            if (!$comentario->fecha_publicacion instanceof Carbon) {
+                $comentario->fecha_publicacion = Carbon::parse($comentario->fecha_publicacion);
+            }
+        }
+    
         return view('admin.ver-comentarios', compact('usuario', 'comentarios'));
     }
+    
 
     public function verReservas($usuarioId)
     {
