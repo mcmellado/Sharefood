@@ -5,6 +5,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Comentario;
 use App\Models\Reserva;
+use App\Models\Restaurante;
 use Illuminate\Support\Carbon;
     
 
@@ -164,6 +165,12 @@ public function modificarReserva(Request $request, $reservaId)
     $usuarioId = $reserva->usuario->id;
     return redirect()->route('admin.ver-reservas', ['usuarioId' => $reserva->usuario->id])->with('reserva-modificada', 'Reserva modificada exitosamente.');
 
+}
+
+public function panelRestaurantes()
+{
+    $restaurantes = Restaurante::all();
+    return view('admin.panel-admin-restaurante', compact('restaurantes'));
 }
 
 

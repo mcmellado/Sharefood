@@ -55,7 +55,9 @@ class RegistroRestauranteController extends Controller
         $restaurante->nombre = $request->nombre;
         $restaurante->direccion = $request->direccion;
         $restaurante->slug = Str::slug($request->nombre);
+        $restaurante->id_usuario = $user->id;
         $restaurante->save();
+        
 
         return redirect()->route('index')->withSuccess('Usuario registrado y logado correctamente');
     }

@@ -22,6 +22,7 @@ class CreateRestaurantesTable extends Migration
             $table->string('gastronomia')->nullable();
             $table->string('imagen')->nullable();
             $table->timestamps();
+            $table->unsignedBigInteger('id_usuario');
             $table->unsignedTinyInteger('puntuacion')->default(0)->nullable(false)->unsigned()->comment('Puntuación del 0 al 10');
             $table->string('slug')->unique()->nullable();
         });

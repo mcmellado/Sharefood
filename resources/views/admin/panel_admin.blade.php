@@ -1,3 +1,4 @@
+<!-- resources/views/panel_admin_usuarios.blade.php -->
 @extends('layouts.app')
 
 @section('contenido')
@@ -9,6 +10,10 @@
         <div class="row">
             <div class="col-md-12">
                 <h3>Usuarios</h3>
+                
+                <!-- Botón para ir al panel de administrador de restaurantes -->
+                <a href="{{ route('admin.panel_admin_restaurante') }}" class="btn btn-primary">Ir al Panel de Restaurantes</a>
+
                 @if(session('contrasena-cambiada'))
                     <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
                         {{ session('contrasena-cambiada') }}

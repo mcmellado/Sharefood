@@ -25,6 +25,7 @@ class RestaurantesTableSeeder extends Seeder
                 'gastronomia' => 'Asados',
                 'puntuacion' => 6,
                 'slug' => Str::slug('La Parrilla del Valle'),
+                'id_usuario' => 6,
             ],
             [
                 'nombre' => 'Sabores del Mar',
@@ -34,6 +35,7 @@ class RestaurantesTableSeeder extends Seeder
                 'gastronomia' => 'Mariscos',
                 'puntuacion' => 8,
                 'slug' => Str::slug('Sabores del Mar'),
+                'id_usuario' => 6,
             ],
             [
                 'nombre' => 'Pizzería Bella Italia',
@@ -43,6 +45,7 @@ class RestaurantesTableSeeder extends Seeder
                 'gastronomia' => 'Pizza',
                 'puntuacion' => 7,
                 'slug' => Str::slug('Pizzería Bella Italia'),
+                'id_usuario' => 6,
             ],
             [
                 'nombre' => 'Comida Mexicana Tradicional',
@@ -52,6 +55,7 @@ class RestaurantesTableSeeder extends Seeder
                 'gastronomia' => 'Mexicana',
                 'puntuacion' => 9,
                 'slug' => Str::slug('Comida Mexicana Tradicional'),
+                'id_usuario' => 6,
             ],
             [
                 'nombre' => 'Sushi Express',
@@ -61,6 +65,7 @@ class RestaurantesTableSeeder extends Seeder
                 'gastronomia' => 'Sushi',
                 'puntuacion' => 8,
                 'slug' => Str::slug('Sushi Express'),
+                'id_usuario' => 6,
             ],
             [
                 'nombre' => 'Cafetería Aromas',
@@ -70,6 +75,7 @@ class RestaurantesTableSeeder extends Seeder
                 'gastronomia' => 'Café',
                 'puntuacion' => 7,
                 'slug' => Str::slug('Cafetería Aromas'),
+                'id_usuario' => 6,
             ],
             [
                 'nombre' => 'Rincón Argentino',
@@ -79,6 +85,7 @@ class RestaurantesTableSeeder extends Seeder
                 'gastronomia' => 'Carnes',
                 'puntuacion' => 9,
                 'slug' => Str::slug('Rincón Argentino'),
+                'id_usuario' => 6,
             ],
             [
                 'nombre' => 'Vegetariano Verde',
@@ -88,6 +95,7 @@ class RestaurantesTableSeeder extends Seeder
                 'gastronomia' => 'Vegetariana',
                 'puntuacion' => 8,
                 'slug' => Str::slug('Vegetariano Verde'),
+                'id_usuario' => 6,
             ],
             [
                 'nombre' => 'Panadería Dulce Aroma',
@@ -97,6 +105,7 @@ class RestaurantesTableSeeder extends Seeder
                 'gastronomia' => 'Panadería',
                 'puntuacion' => 7,
                 'slug' => Str::slug('Panadería Dulce Aroma'),
+                'id_usuario' => 6,
             ],
             [
                 'nombre' => 'Bar Tapas y Copas',
@@ -106,6 +115,7 @@ class RestaurantesTableSeeder extends Seeder
                 'gastronomia' => 'Tapas',
                 'puntuacion' => 9,
                 'slug' => Str::slug('Bar Tapas y Copas'),
+                'id_usuario' => 6,
             ],
         ]);
     }

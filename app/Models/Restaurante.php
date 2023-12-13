@@ -17,7 +17,8 @@ class Restaurante extends Model
         'telefono',
         'imagen',
         'puntuacion',
-        'slug'
+        'slug',
+        'id_usuario'
     ];
 
     public function comentarios()
