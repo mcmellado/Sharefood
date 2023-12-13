@@ -14,6 +14,7 @@
                 <!-- Botón para ir al panel de administrador de restaurantes -->
                 <a href="{{ route('admin.panel_admin_restaurante') }}" class="btn btn-primary">Ir al Panel de Restaurantes</a>
 
+
                 @if(session('contrasena-cambiada'))
                     <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
                         {{ session('contrasena-cambiada') }}

@@ -37,9 +37,13 @@ class Restaurante extends Model
     }
 
     public function horarios()
-{
-    return $this->hasMany(Horario::class);
-}
-    
+    {
+        return $this->hasMany(Horario::class);
+    }
+
+    public function usuario()
+    {
+        return $this->belongsTo(User::class, 'id_usuario');
+    }
     
 }

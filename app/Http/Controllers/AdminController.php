@@ -167,12 +167,19 @@ public function modificarReserva(Request $request, $reservaId)
 
 }
 
-public function panelRestaurantes()
-{
-    $restaurantes = Restaurante::all();
-    return view('admin.panel-admin-restaurante', compact('restaurantes'));
-}
+    public function panelRestaurantes()
+    {
+        $restaurantes = Restaurante::all();
+        return view('admin.panel-admin-restaurante', compact('restaurantes'));
+    }
+    public function eliminarRestaurante(Restaurante $restaurante)
+    {
+        $restaurante->delete();
 
+        return redirect()->route('admin.panel-admin-restaurante')->with('success', 'Restaurante eliminado correctamente.');
+
+
+    }
 
 } 
 

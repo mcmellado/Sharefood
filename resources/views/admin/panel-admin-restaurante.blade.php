@@ -1,4 +1,3 @@
-<!-- resources/views/admin/panel-admin-restaurante.blade.php -->
 @extends('layouts.app')
 
 @section('contenido')
@@ -17,11 +16,8 @@
                             <tr>
                                 <th class="text-center">ID</th>
                                 <th class="text-center">Nombre</th>
-                                <th class="text-center">Dirección</th>
-                                <th class="text-center">Sitio Web</th>
-                                <th class="text-center">Teléfono</th>
-                                <th class="text-center">Gastronomía</th>
-                                <th class="text-center">Puntuación</th>
+                                <th class="text-center">Usuario</th>
+                                <th class="text-center">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -29,15 +25,40 @@
                                 <tr>
                                     <td class="text-center">{{ $restaurante->id }}</td>
                                     <td class="text-center">{{ $restaurante->nombre }}</td>
-                                    <td class="text-center">{{ $restaurante->direccion }}</td>
-                                    <td class="text-center">{{ $restaurante->sitio_web ?? 'N/A' }}</td>
-                                    <td class="text-center">{{ $restaurante->telefono ?? 'N/A' }}</td>
-                                    <td class="text-center">{{ $restaurante->gastronomia ?? 'N/A' }}</td>
-                                    <td class="text-center">{{ $restaurante->puntuacion }}</td>
+                                    <td class="text-center">{{ $restaurante->usuario->usuario ?? 'N/A' }}</td>
+                                    <td class="text-center">
+                                        <a href="{{ route('admin.restaurantes.modificar', $restaurante->id) }}" class="btn btn-primary btn-sm">Modificar</a>
+                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirmarEliminar{{ $restaurante->id }}">
+                                            Eliminar
+                                        </button>
+                                    </td>
                                 </tr>
+                                <div class="modal fade" id="confirmarEliminar{{ $restaurante->id }}" tabindex="-1" role="dialog" aria-labelledby="confirmarEliminarLabel{{ $restaurante->id }}" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="confirmarEliminarLabel{{ $restaurante->id }}">Confirmar eliminación</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                ¿Seguro que deseas eliminar el restaurante "{{ $restaurante->nombre }}"?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                                    <form method="post" action="{{ route('admin.restaurantes.eliminar', $restaurante->id) }}" style="display:inline">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                                    </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             @empty
                                 <tr>
-                                    <td colspan="7" class="text-center">No hay restaurantes registrados.</td>
+                                    <td colspan="4" class="text-center">No hay restaurantes registrados.</td>
                                 </tr>
                             @endforelse
                         </tbody>

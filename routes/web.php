@@ -70,6 +70,10 @@ Route::group(['middleware' => ['auth']], function () {
     //RESTAURANTES:
 
     Route::get('/admin/panel-restaurantes', [AdminController::class, 'panelRestaurantes'])->name('admin.panel_admin_restaurante');
+    Route::get('/admin/panel-restaurantes', [AdminController::class, 'panelRestaurantes'])->name('admin.panel-admin-restaurante');
+    Route::delete('/admin/restaurantes/{restaurante}', [AdminController::class, 'eliminarRestaurante'])->name('admin.restaurantes.eliminar');
+    Route::get('/admin/restaurantes/modificar/{id}', [AdminController::class, 'modificarRestaurante'])->name('admin.restaurantes.modificar');
+
 
 
 
