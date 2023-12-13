@@ -53,7 +53,7 @@
                                     <td class="text-center">{{ $user->id }}</td>
                                     <td class="text-center">{{ $user->usuario }}</td>
                                     <td class="text-center">{{ $user->email }}</td>
-                                    <td class="text-center">{{ $user->telefono ?? 'N/A' }}</td>
+                                    <td class="text-center">{{ $user->telefono ?? 'No tiene' }}</td>
                                     <td class="text-center">
                                         <form method="post" action="{{ route('admin.validar', $user->id) }}" style="display:inline">
                                             @csrf

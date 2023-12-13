@@ -1,17 +1,14 @@
 
-.scrollable-table {
-    max-height: 600px;
-    overflow-y: auto;
+.scrollable-container {
+    max-height: 600px; 
+    overflow-y: auto; 
+    margin-bottom: 20px; 
 }
 
-.container {
-    margin-top: 20px; 
+.alerta  {
+    margin-bottom: 50px !important;
 }
 
-.mb-4 {
-    margin-bottom: 1.5rem !important; 
-}
-
-.mt-4 {
-    margin-top: 1.5rem !important; 
+.reserva-container .alert.alert-success {
+    margin-bottom: 20px;
 }

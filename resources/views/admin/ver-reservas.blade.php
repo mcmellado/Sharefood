@@ -3,6 +3,8 @@
 @section('contenido')
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="{{ asset('css/ver-reservas.css') }}"> 
+<br>
 <div class="container">
     @if(session('reserva-modificada'))
     <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
@@ -14,7 +16,7 @@
     @endif
     <h2 class="mt-4 mb-4">Reservas de {{ $usuario->usuario }}</h2>
 
-    <div class="reserva-container">
+    <div class="reserva-container scrollable-container">
         @forelse ($reservas as $reserva)
         <div class="card">
             <div class="card-body">
@@ -29,8 +31,6 @@
                 </form>
 
                 <a href="{{ route('admin.reservas.modificar-reserva', $reserva->id) }}" class="btn btn-warning btn-sm">Modificar Reserva</a>
-
-
             </div>
         </div>
 
@@ -47,7 +47,7 @@
         <p>No hay reservas.</p>
         @endforelse
     </div>
-    <a href="{{ route('admin.panel_admin') }}" class="btn btn-primary btn-return-admin mt-3">Volver al Panel de
-        Administrador</a>
+    <a href="{{ route('admin.panel_admin') }}" class="btn btn-primary btn-return-admin mt-3">Volver al Panel de Administrador</a>
 </div>
+
 @endsection
