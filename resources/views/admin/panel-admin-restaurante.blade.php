@@ -63,6 +63,7 @@
                             @endforelse
                         </tbody>
                     </table>
+                        <a href="{{ route('admin.panel_admin') }}" class="btn btn-primary btn-return-admin mt-3">Volver administrador de usuarios</a>
                 </div>
             </div>
         </div>

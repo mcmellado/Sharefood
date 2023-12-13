@@ -1,45 +1,50 @@
-<!-- resources/views/admin/modificar-restaurante.blade.php -->
 @extends('layouts.app')
 
 @section('contenido')
-    <div class="container">
-        <h2 class="mt-4 mb-4">Modificar Restaurante</h2>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
-        <form method="post" action="{{ route('admin.restaurantes.actualizar', $restaurante->id) }}" enctype="multipart/form-data">
-            @csrf
-            @method('put')
+<div class="container">
+    <h2 class="mt-4 mb-4">Modificar Restaurante</h2>
 
-            <div class="form-group">
-                <label for="nombre">Nombre del Restaurante:</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" value="{{ $restaurante->nombre }}">
-            </div>
+    <form method="post" action="{{ route('admin.restaurantes.actualizar', $restaurante->id) }}" enctype="multipart/form-data">
+        @csrf
+        @method('put')
 
-            <div class="form-group">
-                <label for="direccion">Dirección:</label>
-                <input type="text" class="form-control" id="direccion" name="direccion" value="{{ $restaurante->direccion }}">
-            </div>
+        <div class="form-group">
+            <label for="nombre">Nombre del Restaurante:</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" value="{{ $restaurante->nombre }}" required>
+        </div>
 
-            <div class="form-group">
-                <label for="sitio_web">Sitio Web:</label>
-                <input type="text" class="form-control" id="sitio_web" name="sitio_web" value="{{ $restaurante->sitio_web }}">
-            </div>
+        <div class="form-group">
+            <label for="direccion">Dirección:</label>
+            <input type="text" class="form-control" id="direccion" name="direccion" value="{{ $restaurante->direccion }}" required>
+        </div>
 
-            <div class="form-group">
-                <label for="telefono">Teléfono:</label>
-                <input type="text" class="form-control" id="telefono" name="telefono" value="{{ $restaurante->telefono }}">
-            </div>
+        <div class="form-group">
+            <label for="sitio_web">Sitio Web:</label>
+            <input type="text" class="form-control" id="sitio_web" name="sitio_web" value="{{ $restaurante->sitio_web }}">
+        </div>
 
-            <div class="form-group">
-                <label for="gastronomia">Gastronomía:</label>
-                <input type="text" class="form-control" id="gastronomia" name="gastronomia" value="{{ $restaurante->gastronomia }}">
-            </div>
+        <div class="form-group">
+            <label for="telefono">Teléfono:</label>
+            <input type="text" class="form-control" id="telefono" name="telefono" value="{{ $restaurante->telefono }}">
+        </div>
 
-            <div class="form-group">
-                <label for="imagen">Imagen:</label>
-                <input type="file" class="form-control-file" id="imagen" name="imagen">
-            </div>
+        <div class="form-group">
+            <label for="gastronomia">Gastronomía:</label>
+            <input type="text" class="form-control" id="gastronomia" name="gastronomia" value="{{ $restaurante->gastronomia }}">
+        </div>
 
-            <button type="submit" class="btn btn-primary">Actualizar Restaurante</button>
-        </form>
-    </div>
+        <div class="form-group">
+            <label for="imagen">Imagen:</label>
+            <input type="file" class="form-control-file" id="imagen" name="imagen">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Actualizar Restaurante</button>
+
+        <!-- Botón para volver al panel de administración del restaurante -->
+        <a href="{{ route('admin.panel-admin-restaurante') }}" class="btn btn-secondary">Volver al Panel de Administración</a>
+
+    </form>
+</div>
 @endsection
