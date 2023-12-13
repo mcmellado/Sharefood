@@ -29,15 +29,13 @@
 
 <script>
     function validarReserva() {
-        var nuevaFechaInput = document.getElementById('nueva_fecha');
-        var nuevaHoraInput = document.getElementById('nueva_hora');
-        
-        var nuevaFecha = new Date(nuevaFechaInput.value + 'T' + nuevaHoraInput.value);
-        var diaSemana = nuevaFecha.toLocaleDateString('es', { weekday: 'long' });
+        var fechaInput = document.getElementById('nueva_fecha');
+        var horaInput = document.getElementById('nueva_hora');
+        var fechaSeleccionada = new Date(fechaInput.value + 'T' + horaInput.value);
+        var diaSemana = fechaSeleccionada.toLocaleDateString('es', { weekday: 'long' });
 
-        // Obtener el restaurante asociado a la reserva
-        var restauranteId = "{{ $reserva->restaurante_id }}";
-        var horariosRestaurante = {!! json_encode(App\Models\Restaurante::find($reserva->restaurante_id)->horarios) !!};
+        // Asegúrate de que los datos se estén pasando correctamente
+        var horariosRestaurante = {!! json_encode($reserva->restaurante->horarios ?? []) !!};
 
         var horarioParaDia = horariosRestaurante.find(function (horario) {
             return horario.dia_semana.toLowerCase() === diaSemana.toLowerCase();
@@ -48,22 +46,28 @@
             return false;
         }
 
-        var horaApertura = new Date('1970-01-01T' + horarioParaDia.hora_apertura);
-        var horaCierre = new Date('1970-01-01T' + horarioParaDia.hora_cierre);
+        var horaApertura = parseHora(horarioParaDia.hora_apertura);
+        var horaCierre = parseHora(horarioParaDia.hora_cierre);
+        var horaSeleccionada = parseHora(horaInput.value);
 
-        if (nuevaFecha < horaApertura || nuevaFecha > horaCierre) {
+        if (horaSeleccionada < horaApertura || horaSeleccionada > horaCierre) {
             alert('La reserva debe estar dentro del horario de apertura (' + horarioParaDia.hora_apertura + ' - ' + horarioParaDia.hora_cierre + ').');
             return false;
         }
 
         var fechaActual = new Date();
 
-        if (nuevaFecha < fechaActual) {
+        if (fechaSeleccionada < fechaActual) {
             alert('La nueva fecha de reserva no puede ser en el pasado.');
             return false;
         }
 
         return true;
+    }
+
+    function parseHora(horaString) {
+        var partes = horaString.split(':');
+        return new Date(1970, 0, 1, partes[0], partes[1]);
     }
 </script>
 
