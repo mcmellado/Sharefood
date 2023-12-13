@@ -169,7 +169,7 @@ public function modificarReserva(Request $request, $reservaId)
 
     public function panelRestaurantes()
     {
-        $restaurantes = Restaurante::all();
+        $restaurantes = Restaurante::orderBy('id')->get();
         return view('admin.panel-admin-restaurante', compact('restaurantes'));
     }
     public function eliminarRestaurante(Restaurante $restaurante)
@@ -180,6 +180,52 @@ public function modificarReserva(Request $request, $reservaId)
 
 
     }
+
+    public function modificarRestaurante($id)
+{
+    $restaurante = Restaurante::findOrFail($id);
+
+    return view('admin.modificar-restaurante', compact('restaurante'));
+}
+
+    public function actualizarRestaurante(Request $request, $id)
+        {
+            $restaurante = Restaurante::findOrFail($id);
+
+            $request->validate([
+                'nombre' => 'required|string|max:255',
+                'direccion' => 'required|string|max:255',
+                'sitio_web' => 'nullable|url|max:255',
+                'telefono' => 'nullable|string|max:20',
+                'gastronomia' => 'nullable|string|max:255',
+                'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
+                
+            ]);
+
+            
+            $restaurante->nombre = $request->input('nombre');
+            $restaurante->direccion = $request->input('direccion');
+            $restaurante->sitio_web = $request->input('sitio_web');
+            $restaurante->telefono = $request->input('telefono');
+            $restaurante->gastronomia = $request->input('gastronomia');
+
+            
+            if ($request->hasFile('imagen')) {
+                $imagen = $request->file('imagen');
+                $nombreImagen = time() . '.' . $imagen->getClientOriginalExtension();
+                $rutaImagen = public_path('images/' . $nombreImagen);
+                $imagen->move(public_path('images'), $nombreImagen);
+                $restaurante->imagen = $nombreImagen;
+            }
+
+            $restaurante->save();
+
+            return redirect()->route('admin.panel-admin-restaurante')->with('success', 'Restaurante modificado correctamente.');
+            
+
+        }
+
+
 
 } 
 
