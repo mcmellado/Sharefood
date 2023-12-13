@@ -38,4 +38,12 @@ class ReservaController extends Controller
     {
         return view('reservas.confirmar_reserva', ['slug' => $slug]);
     }
+
+    public function cancelar(Reserva $reserva)
+    {
+
+        $reserva->delete(); 
+
+        return redirect()->back()->with('success', 'Reserva cancelada correctamente.');
+    }
 }

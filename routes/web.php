@@ -43,6 +43,9 @@ Route::get('/perfil/reservas/{nombreUsuario}', [PerfilController::class, 'verRes
 Route::get('/restaurantes/{slug}/nueva-reserva', [ReservaController::class, 'nuevaReserva'])->name('restaurantes.nuevaReserva');
 Route::post('/restaurantes/{slug}/guardar-reserva', [ReservaController::class, 'guardarReserva'])->name('restaurantes.guardarReserva');
 Route::get('/restaurantes/{slug}/confirmar-reserva', [ReservaController::class, 'confirmarReserva'])->name('restaurantes.confirmarReserva');
+Route::delete('/reservas/cancelar/{reserva}', [ReservaController::class, 'cancelar'])->name('cancelar.reserva');
+
+
 
 // Rutas para el panel de administrador
 Route::group(['middleware' => ['auth']], function () {
@@ -66,6 +69,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/admin/reservas/guardar-modificacion/{reservaId}', [AdminController::class, 'modificarReserva'])->name('admin.reservas.guardar-modificacion');
     Route::put('/admin/reservas/modificar/{reservaId}', [AdminController::class, 'modificarReserva'])->name('admin.reservas.modificar');
     Route::get('/admin/ver-reservas/{usuarioId}', [AdminController::class, 'verReservas'])->name('admin.ver-reservas');
+    
 
     //RESTAURANTES:
 

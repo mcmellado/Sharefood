@@ -13,14 +13,14 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">
-            <span style="font-size: 1.5em;"">Sharefood</span>
+            <span style="font-size: 1.5em;">Sharefood</span>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                @if (Auth::user()->is_admin)
+                @if (Auth::check() && Auth::user()->is_admin)
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('admin.panel_admin') }}">Administrador</a>
                     </li>
@@ -31,13 +31,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('restaurantes') }}">Ver Restaurantes</a>
                 </li>
-                <li class="nav-item">
-                    @auth
+                @auth
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}">{{ Auth::user()->usuario }}</a>
-                    @else
+                    </li>
+                @else
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('login') }}">Iniciar Sesión</a>
-                    @endauth
-                </li>
+                    </li>
+                @endauth
             </ul>
         </div>
     </nav>
