@@ -20,6 +20,9 @@ class CreateReservasTable extends Migration
             $table->date('fecha');
             $table->time('hora');
             $table->timestamps();
+            $table->unsignedInteger('cantidad_personas'); 
+            $table->boolean('completada')->default(false);
+            $table->timestamp('tiempo_expiracion')->nullable();
         });
     }
 

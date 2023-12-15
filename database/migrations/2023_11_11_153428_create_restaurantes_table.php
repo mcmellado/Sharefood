@@ -25,6 +25,8 @@ class CreateRestaurantesTable extends Migration
             $table->unsignedBigInteger('id_usuario');
             $table->unsignedTinyInteger('puntuacion')->default(0)->nullable(false)->unsigned()->comment('Puntuación del 0 al 10');
             $table->string('slug')->unique()->nullable();
+            $table->unsignedInteger('aforo')->default(150);
+            $table->unsignedInteger('tiempo_permanencia')->default(3630)->comment('Tiempo de permanencia en minutos');
         });
     }
 

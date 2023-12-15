@@ -11,6 +11,8 @@ class Reserva extends Model
         'restaurante_id',
         'fecha',
         'hora',
+        'cantidad_personas',
+        'completada'
     ];
 
     public function usuario()
