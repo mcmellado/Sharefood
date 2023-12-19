@@ -22,7 +22,8 @@ class CreateReservasTable extends Migration
             $table->timestamps();
             $table->unsignedInteger('cantidad_personas'); 
             $table->boolean('completada')->default(false);
-            $table->timestamp('tiempo_expiracion')->nullable();
+            $table->unsignedInteger('duracion')->default(60)->comment('Duración estimada de la reserva en minutos');
+
         });
     }
 

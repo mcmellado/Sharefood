@@ -13,18 +13,14 @@
                 @csrf
                 <div class="form-group">
                     <label for="fecha">Fecha de la Reserva:</label>
-                    <input type="date" class="form-control" id="fecha" name="fecha" required onclick="mostrarAforo()">
-                </div>
-                <div id="aforo-info" style="display: none;">
-                    <p id="aforo-actual">Aforo actual: {{ $aforoRestante }}</p>
-                    <p id="aforo-restante">Aforo restante: {{ $aforoDiario - $aforoRestante }}</p>
+                    <input type="date" class="form-control" id="fecha" name="fecha" required>
                 </div>
                 <div class="form-group">
                     <label for="hora">Hora de la Reserva:</label>
                     <input type="time" class="form-control" id="hora" name="hora" required>
                 </div>
                 <div class="form-group">
-                    <label for="cantidad_personas">Cantidad de Personas:</label>
+                    <label for="cantidad_personas">Cantidad de personas:</label>
                     <input type="number" class="form-control" id="cantidad_personas" name="cantidad_personas" required>
                 </div>
                 <button type="submit" class="btn btn-success">Confirmar Reserva</button>
@@ -34,12 +30,27 @@
 </div>
 
 <script>
+    // Agrupar las reservas por fecha
+    var reservasPorFecha = {};
+
+    @foreach($restaurante->reservas as $reserva)
+        var fecha = "{{ $reserva->fecha }}";
+        if (!reservasPorFecha[fecha]) {
+            reservasPorFecha[fecha] = [];
+        }
+        reservasPorFecha[fecha].push({
+            hora: "{{ $reserva->hora }}",
+            personas: "{{ $reserva->cantidad_personas }}"
+        });
+    @endforeach
+
     var horariosRestaurante = {!! json_encode($restaurante->horarios) !!};
 
     function validarReserva() {
         var fechaInput = document.getElementById('fecha');
         var horaInput = document.getElementById('hora');
         var cantidadPersonasInput = document.getElementById('cantidad_personas');
+
         var fechaSeleccionada = new Date(fechaInput.value + 'T' + horaInput.value);
         var diaSemana = fechaSeleccionada.toLocaleDateString('es', { weekday: 'long' });
 
@@ -62,28 +73,37 @@
             return false;
         }
 
+        // Verificar la cantidad de reservas dentro del intervalo especificado
+        var intervaloInicio = new Date(fechaSeleccionada);
+        intervaloInicio.setHours(intervaloInicio.getHours() - 1);
+
+        var intervaloFin = new Date(fechaSeleccionada);
+        intervaloFin.setHours(intervaloFin.getHours() + 1);
+
+        var reservasEnIntervalo = 1;
+
+        // Contar las reservas dentro del intervalo
+        Object.keys(reservasPorFecha).forEach(function (fecha) {
+            reservasPorFecha[fecha].forEach(function (reserva) {
+                var fechaReserva = new Date(fecha + 'T' + reserva.hora);
+                if (fechaReserva >= intervaloInicio && fechaReserva <= intervaloFin) {
+                    reservasEnIntervalo += parseInt(reserva.personas);
+                }
+            });
+        });
+
+        if (reservasEnIntervalo + parseInt(cantidadPersonasInput.value) > 150) {
+            alert('Aforo completo en esos momentos. Por favor, reserva más tarde.');
+            return false;
+        }
+
         return true;
     } 
 
     function parseHora(horaString) {
+        // Parsea la cadena de hora (en formato HH:mm) y devuelve un objeto Date con fecha ficticia
         var partes = horaString.split(':');
         return new Date(1970, 0, 1, partes[0], partes[1]);
-    }
-
-    function mostrarAforo() {
-        var fechaInput = document.getElementById('fecha');
-        var aforoInfo = document.getElementById('aforo-info');
-        var aforoActual = document.getElementById('aforo-actual');
-        var aforoRestante = document.getElementById('aforo-restante');
-
-        var aforoPorDia = {!! json_encode($aforoPorDia) !!};
-        var fechaSeleccionada = fechaInput.value;
-        var aforoDiaSeleccionado = aforoPorDia[fechaSeleccionada] || 0;
-
-        aforoActual.innerText = 'Aforo actual: ' + aforoDiaSeleccionado;
-        aforoRestante.innerText = 'Aforo restante: ' + ({{ $aforoDiario }} - aforoDiaSeleccionado);
-
-        aforoInfo.style.display = 'block';
     }
 </script>
 

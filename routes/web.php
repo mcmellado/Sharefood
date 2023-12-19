@@ -8,6 +8,7 @@ use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\ReservaController; 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Livewire\VerificarAforo;
 
 // Rutas para la autenticación de usuarios
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
@@ -31,12 +32,20 @@ Route::get('/restaurantes/{slug}', [RestauranteController::class, 'mostrarPerfil
 Route::post('/restaurantes/comentar/{restauranteId}', [RestauranteController::class, 'comentar'])->name('restaurantes.comentar');
 Route::delete('/restaurantes/comentarios/{comentarioId}', [RestauranteController::class, 'eliminarComentario'])->name('restaurantes.eliminarComentario');
 
+
 Route::get('/{nombreUsuario}', [PerfilController::class, 'show'])->name('perfil');
 Route::get('/{nombreUsuario}/modificar', [PerfilController::class, 'mostrarFormularioModificar'])->name('perfil.modificar');
 Route::put('/perfil/modificar', [PerfilController::class, 'modificarPerfil'])->name('perfil.modificar.guardar');
 Route::post('/perfil/modificar/subir-imagen', [PerfilController::class, 'subirImagen'])->name('perfil.modificar.subir-imagen');
 Route::get('/perfil/cancelar-modificacion', [PerfilController::class, 'cancelarModificacion'])->name('perfil.modificar.cancelar');
 Route::get('/perfil/reservas/{nombreUsuario}', [PerfilController::class, 'verReservas'])->name('perfil.reservas');
+Route::get('/restaurantes/verificar-aforo/{slug}', 'ReservaController@verificarAforo')->name('restaurantes.verificarAforo');
+Route::get('/restaurantes/obtener-aforo/{slug}', 'ReservaController@obtenerAforo')->name('restaurantes.obtenerAforo');
+
+Route::get('/restaurantes/{slug}/obtener-aforo', 'ReservaController@obtenerAforo')->name('restaurantes.obtenerAforo');
+
+
+
 
 // Rutas para Reservas
 
@@ -44,6 +53,9 @@ Route::get('/restaurantes/{slug}/nueva-reserva', [ReservaController::class, 'nue
 Route::post('/restaurantes/{slug}/guardar-reserva', [ReservaController::class, 'guardarReserva'])->name('restaurantes.guardarReserva');
 Route::get('/restaurantes/{slug}/confirmar-reserva', [ReservaController::class, 'confirmarReserva'])->name('restaurantes.confirmarReserva');
 Route::delete('/reservas/cancelar/{reserva}', [ReservaController::class, 'cancelar'])->name('cancelar.reserva');
+Route::get('/aforo/{restauranteSlug}', 'ReservaController@aforo')->name('restaurantes.aforo');
+
+
 
 
 
