@@ -30,7 +30,6 @@
 </div>
 
 <script>
-    // Agrupar las reservas por fecha
     var reservasPorFecha = {};
 
     @foreach($restaurante->reservas as $reserva)
@@ -73,7 +72,6 @@
             return false;
         }
 
-        // Verificar la cantidad de reservas dentro del intervalo especificado
         var intervaloInicio = new Date(fechaSeleccionada);
         intervaloInicio.setHours(intervaloInicio.getHours() - 1);
 
@@ -82,7 +80,6 @@
 
         var reservasEnIntervalo = 1;
 
-        // Contar las reservas dentro del intervalo
         Object.keys(reservasPorFecha).forEach(function (fecha) {
             reservasPorFecha[fecha].forEach(function (reserva) {
                 var fechaReserva = new Date(fecha + 'T' + reserva.hora);
@@ -97,11 +94,18 @@
             return false;
         }
 
+        // Verificar si está a menos de media hora para cerrar o abrir
+        var mediaHora = 30 * 60 * 1000; // 30 minutos en milisegundos
+
+        if (horaSeleccionada >= horaCierre - mediaHora || horaSeleccionada <= horaApertura + mediaHora) {
+            alert('No puede hacer la reserva porque está cerrando o a punto de cerrar. Por favor, elija otro horario.');
+            return false;
+        }
+
         return true;
     } 
 
     function parseHora(horaString) {
-        // Parsea la cadena de hora (en formato HH:mm) y devuelve un objeto Date con fecha ficticia
         var partes = horaString.split(':');
         return new Date(1970, 0, 1, partes[0], partes[1]);
     }
