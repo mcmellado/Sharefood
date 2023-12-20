@@ -10,19 +10,11 @@
     text-align: center;
 }
 
-.btn-modificar {
+.btn-modificar,
+.btn-cerrar-sesion,
+.btn-ver-reservas,
+.btn-mis-restaurantes {
     margin-top: 15px;
-}
-
-.btn-cerrar-sesion {
-    margin-top: 15px;
-    margin-right: 1000px; 
-}
-
-.btn-ver-reservas {
-    bottom: 5px;
-    margin-top: 15px;
-    margin-right: 1000px; 
 }
 
 .btn-container {

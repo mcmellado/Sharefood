@@ -39,8 +39,8 @@
             
                     @if(Auth::user()->id === $usuario->id)
                         <a href="{{ route('perfil.modificar', ['nombreUsuario' => $usuario->usuario]) }}" class="btn btn-primary btn-modificar mr-2">Modificar Perfil</a>
+                        <a href="{{ route('perfil.mis-restaurantes', ['nombreUsuario' => $usuario->usuario]) }}" class="btn btn-dark btn-modificar mr-2">Mis Restaurantes</a>
                         <a href="{{ route('perfil.reservas', ['nombreUsuario' => $usuario->usuario]) }}" class="btn btn-info btn-ver-reservas mr-2">Ver Reservas</a>
-                        <a href="{{ route('perfil.mis-restaurantes', ['nombreUsuario' => $usuario->usuario]) }}">Mis Restaurantes</a>
 
                     @endif
                 @endauth
