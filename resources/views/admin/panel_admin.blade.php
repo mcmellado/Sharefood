@@ -3,6 +3,8 @@
 
 @section('contenido')
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('css/perfil_admin.css') }}">
+
 
     <div class="container">
         <h2 class="mt-4 mb-4">Bienvenido al Panel de Administrador</h2>
@@ -83,7 +85,8 @@
                             @endforelse
                         </tbody>
                     </table>
-                <a href="{{ route('admin.panel-admin-restaurante') }}" class="btn btn-primary">Ir al Panel de Restaurantes</a>
+                    <a href="{{ route('admin.panel-admin-restaurante') }}" class="btn btn-primary">Ir al Panel de Restaurantes</a>
+
                 </div>
             </div>
         </div>

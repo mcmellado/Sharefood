@@ -52,6 +52,11 @@ class Restaurante extends Model
     {
         return $this->hasMany(Reserva::class);
     }
+
+    public function propietario()
+    {
+        return $this->belongsTo(User::class, 'id_usuario');
+    }
     
     
 }

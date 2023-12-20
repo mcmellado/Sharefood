@@ -2,6 +2,8 @@
 
 @section('contenido')
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('css/perfil_admin_restaurantes.css') }}">
+
 
     <div class="container">
         <h2 class="mt-4 mb-4">Bienvenido al Panel de Administrador de Restaurantes</h2>
@@ -10,7 +12,7 @@
             <div class="col-md-12">
                 <h3>Restaurantes</h3>
 
-                <div class="table-responsive">
+                <div class="table-responsive table-scrollable">
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -63,8 +65,8 @@
                             @endforelse
                         </tbody>
                     </table>
-                        <a href="{{ route('admin.panel_admin') }}" class="btn btn-primary btn-return-admin mt-3">Volver administrador de usuarios</a>
                 </div>
+                <a href="{{ route('admin.panel_admin') }}" class="btn btn-primary btn-return-admin mt-3">Volver administrador de usuarios</a>
             </div>
         </div>
     </div>

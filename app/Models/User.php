@@ -40,4 +40,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Restaurante::class);
     }
+
+    public function misRestaurantes()
+    {
+        return $this->hasMany(Restaurante::class, 'id_usuario');
+    }
+
 }

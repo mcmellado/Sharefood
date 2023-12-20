@@ -24,6 +24,7 @@
                     <input type="number" class="form-control" id="cantidad_personas" name="cantidad_personas" required>
                 </div>
                 <button type="submit" class="btn btn-success">Confirmar Reserva</button>
+                <a href="javascript:history.back()" class="btn btn-secondary">Volver Atrás</a>
             </form>
         </div>
     </div>
@@ -93,9 +94,7 @@
             alert('Aforo completo en esos momentos. Por favor, reserva más tarde.');
             return false;
         }
-
-        // Verificar si está a menos de media hora para cerrar o abrir
-        var mediaHora = 30 * 60 * 1000; // 30 minutos en milisegundos
+        var mediaHora = 30 * 60 * 1000; 
 
         if (horaSeleccionada >= horaCierre - mediaHora || horaSeleccionada <= horaApertura + mediaHora) {
             alert('No puede hacer la reserva porque está cerrando o a punto de cerrar. Por favor, elija otro horario.');

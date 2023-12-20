@@ -8,7 +8,6 @@ use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\ReservaController; 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
-use App\Http\Livewire\VerificarAforo;
 
 // Rutas para la autenticación de usuarios
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
@@ -32,20 +31,12 @@ Route::get('/restaurantes/{slug}', [RestauranteController::class, 'mostrarPerfil
 Route::post('/restaurantes/comentar/{restauranteId}', [RestauranteController::class, 'comentar'])->name('restaurantes.comentar');
 Route::delete('/restaurantes/comentarios/{comentarioId}', [RestauranteController::class, 'eliminarComentario'])->name('restaurantes.eliminarComentario');
 
-
 Route::get('/{nombreUsuario}', [PerfilController::class, 'show'])->name('perfil');
 Route::get('/{nombreUsuario}/modificar', [PerfilController::class, 'mostrarFormularioModificar'])->name('perfil.modificar');
 Route::put('/perfil/modificar', [PerfilController::class, 'modificarPerfil'])->name('perfil.modificar.guardar');
 Route::post('/perfil/modificar/subir-imagen', [PerfilController::class, 'subirImagen'])->name('perfil.modificar.subir-imagen');
 Route::get('/perfil/cancelar-modificacion', [PerfilController::class, 'cancelarModificacion'])->name('perfil.modificar.cancelar');
 Route::get('/perfil/reservas/{nombreUsuario}', [PerfilController::class, 'verReservas'])->name('perfil.reservas');
-Route::get('/restaurantes/verificar-aforo/{slug}', 'ReservaController@verificarAforo')->name('restaurantes.verificarAforo');
-Route::get('/restaurantes/obtener-aforo/{slug}', 'ReservaController@obtenerAforo')->name('restaurantes.obtenerAforo');
-
-Route::get('/restaurantes/{slug}/obtener-aforo', 'ReservaController@obtenerAforo')->name('restaurantes.obtenerAforo');
-
-
-
 
 // Rutas para Reservas
 
@@ -53,11 +44,6 @@ Route::get('/restaurantes/{slug}/nueva-reserva', [ReservaController::class, 'nue
 Route::post('/restaurantes/{slug}/guardar-reserva', [ReservaController::class, 'guardarReserva'])->name('restaurantes.guardarReserva');
 Route::get('/restaurantes/{slug}/confirmar-reserva', [ReservaController::class, 'confirmarReserva'])->name('restaurantes.confirmarReserva');
 Route::delete('/reservas/cancelar/{reserva}', [ReservaController::class, 'cancelar'])->name('cancelar.reserva');
-Route::get('/aforo/{restauranteSlug}', 'ReservaController@aforo')->name('restaurantes.aforo');
-
-
-
-
 
 // Rutas para el panel de administrador
 Route::group(['middleware' => ['auth']], function () {
@@ -81,23 +67,19 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/admin/reservas/guardar-modificacion/{reservaId}', [AdminController::class, 'modificarReserva'])->name('admin.reservas.guardar-modificacion');
     Route::put('/admin/reservas/modificar/{reservaId}', [AdminController::class, 'modificarReserva'])->name('admin.reservas.modificar');
     Route::get('/admin/ver-reservas/{usuarioId}', [AdminController::class, 'verReservas'])->name('admin.ver-reservas');
-    
+    Route::put('/admin/reservas/modificar-cantidad-personas/{reservaId}', 'AdminController@modificarCantidadPersonas')->name('admin.reservas.modificar-cantidad-personas');
 
     //RESTAURANTES:
 
-    Route::get('/admin/panel-restaurantes', [AdminController::class, 'panelRestaurantes'])->name('admin.panel_admin_restaurante');
+    Route::get('/admin/panel-restaurantes', [AdminController::class, 'panelRestaurantes'])->name('admin.panel-admin-restaurante');
     Route::get('/admin/panel-restaurantes', [AdminController::class, 'panelRestaurantes'])->name('admin.panel-admin-restaurante');
     Route::delete('/admin/restaurantes/{restaurante}', [AdminController::class, 'eliminarRestaurante'])->name('admin.restaurantes.eliminar');
     Route::get('/admin/restaurantes/modificar/{id}', [AdminController::class, 'modificarRestaurante'])->name('admin.restaurantes.modificar');
     Route::put('/admin/restaurantes/actualizar/{id}', [AdminController::class, 'actualizarRestaurante'])->name('admin.restaurantes.actualizar');
-
-
-
-
+    
+    Route::get('/perfil/mis-restaurantes/{nombreUsuario}', [PerfilController::class, 'misRestaurantes'])->name('perfil.mis-restaurantes');
+    Route::get('/{nombreUsuario}/mis-restaurantes', [PerfilController::class, 'misRestaurantes'])->name('perfil.mis-restaurantes');
 
 
 });
-
-
-
 

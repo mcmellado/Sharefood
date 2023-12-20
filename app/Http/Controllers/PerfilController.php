@@ -7,16 +7,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Reserva;
+use App\Models\Restaurante;
+
 
 class PerfilController extends Controller
 {
+    
     public function show($nombreUsuario)
     {
-        $usuario = User::where('usuario', $nombreUsuario)->first();
+        $usuario = Auth::user();
 
-        if (!$usuario) {
-            abort(404);
-        }
 
         return view('perfil', compact('usuario'));
     }
@@ -66,5 +66,19 @@ class PerfilController extends Controller
 
         return view('ver-reservas', compact('usuario', 'reservas'));
     }
+
+    public function misRestaurantes()
+{
+    $usuario = Auth::user();
+
+    if (!$usuario) {
+        abort(404);
+    }
+
+    $restaurantes = $usuario->misRestaurantes;
+
+    return view('locales', compact('usuario', 'restaurantes'));
+}
+
     
 }

@@ -142,6 +142,7 @@ public function cancelarReserva($reservaId)
 public function mostrarFormularioModificarReserva($reservaId)
 {
     $reserva = Reserva::findOrFail($reservaId);
+    $reserva->fecha = Carbon::parse($reserva->fecha);
     return view('admin.modificar-reserva-admin', compact('reserva'));
 }
 
@@ -150,21 +151,31 @@ public function modificarReserva(Request $request, $reservaId)
     $reserva = Reserva::findOrFail($reservaId);
 
     $request->validate([
-        'nueva_fecha' => 'required|date',
-        'nueva_hora' => 'required|date_format:H:i',
+        'cantidad_personas' => 'required|integer|min:1',
     ]);
 
-    $reserva->fecha = $request->input('nueva_fecha');
-    $reserva->hora = $request->input('nueva_hora');
+    $nuevaCantidadPersonas = $request->input('cantidad_personas');
+
+    if ($request->has(['nueva_fecha', 'nueva_hora'])) {
+        $request->validate([
+            'nueva_fecha' => 'required|date',
+            'nueva_hora' => 'required|date_format:H:i',
+            'cantidad_personas' => 'sometimes|required|integer|min:1',
+        ]);
+
+        $nuevaFecha = $request->input('nueva_fecha');
+        $nuevaHora = $request->input('nueva_hora');
+        $nuevaFechaHora = "{$nuevaFecha} {$nuevaHora}";
+
+        $reserva->fecha = $nuevaFecha;
+        $reserva->hora = $nuevaFechaHora;
+    }
+
+    $reserva->cantidad_personas = $nuevaCantidadPersonas;
     $reserva->save();
+    dd($request->all());
 
-       $restaurante = $reserva->restaurante;
-       $horariosRestaurante = $restaurante->horarios;
-
-    // Obtener el ID del usuario a través de la relación
-    $usuarioId = $reserva->usuario->id;
     return redirect()->route('admin.ver-reservas', ['usuarioId' => $reserva->usuario->id])->with('reserva-modificada', 'Reserva modificada exitosamente.');
-
 }
 
     public function panelRestaurantes()
