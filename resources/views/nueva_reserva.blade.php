@@ -5,7 +5,9 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="{{ asset('css/nueva_reserva.css') }}">
 
+
 <div class="container mt-5">
+    <div id="alerts-container"> </div>
     <div class="card">
         <div class="card-body">
             <h1>Hacer Reserva</h1>
@@ -30,7 +32,28 @@
     </div>
 </div>
 
+
 <script>
+    function mostrarAlerta(mensaje, tipo) {
+        var alertsContainer = document.getElementById('alerts-container');
+
+        var alertElement = document.createElement('div');
+        alertElement.className = 'alert alert-' + tipo + ' alert-dismissible fade show';
+        alertElement.role = 'alert';
+        alertElement.innerHTML = `
+            ${mensaje}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        `;
+
+        alertsContainer.appendChild(alertElement);
+
+        setTimeout(function() {
+            alertElement.remove();
+        }, 20000);
+    }
+
     var reservasPorFecha = {};
 
     @foreach($restaurante->reservas as $reserva)
@@ -51,7 +74,14 @@
         var horaInput = document.getElementById('hora');
         var cantidadPersonasInput = document.getElementById('cantidad_personas');
 
+        var fechaActual = new Date();
         var fechaSeleccionada = new Date(fechaInput.value + 'T' + horaInput.value);
+
+        if (fechaSeleccionada < fechaActual) {
+            mostrarAlerta('La fecha de la reserva no puede ser anterior a la fecha actual.', 'danger');
+            return false;
+        }
+
         var diaSemana = fechaSeleccionada.toLocaleDateString('es', { weekday: 'long' });
 
         var horarioParaDia = horariosRestaurante.find(function (horario) {
@@ -59,7 +89,7 @@
         });
 
         if (!horarioParaDia) {
-            alert('El restaurante no está abierto los ' + diaSemana + 's.');
+            mostrarAlerta('El restaurante no está abierto los ' + diaSemana + 's.', 'danger');
             return false;
         }
 
@@ -69,7 +99,7 @@
         var horaSeleccionada = parseHora(horaInput.value);
 
         if (horaSeleccionada < horaApertura || horaSeleccionada > horaCierre) {
-            alert('La reserva debe estar dentro del horario de apertura (' + horarioParaDia.hora_apertura + ' - ' + horarioParaDia.hora_cierre + ').');
+            mostrarAlerta('La reserva debe estar dentro del horario de apertura (' + horarioParaDia.hora_apertura + ' - ' + horarioParaDia.hora_cierre + ').', 'danger');
             return false;
         }
 
@@ -91,13 +121,13 @@
         });
 
         if (reservasEnIntervalo + parseInt(cantidadPersonasInput.value) > 150) {
-            alert('Aforo completo en esos momentos. Por favor, reserva más tarde.');
+            mostrarAlerta('Aforo completo en esos momentos. Por favor, reserva más tarde.', 'danger');
             return false;
         }
         var mediaHora = 30 * 60 * 1000; 
 
         if (horaSeleccionada >= horaCierre - mediaHora || horaSeleccionada <= horaApertura + mediaHora) {
-            alert('No puede hacer la reserva porque está cerrando o a punto de cerrar. Por favor, elija otro horario.');
+            mostrarAlerta('No puede hacer la reserva porque está cerrando o a punto de cerrar. Por favor, elija otro horario.', 'danger');
             return false;
         }
 

@@ -84,5 +84,4 @@ Route::get('/perfil/mis-restaurantes/{nombreUsuario}', [PerfilController::class,
 Route::get('/{nombreUsuario}/mis-restaurantes', [PerfilController::class, 'misRestaurantes'])->name('perfil.mis-restaurantes');
 Route::get('/mis-restaurantes/modificar/{slug}', [RestauranteController::class, 'mostrarFormularioModificar'])->name('restaurante.mis-restaurantes.modificar');
 Route::put('/mis-restaurantes/modificar/{slug}', [RestauranteController::class, 'modificarRestaurante'])->name('restaurante.mis-restaurantes.guardar-modificacion');
-Route::get('/perfil/{nombreUsuario}', [PerfilController::class, 'show'])->name('perfil');
 

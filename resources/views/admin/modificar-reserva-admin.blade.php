@@ -2,9 +2,10 @@
 
 @section('contenido')
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ asset('css/nueva_reserva.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modificar-reserva-admin.css') }}">
 
     <div class="container mt-5">
+        <div id="alerts-container"> </div>
         <div class="card">
             <div class="card-body">
                 <h1 class="mb-4">Modificar Reserva</h1>
@@ -31,7 +32,29 @@
         </div>
     </div>
 
+
     <script>
+        function mostrarAlerta(mensaje, tipo) {
+            var alertsContainer = document.getElementById('alerts-container');
+
+            var alertElement = document.createElement('div');
+            alertElement.className = 'alert alert-' + tipo + ' alert-dismissible fade show';
+            alertElement.role = 'alert';
+            alertElement.innerHTML = `
+                ${mensaje}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            `;
+
+            alertsContainer.appendChild(alertElement);
+
+            // Cierra automáticamente la alerta después de 20 segundos
+            setTimeout(function() {
+                alertElement.remove();
+            }, 20000);
+        }
+
         var reservaOriginal = {
             fecha: '{{ $reserva->fecha->format('Y-m-d') }}',
             hora: '{{ $reserva->hora }}',
@@ -54,7 +77,7 @@
                 fechaSeleccionada.getTime() === new Date(reservaOriginal.fecha + 'T' + reservaOriginal.hora).getTime() &&
                 nuevaCantidadPersonas === reservaOriginal.cantidad_personas
             ) {
-                alert('No has hecho ninguna modificación en la reserva.');
+                mostrarAlerta('No has hecho ninguna modificación en la reserva.', 'warning');
                 return false;
             }
 
@@ -68,7 +91,7 @@
             });
 
             if (!horarioParaDia) {
-                alert('El restaurante no está abierto los ' + diaSemana + 's.');
+                mostrarAlerta('El restaurante no está abierto los ' + diaSemana + 's.', 'danger');
                 return false;
             }
 
@@ -77,21 +100,21 @@
             var horaSeleccionada = parseHora(horaInput.value);
 
             if (horaSeleccionada < horaApertura || horaSeleccionada > horaCierre) {
-                alert('La reserva debe estar dentro del horario de apertura (' + horarioParaDia.hora_apertura + ' - ' + horarioParaDia.hora_cierre + ').');
+                mostrarAlerta('La reserva debe estar dentro del horario de apertura (' + horarioParaDia.hora_apertura + ' - ' + horarioParaDia.hora_cierre + ').', 'danger');
                 return false;
             }
 
             var fechaActual = new Date();
 
             if (fechaSeleccionada < fechaActual) {
-                alert('La nueva fecha de reserva no puede ser en el pasado.');
+                mostrarAlerta('La nueva fecha de reserva no puede ser en el pasado.', 'danger');
                 return false;
             }
 
             var mediaHora = 30 * 60 * 1000; 
 
             if (horaSeleccionada >= horaCierre - mediaHora) {
-                alert('No puede hacer la reserva porque está cerrando o a punto de cerrar. Por favor, elija otro horario.');
+                mostrarAlerta('No puede hacer la reserva porque está cerrando o a punto de cerrar. Por favor, elija otro horario.', 'danger');
                 return false;
             }
 
@@ -115,7 +138,7 @@
             reservasEnIntervalo -= parseInt({{ $reserva->cantidad_personas }});
 
             if (reservasEnIntervalo + parseInt(cantidadPersonasInput.value) > 150) {
-                alert('Aforo completo en esos momentos. Por favor, reserva más tarde.');
+                mostrarAlerta('Aforo completo en esos momentos. Por favor, reserva más tarde.', 'danger');
                 return false;
             }
 

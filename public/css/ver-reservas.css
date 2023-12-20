@@ -1,14 +1,33 @@
-
-.scrollable-container {
-    max-height: 600px; 
-    overflow-y: auto; 
-    margin-bottom: 20px; 
+.container {
+    margin-top: 40px;
 }
 
-.alerta  {
-    margin-bottom: 50px !important;
-}
-
-.reserva-container .alert.alert-success {
+.alert-success-container {
     margin-bottom: 20px;
 }
+
+
+.reserva-container {
+    max-height: 100px;
+    overflow-y: auto;
+}
+
+.reserva-card {
+    margin-bottom: 20px;
+}
+
+
+.btn-cancelar-reserva {
+    margin-right: 10px;
+}
+
+
+.btn-modificar-reserva {
+    margin-right: 10px;
+}
+
+
+.btn-return-admin {
+    margin-top: 20px;
+}
+
