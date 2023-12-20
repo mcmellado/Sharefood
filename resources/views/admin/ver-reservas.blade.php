@@ -7,7 +7,7 @@
 
 <div class="container">
     @if(session('reserva-modificada'))
-    <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+    <div id="alerta-reserva-modificada" class="alert alert-success alert-dismissible fade show mb-4" role="alert">
         {{ session('reserva-modificada') }}
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -35,7 +35,7 @@
         </div>
 
         @if(session('reserva-cancelada-' . $reserva->id))
-        <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+        <div id="alerta-reserva-cancelada-{{ $reserva->id }}" class="alert alert-success alert-dismissible fade show mt-4" role="alert">
             {{ session('reserva-cancelada-' . $reserva->id) }}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -49,5 +49,23 @@
     </div>
     <a href="{{ route('admin.panel_admin') }}" class="btn btn-primary btn-return-admin mt-3">Volver al Panel de Administrador</a>
 </div>
+
+<script>
+    // Cierra automáticamente la alerta después de 10 segundos
+    setTimeout(function() {
+        var alertaReservaModificada = document.getElementById('alerta-reserva-modificada');
+        if (alertaReservaModificada) {
+            alertaReservaModificada.remove();
+        }
+
+        @forelse ($reservas as $reserva)
+            var alertaReservaCancelada = document.getElementById('alerta-reserva-cancelada-{{ $reserva->id }}');
+            if (alertaReservaCancelada) {
+                alertaReservaCancelada.remove();
+            }
+        @empty
+        @endforelse
+    }, 10000);
+</script>
 
 @endsection

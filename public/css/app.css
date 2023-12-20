@@ -32,12 +32,12 @@ nav {
     font-size: 2em;
 }
 
-/* Alineación a la izquierda */
+
 .navbar-nav {
-    margin-left: auto; /* Esto asegura que los elementos del menú estén pegados a la izquierda */
+    margin-left: auto; 
 }
 
-/* Margen a la derecha del logo Sharefood */
+
 .navbar-brand {
     margin-right: 20px;
 }
