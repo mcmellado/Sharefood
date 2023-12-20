@@ -5,6 +5,14 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="{{ asset('css/locales.css') }}">
 
+@if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+        {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+@endif
 <div class="container mt-5">
     <div class="card">
         <div class="card-body">
@@ -19,7 +27,7 @@
                                 <p>Dirección: {{ $restaurante->direccion }}</p>
                                 <p>Sitio web: {{ $restaurante->sitio_web ?? 'No disponible' }}</p>
                                 <p>Teléfono: {{ $restaurante->telefono ?? 'No disponible' }}</p>
-                                {{-- Agrega aquí cualquier otra información que desees mostrar --}}
+                                <a href="{{ route('restaurante.mis-restaurantes.modificar', ['slug' => $restaurante->slug]) }}">Modificar Restaurante</a>
                             </li>
                         @endforeach
                     </ul>
@@ -29,14 +37,9 @@
             </div>
         </div>
     </div>
+        <br>
+        <a href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-primary">Volver al perfil</a>
 
-    <button class="go-back btn btn-primary mt-3" onclick="goBack()">Volver atrás</button>
 </div>
-
-<script>
-    function goBack() {
-        window.history.back();
-    }
-</script>
 
 @endsection

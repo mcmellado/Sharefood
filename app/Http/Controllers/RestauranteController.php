@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Restaurante;
 use App\Models\Comentario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class RestauranteController extends Controller
 {
@@ -77,5 +78,36 @@ class RestauranteController extends Controller
 
         return redirect()->back()->with('mensaje', 'No tienes permisos para eliminar este comentario.');
     }
-}
 
+    public function mostrarFormularioModificar($slug)
+    {
+        $restaurante = Restaurante::where('slug', $slug)->firstOrFail();
+
+        return view('modificar-restaurante-usuario', compact('restaurante'));
+    }
+
+    public function modificarRestaurante(Request $request, $slug)
+{
+    $restaurante = Restaurante::where('slug', $slug)->firstOrFail();
+
+    $nombreUsuario = $restaurante->propietario->usuario;
+
+
+    $request->validate([
+        'nombre' => 'required|string',
+        'direccion' => 'required|string',
+        'sitio_web' => 'nullable|string|url',
+        'telefono' => 'nullable|string',
+    ]);
+
+    $restaurante->update([
+        'nombre' => $request->input('nombre'),
+        'direccion' => $request->input('direccion'),
+        'sitio_web' => $request->input('sitio_web'),
+        'telefono' => $request->input('telefono'),
+        'slug' => Str::slug($request->input('nombre')),
+    ]);
+
+    return redirect()->route('perfil.mis-restaurantes', ['nombreUsuario' => $nombreUsuario])->withSuccess('Restaurante modificado correctamente');
+}
+}

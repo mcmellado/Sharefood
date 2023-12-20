@@ -43,7 +43,7 @@ class User extends Authenticatable
 
     public function misRestaurantes()
     {
-        return $this->hasMany(Restaurante::class, 'id_usuario');
+        return $this->hasMany(Restaurante::class, 'id_usuario')->orderBy('id');
     }
 
 }

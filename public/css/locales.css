@@ -6,8 +6,14 @@ body {
 }
 
 .scroll-container {
-    max-height: 60vh; /* Ajusta según sea necesario */
+    max-height: 40vh; 
     overflow-y: auto;
-    margin-top: 20px; /* Otra opción para espacio desde arriba */
+    margin-top: 20px; 
 }
+
+.fixed-alert {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 999; }
 
