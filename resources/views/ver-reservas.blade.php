@@ -38,5 +38,6 @@
                 <p>No tienes reservas.</p>
             @endif
         </div>
+        <a href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-primary">Volver al perfil</a>
     </div>
 @endsection

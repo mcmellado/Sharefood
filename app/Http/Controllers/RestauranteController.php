@@ -110,4 +110,22 @@ class RestauranteController extends Controller
 
     return redirect()->route('perfil.mis-restaurantes', ['nombreUsuario' => $nombreUsuario])->withSuccess('Restaurante modificado correctamente');
 }
+
+public function verReservasRestaurante($slug)
+{
+    $restaurante = Restaurante::where('slug', $slug)->firstOrFail();
+    $reservas = $restaurante->reservas;
+
+    return view('ver-reservas-restaurante', compact('reservas', 'restaurante'));
+}
+
+
+public function verComentariosRestaurante($slug)
+{
+    $restaurante = Restaurante::where('slug', $slug)->firstOrFail();
+    $comentarios = $restaurante->comentarios()->with('usuario')->get();
+
+    return view('ver-comentarios-restaurante', compact('comentarios', 'restaurante'));
+}
+
 }

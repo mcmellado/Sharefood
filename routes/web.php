@@ -37,6 +37,10 @@ Route::put('/perfil/modificar', [PerfilController::class, 'modificarPerfil'])->n
 Route::post('/perfil/modificar/subir-imagen', [PerfilController::class, 'subirImagen'])->name('perfil.modificar.subir-imagen');
 Route::get('/perfil/cancelar-modificacion', [PerfilController::class, 'cancelarModificacion'])->name('perfil.modificar.cancelar');
 Route::get('/perfil/reservas/{nombreUsuario}', [PerfilController::class, 'verReservas'])->name('perfil.reservas');
+Route::get('/restaurantes/{slug}/ver-reservas', [RestauranteController::class, 'verReservasRestaurante'])->name('restaurantes.verReservas');
+Route::get('/restaurantes/{slug}/ver-comentarios', [RestauranteController::class, 'verComentariosRestaurante'])->name('restaurantes.verComentarios');
+
+
 
 // Rutas para Reservas
 

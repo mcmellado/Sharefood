@@ -6,13 +6,14 @@
 <link rel="stylesheet" href="{{ asset('css/locales.css') }}">
 
 @if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+    <div class="alert alert-success alert-dismissible fade show mt-3 fixed-alert" role="alert">
         {{ session('success') }}
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
 @endif
+
 <div class="container mt-5">
     <div class="card">
         <div class="card-body">
@@ -27,7 +28,9 @@
                                 <p>Dirección: {{ $restaurante->direccion }}</p>
                                 <p>Sitio web: {{ $restaurante->sitio_web ?? 'No disponible' }}</p>
                                 <p>Teléfono: {{ $restaurante->telefono ?? 'No disponible' }}</p>
-                                <a href="{{ route('restaurante.mis-restaurantes.modificar', ['slug' => $restaurante->slug]) }}">Modificar Restaurante</a>
+                                <a href="{{ route('restaurante.mis-restaurantes.modificar', ['slug' => $restaurante->slug]) }}" class="btn btn-info btn-sm">Modificar Restaurante</a>
+                                <a href="{{ route('restaurantes.verReservas', ['slug' => $restaurante->slug]) }}" class="btn btn-primary btn-sm">Ver Reservas</a>
+                                <a href="{{ route('restaurantes.verComentarios', ['slug' => $restaurante->slug]) }}" class="btn btn-secondary btn-sm">Ver Comentarios</a>
                             </li>
                         @endforeach
                     </ul>
@@ -37,8 +40,10 @@
             </div>
         </div>
     </div>
-        <br>
-        <a href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-primary">Volver al perfil</a>
+    
+    <br>
+    
+    <a href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-primary">Volver al perfil</a>
 
 </div>
 

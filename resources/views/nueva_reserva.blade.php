@@ -20,7 +20,6 @@
                 <div class="form-group">
                     <label for="hora">Hora de la Reserva:</label>
                     <select class="form-control" id="hora" name="hora" required>
-                        <!-- Agrega la opción predeterminada -->
                         <option value="" disabled selected>Seleccionar primero la fecha</option>
                     </select>
                 </div>
