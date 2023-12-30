@@ -14,6 +14,7 @@ class CreateHorariosTable extends Migration
             $table->string('dia_semana');
             $table->time('hora_apertura');
             $table->time('hora_cierre');
+            $table->integer('intervalo')->default(60);
             $table->timestamps();
         });
     }

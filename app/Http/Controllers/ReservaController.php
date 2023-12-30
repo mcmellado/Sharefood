@@ -1,23 +1,32 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Reserva;
 use App\Models\Restaurante;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Horario;
+use Carbon\Carbon;
 
 class ReservaController extends Controller
 {
     public function nuevaReserva($slug)
-    {
-        
-        $restaurante = Restaurante::where('slug', $slug)->firstOrFail();
+{
+    $restaurante = Restaurante::where('slug', $slug)->firstOrFail();
 
-        return view('nueva_reserva', ['restaurante' => $restaurante]);
-        
-    }
-    
+    // Obtener la fecha actual
+    $fecha = now()->toDateString();
+    $restauranteId = $restaurante->id;
+
+    // Llamar al método estático directamente
+    $controller = new ReservaController();
+    $horasDisponibles = $controller->obtenerHorasDisponibles(new Request([
+        'fecha' => $fecha,
+        'restaurante_id' => $restauranteId,
+    ]));
+    return view('nueva_reserva', compact('restaurante', 'horasDisponibles'));
+
+}
     public function guardarReserva(Request $request, $slug)
     {
         $restaurante = Restaurante::where('slug', $slug)->firstOrFail();
@@ -30,10 +39,9 @@ class ReservaController extends Controller
             'hora' => $request->hora,
             'cantidad_personas' => $request->cantidad_personas
         ]);
-        
+
         session()->flash('reserva-confirmada', 'Tu reserva ha sido confirmada. ¡Gracias por elegir nuestro restaurante!');
 
-        
         return redirect()->route('restaurantes.perfil', ['slug' => $slug]);
     }
 
@@ -44,9 +52,35 @@ class ReservaController extends Controller
 
     public function cancelar(Reserva $reserva)
     {
-
-        $reserva->delete(); 
+        $reserva->delete();
 
         return redirect()->back()->with('success', 'Reserva cancelada correctamente.');
     }
+
+    public function obtenerHorasDisponibles(Request $request)
+    {
+        $fecha = $request->input('fecha');
+        $restauranteId = $request->input('restaurante_id');
+    
+        $diaSemana = Carbon::parse($fecha)->isoFormat('dddd');
+    
+        $horarios = Horario::where('restaurante_id', $restauranteId)
+            ->where('dia_semana', $diaSemana)
+            ->get();
+    
+        $horasDisponibles = [];
+    
+        foreach ($horarios as $horario) {
+            $horaActual = Carbon::parse($horario->hora_apertura);
+            $horaCierre = Carbon::parse($horario->hora_cierre);
+    
+            while ($horaActual < $horaCierre) {
+                $horasDisponibles[] = $horaActual->format('H:i');
+                $horaActual->addMinutes($horario->intervalo);
+            }
+        }
+    
+        return response()->json($horasDisponibles);
+    }
+    
 }

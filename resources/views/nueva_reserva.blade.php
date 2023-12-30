@@ -15,11 +15,13 @@
                 @csrf
                 <div class="form-group">
                     <label for="fecha">Fecha de la Reserva:</label>
-                    <input type="date" class="form-control" id="fecha" name="fecha" required>
+                    <input type="date" class="form-control" id="fecha" name="fecha" onchange="cargarHorasDisponibles()" required>
                 </div>
                 <div class="form-group">
                     <label for="hora">Hora de la Reserva:</label>
-                    <input type="time" class="form-control" id="hora" name="hora" required>
+                    <select class="form-control" id="hora" name="hora" required>
+                        <!-- Aquí se cargarán las opciones con JavaScript -->
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="cantidad_personas">Cantidad de personas:</label>
@@ -32,8 +34,63 @@
     </div>
 </div>
 
-
 <script>
+
+function formatHora(hora) {
+        var horas = hora.getHours().toString().padStart(2, '0');
+        var minutos = hora.getMinutes().toString().padStart(2, '0');
+        return horas + ':' + minutos;
+    }
+
+    function obtenerHorasReservadas(fechaSeleccionada) {
+        var reservasParaFecha = reservasPorFecha[fechaSeleccionada] || [];
+        return reservasParaFecha.map(function (reserva) {
+            return reserva.hora;
+        });
+    }
+
+    function cargarHorasDisponibles() {
+
+        var fechaSeleccionada = document.getElementById('fecha').value;
+
+        var reservasParaFecha = obtenerHorasReservadas(fechaSeleccionada);
+
+
+        var diaSemana = new Date(fechaSeleccionada).toLocaleDateString('es', { weekday: 'long' });
+        var horarioParaDia = horariosRestaurante.find(function (horario) {
+            return horario.dia_semana.toLowerCase() === diaSemana.toLowerCase();
+        });
+
+        var horasDisponibles = obtenerHorasDisponibles(horarioParaDia.hora_apertura, horarioParaDia.hora_cierre, reservasParaFecha);
+
+
+        var selectHora = document.getElementById('hora');
+        selectHora.innerHTML = '';
+
+
+        horasDisponibles.forEach(function (hora) {
+            var option = document.createElement('option');
+            option.value = hora;
+            option.text = hora;
+            selectHora.appendChild(option);
+        });
+    }
+
+    function obtenerHorasDisponibles(horaApertura, horaCierre, reservas) {
+
+        var horasDisponibles = [];
+        var horaActual = parseHora(horaApertura);
+
+        while (horaActual <= parseHora(horaCierre)) {
+            var horaActualString = formatHora(horaActual);
+            if (!reservas.includes(horaActualString)) {
+                horasDisponibles.push(horaActualString);
+            }
+            horaActual.setMinutes(horaActual.getMinutes() + 30); 
+        }
+
+        return horasDisponibles;
+    }
     function mostrarAlerta(mensaje, tipo) {
         var alertsContainer = document.getElementById('alerts-container');
 

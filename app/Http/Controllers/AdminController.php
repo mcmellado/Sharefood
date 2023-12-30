@@ -173,7 +173,6 @@ public function modificarReserva(Request $request, $reservaId)
 
     $reserva->cantidad_personas = $nuevaCantidadPersonas;
     $reserva->save();
-    dd($request->all());
 
     return redirect()->route('admin.ver-reservas', ['usuarioId' => $reserva->usuario->id])->with('reserva-modificada', 'Reserva modificada exitosamente.');
 }

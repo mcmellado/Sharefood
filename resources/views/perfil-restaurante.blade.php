@@ -5,7 +5,6 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
 <div class="container mt-5 scrollable-container">
-    {{-- Alerta de Reserva Confirmada --}}
     @if(session('reserva-confirmada'))
         <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
             {{ session('reserva-confirmada') }}

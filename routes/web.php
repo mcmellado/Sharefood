@@ -76,6 +76,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('/admin/restaurantes/{restaurante}', [AdminController::class, 'eliminarRestaurante'])->name('admin.restaurantes.eliminar');
     Route::get('/admin/restaurantes/modificar/{id}', [AdminController::class, 'modificarRestaurante'])->name('admin.restaurantes.modificar');
     Route::put('/admin/restaurantes/actualizar/{id}', [AdminController::class, 'actualizarRestaurante'])->name('admin.restaurantes.actualizar');
+    Route::get('/api/horas-disponibles', [ReservaController::class, 'obtenerHorasDisponibles'])->name('restaurantes.obtenerHorasDisponibles');
     
     
 });
