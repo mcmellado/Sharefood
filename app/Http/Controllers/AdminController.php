@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Comentario;
 use App\Models\Reserva;
 use App\Models\Restaurante;
+use App\Models\Horario;
 use Illuminate\Support\Carbon;
     
 
@@ -143,7 +144,11 @@ public function mostrarFormularioModificarReserva($reservaId)
 {
     $reserva = Reserva::findOrFail($reservaId);
     $reserva->fecha = Carbon::parse($reserva->fecha);
-    return view('admin.modificar-reserva-admin', compact('reserva'));
+
+    // Obtén el restaurante asociado a la reserva
+    $restaurante = $reserva->restaurante;
+
+    return view('admin.modificar-reserva-admin', compact('reserva', 'restaurante'));
 }
 
 public function modificarReserva(Request $request, $reservaId)
@@ -152,31 +157,34 @@ public function modificarReserva(Request $request, $reservaId)
 
     $request->validate([
         'cantidad_personas' => 'required|integer|min:1',
+        'nueva_fecha' => 'required|date',
+        'nueva_hora' => 'required|date_format:H:i',
     ]);
 
     $nuevaCantidadPersonas = $request->input('cantidad_personas');
+    $nuevaFecha = $request->input('nueva_fecha');
+    $nuevaHora = $request->input('nueva_hora');
+    $nuevaFechaHora = "{$nuevaFecha} {$nuevaHora}";
 
-    if ($request->has(['nueva_fecha', 'nueva_hora'])) {
-        $request->validate([
-            'nueva_fecha' => 'required|date',
-            'nueva_hora' => 'required|date_format:H:i',
-            'cantidad_personas' => 'sometimes|required|integer|min:1',
-        ]);
+    if ($nuevaFechaHora !== "{$reserva->fecha} {$reserva->hora}") {
+        $reservasEnNuevaFechaHora = Reserva::where('fecha', $nuevaFecha)
+            ->where('hora', $nuevaHora)
+            ->where('restaurante_id', $reserva->restaurante_id)
+            ->where('id', '!=', $reservaId) 
+            ->count();
 
-        $nuevaFecha = $request->input('nueva_fecha');
-        $nuevaHora = $request->input('nueva_hora');
-        $nuevaFechaHora = "{$nuevaFecha} {$nuevaHora}";
-
-        $reserva->fecha = $nuevaFecha;
-        $reserva->hora = $nuevaFechaHora;
+        if ($reservasEnNuevaFechaHora > 0) {
+            return redirect()->back()->with('error', 'Ya hay una reserva existente en la nueva fecha y hora seleccionadas.');
+        }
     }
 
+    $reserva->fecha = $nuevaFecha;
+    $reserva->hora = $nuevaHora;
     $reserva->cantidad_personas = $nuevaCantidadPersonas;
     $reserva->save();
 
     return redirect()->route('admin.ver-reservas', ['usuarioId' => $reserva->usuario->id])->with('reserva-modificada', 'Reserva modificada exitosamente.');
 }
-
     public function panelRestaurantes()
     {
         $restaurantes = Restaurante::orderBy('id')->get();
@@ -233,6 +241,32 @@ public function modificarReserva(Request $request, $reservaId)
             return redirect()->route('admin.panel-admin-restaurante')->with('success', 'Restaurante modificado correctamente.');
             
 
+        }
+
+        public function obtenerHorasDisponibles(Request $request)
+        {
+            $fecha = $request->input('fecha');
+            $restauranteId = $request->input('restaurante_id');
+        
+            $diaSemana = Carbon::parse($fecha)->isoFormat('dddd');
+        
+            $horarios = Horario::where('restaurante_id', $restauranteId)
+                ->where('dia_semana', $diaSemana)
+                ->get();
+        
+            $horasDisponibles = [];
+        
+            foreach ($horarios as $horario) {
+                $horaActual = Carbon::parse($horario->hora_apertura);
+                $horaCierre = Carbon::parse($horario->hora_cierre);
+        
+                while ($horaActual < $horaCierre) {
+                    $horasDisponibles[] = $horaActual->format('H:i');
+                    $horaActual->addMinutes($horario->intervalo);
+                }
+            }
+        
+            return response()->json($horasDisponibles);
         }
 
 

@@ -21,7 +21,7 @@
         <div class="card">
             <div class="card-body">
                 <p>Restaurante: {{ $reserva->restaurante->nombre }}</p>
-                <p>Fecha de reserva: {{ optional($reserva->fecha_reserva)->format('Y-m-d') }}</p>
+                <p>Fecha de reserva: {{ $reserva->fecha }}</p>
                 <p>Hora de reserva: {{ $reserva->hora }}</p>
                 <form method="post" action="{{ route('admin.reservas.cancelar', $reserva->id) }}" style="display:inline">
                     @csrf

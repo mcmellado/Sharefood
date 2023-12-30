@@ -20,7 +20,8 @@
                 <div class="form-group">
                     <label for="hora">Hora de la Reserva:</label>
                     <select class="form-control" id="hora" name="hora" required>
-                        <!-- Aquí se cargarán las opciones con JavaScript -->
+                        <!-- Agrega la opción predeterminada -->
+                        <option value="" disabled selected>Seleccionar primero la fecha</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -50,23 +51,23 @@ function formatHora(hora) {
     }
 
     function cargarHorasDisponibles() {
-
         var fechaSeleccionada = document.getElementById('fecha').value;
 
+        if (!fechaSeleccionada) {
+            document.getElementById('hora').disabled = true;
+            return;
+        }
+
         var reservasParaFecha = obtenerHorasReservadas(fechaSeleccionada);
-
-
         var diaSemana = new Date(fechaSeleccionada).toLocaleDateString('es', { weekday: 'long' });
         var horarioParaDia = horariosRestaurante.find(function (horario) {
             return horario.dia_semana.toLowerCase() === diaSemana.toLowerCase();
         });
-
         var horasDisponibles = obtenerHorasDisponibles(horarioParaDia.hora_apertura, horarioParaDia.hora_cierre, reservasParaFecha);
-
-
         var selectHora = document.getElementById('hora');
+        
+        selectHora.disabled = false;
         selectHora.innerHTML = '';
-
 
         horasDisponibles.forEach(function (hora) {
             var option = document.createElement('option');
