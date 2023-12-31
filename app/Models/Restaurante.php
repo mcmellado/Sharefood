@@ -19,7 +19,7 @@ class Restaurante extends Model
         'puntuacion',
         'slug',
         'id_usuario',
-        'aforo',
+        'aforo_maximo',
         'tiempo_permanencia'
     ];
 

@@ -92,12 +92,12 @@ class RestauranteController extends Controller
 
     $nombreUsuario = $restaurante->propietario->usuario;
 
-
     $request->validate([
         'nombre' => 'required|string',
         'direccion' => 'required|string',
         'sitio_web' => 'nullable|string|url',
         'telefono' => 'nullable|string',
+        'aforo_maximo' => 'required|integer', 
     ]);
 
     $restaurante->update([
@@ -105,6 +105,7 @@ class RestauranteController extends Controller
         'direccion' => $request->input('direccion'),
         'sitio_web' => $request->input('sitio_web'),
         'telefono' => $request->input('telefono'),
+        'aforo_maximo' => $request->input('aforo_maximo'), 
         'slug' => Str::slug($request->input('nombre')),
     ]);
 

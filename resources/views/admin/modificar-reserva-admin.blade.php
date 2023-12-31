@@ -185,7 +185,7 @@
             });
         });
 
-        if (reservasEnIntervalo + parseInt(cantidadPersonasInput.value) > 150) {
+        if (reservasEnIntervalo + parseInt(cantidadPersonasInput.value) > {{ $restaurante->aforo_maximo }}) {
             mostrarAlerta('Aforo completo en esos momentos. Por favor, reserva más tarde.', 'danger');
             return false;
         }
