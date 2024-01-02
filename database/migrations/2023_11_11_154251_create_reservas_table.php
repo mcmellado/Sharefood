@@ -15,8 +15,8 @@ class CreateReservasTable extends Migration
     {
         Schema::create('reservas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('usuario_id')->constrained('users'); // Relación con el usuario que hizo la reserva
-            $table->foreignId('restaurante_id')->constrained('restaurantes'); // Relación con el restaurante
+            $table->foreignId('usuario_id')->constrained('users'); 
+            $table->foreignId('restaurante_id')->constrained('restaurantes'); 
             $table->date('fecha');
             $table->time('hora');
             $table->timestamps();

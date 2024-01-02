@@ -29,7 +29,7 @@
             </table>
 
             <div class="mt-4">
-                <a href="javascript:history.go(-1);" class="btn btn-secondary">Volver Atrás</a>
+                <a href="{{ route('perfil.mis-restaurantes', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-danger">Volver atrás</a>
             </div>
         </div>
     </div>

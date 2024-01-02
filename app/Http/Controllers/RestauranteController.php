@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Reserva;
 use App\Models\Restaurante;
 use App\Models\Comentario;
 use Illuminate\Http\Request;
@@ -18,10 +19,11 @@ class RestauranteController extends Controller
     public function mostrarPerfil($slug)
     {
         $restaurante = Restaurante::where('slug', $slug)->firstOrFail();
-
-        return view('perfil-restaurante', compact('restaurante'));
+    
+        $usuarioReserva = auth()->check() ? Reserva::usuarioHaHechoReservaEnRestaurante(auth()->user()->id, $restaurante->id) : null;
+    
+        return view('perfil-restaurante', compact('restaurante', 'usuarioReserva'));
     }
-
     
     public function buscarSugerencias(Request $request)
     {
@@ -128,5 +130,29 @@ public function verComentariosRestaurante($slug)
 
     return view('ver-comentarios-restaurante', compact('comentarios', 'restaurante'));
 }
+
+public function puntuar(Request $request, $slug)
+{
+    $request->validate([
+        'puntuacion' => 'required|numeric|between:0,10',
+    ]);
+
+    $restaurante = Restaurante::where('slug', $slug)->first();
+
+    if ($restaurante) {
+        $puntuacionNueva = $request->input('puntuacion');
+        $puntuacionActual = $restaurante->puntuacion;
+        $totalPuntuaciones = $restaurante->comentarios->count();
+
+        $nuevaPuntuacionTotal = (($puntuacionActual * $totalPuntuaciones) + $puntuacionNueva) / ($totalPuntuaciones + 1);
+
+        $restaurante->update(['puntuacion' => $nuevaPuntuacionTotal]);
+
+        return redirect()->back()->with('success', 'Puntuación agregada correctamente.');
+    } else {
+        return redirect()->back()->with('error', 'No se encontró el restaurante para puntuar.');
+    }
+}
+
 
 }

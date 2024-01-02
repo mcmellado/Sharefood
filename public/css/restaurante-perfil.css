@@ -1,10 +1,10 @@
 .scrollable-container {
-    max-height: 700px; 
+    max-height: 700px;
     overflow-y: auto;
 }
 
 .scrollable-content {
-    max-height: 300px; 
+    max-height: 300px;
     overflow-y: auto;
 }
 
@@ -17,3 +17,32 @@
     display: none;
 }
 
+.custom-star-rating {
+    display: inline-block;
+    font-size: 1.5rem;
+}
+
+.custom-star-rating input {
+    display: none;
+}
+
+.custom-star-rating label {
+    cursor: pointer;
+    color: #f39c12; /* Cambia el color de las estrellas a amarillo (#f39c12) */
+    margin-right: 5px; /* Añade un pequeño margen entre las estrellas */
+}
+
+.custom-star-rating label:before {
+    content: '\2605'; /* Estrella en Unicode */
+    opacity: 0.5; /* Reduce la opacidad inicial */
+    transition: opacity 0.25s;
+}
+
+.custom-star-rating input:checked ~ label:before {
+    opacity: 1;
+}
+
+.custom-star-rating label:hover:before,
+.custom-star-rating label:hover ~ label:before {
+    opacity: 1;
+}

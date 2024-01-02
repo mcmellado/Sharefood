@@ -129,7 +129,6 @@
 
     var horariosRestaurante = {!! json_encode($restaurante->horarios) !!};
 
-    // Llamada a cargarHorasDisponibles al cargar la página
     window.onload = function() {
         cargarHorasDisponibles();
     };

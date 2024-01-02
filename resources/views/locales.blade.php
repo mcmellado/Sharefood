@@ -6,13 +6,14 @@
 <link rel="stylesheet" href="{{ asset('css/locales.css') }}">
 
 @if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show mt-3 fixed-alert" role="alert">
+    <div class="alert alert-success alert-dismissible fade show alert-short" role="alert">
         {{ session('success') }}
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
 @endif
+
 
 <div class="container mt-5">
     <div class="card">

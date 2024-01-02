@@ -24,4 +24,16 @@ class Reserva extends Model
     {
         return $this->belongsTo(Restaurante::class, 'restaurante_id');
     }
+
+    public function haPasadoDeFecha()
+    {
+        return now() > $this->fecha;
+    }
+
+    public static function usuarioHaHechoReservaEnRestaurante($usuarioId, $restauranteId)
+{
+    return self::where('usuario_id', $usuarioId)
+        ->where('restaurante_id', $restauranteId)
+        ->first(); 
+}
 }

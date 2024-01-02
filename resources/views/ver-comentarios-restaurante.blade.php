@@ -30,7 +30,7 @@
     <a href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-primary">Volver al perfil</a>
     <a href="{{ route('restaurantes.verReservas', ['slug' => $restaurante->slug]) }}" class="btn btn-primary">Ver Reservas</a>
     <!-- Agrega el botón para volver a la página anterior -->
-    <a href="javascript:history.back()" class="btn btn-secondary">Volver atrás</a>
+    <a href="{{ route('perfil.mis-restaurantes', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-danger">Volver atrás</a>
 </div>
 
 @endsection
