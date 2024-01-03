@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Reserva extends Model
 {
@@ -24,16 +25,38 @@ class Reserva extends Model
     {
         return $this->belongsTo(Restaurante::class, 'restaurante_id');
     }
-
+    
+    
     public function haPasadoDeFecha()
-    {
-        return now() > $this->fecha;
-    }
+{
+    $fechaActual = Carbon::now();
+
+    $fechaReserva = Carbon::parse($this->fecha)->startOfDay();
+
+    return $fechaReserva->lessThanOrEqualTo($fechaActual);
+}
+
+        
+public function puedePuntuar()
+{
+    return !$this->haPasadoDeFecha() && !$this->haPuntuadoRestaurante($this->restaurante_id) && $this->completada;
+}
 
     public static function usuarioHaHechoReservaEnRestaurante($usuarioId, $restauranteId)
 {
     return self::where('usuario_id', $usuarioId)
         ->where('restaurante_id', $restauranteId)
         ->first(); 
+}
+
+public function puntuaciones()
+{
+    return $this->hasMany(Puntuacion::class, 'reserva_id'); 
+}
+
+
+public function haPuntuadoRestaurante($restauranteId)
+{
+    return $this->puntuaciones()->where('restaurante_id', $restauranteId)->exists();
 }
 }

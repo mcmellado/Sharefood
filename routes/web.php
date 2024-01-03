@@ -39,9 +39,7 @@ Route::get('/perfil/cancelar-modificacion', [PerfilController::class, 'cancelarM
 Route::get('/perfil/reservas/{nombreUsuario}', [PerfilController::class, 'verReservas'])->name('perfil.reservas');
 Route::get('/restaurantes/{slug}/ver-reservas', [RestauranteController::class, 'verReservasRestaurante'])->name('restaurantes.verReservas');
 Route::get('/restaurantes/{slug}/ver-comentarios', [RestauranteController::class, 'verComentariosRestaurante'])->name('restaurantes.verComentarios');
-Route::post('/restaurantes/{slug}/puntuar', 'RestauranteController@puntuar')->name('restaurantes.puntuar');
-
-
+Route::post('/restaurantes/{slug}/puntuar', [RestauranteController::class, 'puntuar'])->name('restaurantes.puntuar');
 
 
 // Rutas para Reservas

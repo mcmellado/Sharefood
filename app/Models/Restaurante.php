@@ -57,6 +57,18 @@ class Restaurante extends Model
     {
         return $this->belongsTo(User::class, 'id_usuario');
     }
+
+    public function puntuaciones()
+{
+    return $this->hasMany(Puntuacion::class, 'restaurante_id');
+}
+
+public function actualizarPuntuacionPromedio()
+{
+    $puntuacionPromedio = $this->puntuaciones()->avg('puntuacion');
+    $this->puntuacion = $puntuacionPromedio * 2; // Ajustar a escala de 0-10
+    $this->save();
+}
     
     
 }

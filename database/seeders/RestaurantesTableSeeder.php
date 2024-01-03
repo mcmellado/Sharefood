@@ -23,7 +23,7 @@ class RestaurantesTableSeeder extends Seeder
                 'sitio_web' => 'https://www.parrilladelvalle.com',
                 'telefono' => '+123456789',
                 'gastronomia' => 'Asados',
-                'puntuacion' => 6,
+                'puntuacion' => 0, 
                 'slug' => Str::slug('La Parrilla del Valle'),
                 'id_usuario' => 6,
             ],
@@ -33,7 +33,7 @@ class RestaurantesTableSeeder extends Seeder
                 'sitio_web' => 'https://www.saboresdelmar.com',
                 'telefono' => '+987654321',
                 'gastronomia' => 'Mariscos',
-                'puntuacion' => 8,
+                'puntuacion' => 0, // Set to 0
                 'slug' => Str::slug('Sabores del Mar'),
                 'id_usuario' => 6,
             ],
@@ -43,7 +43,7 @@ class RestaurantesTableSeeder extends Seeder
                 'sitio_web' => 'https://www.bellaitalia.com',
                 'telefono' => '+112233445',
                 'gastronomia' => 'Pizza',
-                'puntuacion' => 7,
+                'puntuacion' => 0, // Set to 0
                 'slug' => Str::slug('Pizzería Bella Italia'),
                 'id_usuario' => 6,
             ],
@@ -53,7 +53,7 @@ class RestaurantesTableSeeder extends Seeder
                 'sitio_web' => 'https://www.mexicanatradicional.com',
                 'telefono' => '+554433221',
                 'gastronomia' => 'Mexicana',
-                'puntuacion' => 9,
+                'puntuacion' => 0, // Set to 0
                 'slug' => Str::slug('Comida Mexicana Tradicional'),
                 'id_usuario' => 6,
             ],
@@ -63,7 +63,7 @@ class RestaurantesTableSeeder extends Seeder
                 'sitio_web' => 'https://www.sushiexpress.com',
                 'telefono' => '+998877665',
                 'gastronomia' => 'Sushi',
-                'puntuacion' => 8,
+                'puntuacion' => 0, // Set to 0
                 'slug' => Str::slug('Sushi Express'),
                 'id_usuario' => 6,
             ],
@@ -73,7 +73,7 @@ class RestaurantesTableSeeder extends Seeder
                 'sitio_web' => 'https://www.cafearomas.com',
                 'telefono' => '+765432109',
                 'gastronomia' => 'Café',
-                'puntuacion' => 7,
+                'puntuacion' => 0, // Set to 0
                 'slug' => Str::slug('Cafetería Aromas'),
                 'id_usuario' => 6,
             ],
@@ -83,7 +83,7 @@ class RestaurantesTableSeeder extends Seeder
                 'sitio_web' => 'https://www.rinconargentino.com',
                 'telefono' => '+987654321',
                 'gastronomia' => 'Carnes',
-                'puntuacion' => 9,
+                'puntuacion' => 0, // Set to 0
                 'slug' => Str::slug('Rincón Argentino'),
                 'id_usuario' => 6,
             ],
@@ -93,7 +93,7 @@ class RestaurantesTableSeeder extends Seeder
                 'sitio_web' => 'https://www.vegetarianoverde.com',
                 'telefono' => '+123456789',
                 'gastronomia' => 'Vegetariana',
-                'puntuacion' => 8,
+                'puntuacion' => 0, // Set to 0
                 'slug' => Str::slug('Vegetariano Verde'),
                 'id_usuario' => 6,
             ],
@@ -103,7 +103,7 @@ class RestaurantesTableSeeder extends Seeder
                 'sitio_web' => 'https://www.dulcearoma.com',
                 'telefono' => '+112233445',
                 'gastronomia' => 'Panadería',
-                'puntuacion' => 7,
+                'puntuacion' => 0, // Set to 0
                 'slug' => Str::slug('Panadería Dulce Aroma'),
                 'id_usuario' => 6,
             ],
@@ -113,7 +113,7 @@ class RestaurantesTableSeeder extends Seeder
                 'sitio_web' => 'https://www.tapasycopas.com',
                 'telefono' => '+554433221',
                 'gastronomia' => 'Tapas',
-                'puntuacion' => 9,
+                'puntuacion' => 0, // Set to 0
                 'slug' => Str::slug('Bar Tapas y Copas'),
                 'id_usuario' => 6,
             ],
