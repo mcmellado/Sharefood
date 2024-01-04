@@ -20,13 +20,13 @@ class RestauranteController extends Controller
     }
 
     public function mostrarPerfil($slug)
-    {
-        $restaurante = Restaurante::where('slug', $slug)->firstOrFail();
-    
-        $usuarioReserva = auth()->check() ? Reserva::usuarioHaHechoReservaEnRestaurante(auth()->user()->id, $restaurante->id) : null;
-    
-        return view('perfil-restaurante', compact('restaurante', 'usuarioReserva'));
-    }
+{
+    $restaurante = Restaurante::where('slug', $slug)->firstOrFail();
+    $usuarioReserva = auth()->check() ? Reserva::usuarioHaHechoReservaEnRestaurante(auth()->user()->id, $restaurante->id) : null;
+    $usuarioHaVotado = $usuarioReserva ? $this->usuarioHaVotado(auth()->user()->id, $restaurante->id) : false;
+
+    return view('perfil-restaurante', compact('restaurante', 'usuarioReserva', 'usuarioHaVotado'));
+}
     
     public function buscarSugerencias(Request $request)
     {
@@ -160,5 +160,13 @@ public function puntuar(Request $request, $slug)
         return redirect()->back()->with('error', 'No se encontró el restaurante para puntuar.');
     }
 }
+
+    public function usuarioHaVotado($usuarioId, $restauranteId)
+
+    {
+        return Puntuacion::where('usuario_id', $usuarioId)
+            ->where('restaurante_id', $restauranteId)
+            ->exists();
+    }
 
 }

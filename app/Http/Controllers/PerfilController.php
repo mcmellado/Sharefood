@@ -80,5 +80,10 @@ class PerfilController extends Controller
     return view('locales', compact('usuario', 'restaurantes'));
 }
 
+public function ver($nombreUsuario)
+{
+    $usuario = User::where('usuario', $nombreUsuario)->firstOrFail();
+    return view('perfil', compact('usuario'));
+}
     
 }

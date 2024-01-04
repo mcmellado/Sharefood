@@ -40,6 +40,7 @@ Route::get('/perfil/reservas/{nombreUsuario}', [PerfilController::class, 'verRes
 Route::get('/restaurantes/{slug}/ver-reservas', [RestauranteController::class, 'verReservasRestaurante'])->name('restaurantes.verReservas');
 Route::get('/restaurantes/{slug}/ver-comentarios', [RestauranteController::class, 'verComentariosRestaurante'])->name('restaurantes.verComentarios');
 Route::post('/restaurantes/{slug}/puntuar', [RestauranteController::class, 'puntuar'])->name('restaurantes.puntuar');
+Route::get('/perfil/{nombreUsuario}', [PerfilController::class, 'ver'])->name('perfil.ver');
 
 
 // Rutas para Reservas

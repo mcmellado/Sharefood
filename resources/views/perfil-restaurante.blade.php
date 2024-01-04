@@ -74,7 +74,11 @@
                     @forelse ($restaurante->comentarios as $comentario)
                         <div class="media mt-3">
                             <div class="media-body">
-                                <h5 class="mt-0">{{ $comentario->usuario->usuario }}:</h5>
+                                <h5 class="mt-0">
+                                    <a href="{{ route('perfil.ver', ['nombreUsuario' => $comentario->usuario->usuario]) }}">
+                                        {{ $comentario->usuario->usuario }}
+                                    </a>:
+                                </h5>
                                 {{ $comentario->contenido }}
                                 @auth
                                     @if(auth()->user()->id == $comentario->usuario_id)
@@ -111,40 +115,37 @@
             </div>
             
             <!-- Mostrar formulario de puntuación solo si el usuario está autenticado y tiene una reserva -->
-            @if ($puntuacion > 0)
-    <div class="card mt-4">
-        <div class="card-body">
-            <p>¡Ya votaste este restaurante, gracias!</p>
-        </div>
-    </div>
-@else
-    @if ($usuarioReserva)
-        @php
-            $fechaReserva = $usuarioReserva->fecha;
-            $haPasadoDeFecha = $usuarioReserva->haPasadoDeFecha();
-        @endphp
+            @if ($usuarioReserva)
+                @php
+                    $fechaReserva = $usuarioReserva->fecha;
+                    $haPasadoDeFecha = $usuarioReserva->haPasadoDeFecha();
+                @endphp
 
-        <div class="card mt-4">
-            <div class="card-body">
-                @if ($haPasadoDeFecha)
-                    <h3>Puntuar Restaurante</h3>
-                    <form action="{{ route('restaurantes.puntuar', ['slug' => $restaurante->slug]) }}" method="POST">
-                        @csrf
-                        <div class="form-group">
-                            <label for="puntuacion">Puntuación (1-5):</label>
-                            <select class="form-control" name="puntuacion" id="puntuacion" required>
-                                @for ($i = 1; $i <= 5; $i++)
-                                    <option value="{{ $i }}">{{ $i }}</option>
-                                @endfor
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Puntuar</button>
-                    </form>
-                @endif
-            </div>
-        </div>
-    @endif
-@endif
+                <div class="card mt-4">
+                    <div class="card-body">
+                        @if ($haPasadoDeFecha)
+                            @if ($usuarioHaVotado)
+                                <p>¡Ya votaste este restaurante, gracias!</p>
+                            @else
+                                <h3>Puntuar Restaurante</h3>
+                                <form action="{{ route('restaurantes.puntuar', ['slug' => $restaurante->slug]) }}" method="POST">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="puntuacion">Puntuación (1-5):</label>
+                                        <select class="form-control" name="puntuacion" id="puntuacion" required>
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <option value="{{ $i }}">{{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Puntuar</button>
+                                </form>
+                            @endif
+                        @endif
+                    </div>
+                </div>
+            @endif
+
             {{-- Botón para hacer reserva solo si el usuario está autenticado --}}
             <div id="hacer-reserva" class="card mt-4">
                 <div class="card-body">
