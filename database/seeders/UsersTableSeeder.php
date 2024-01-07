@@ -69,5 +69,15 @@ class UsersTableSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+        DB::table('users')->insert([
+            'usuario' => 'omicron',
+            'email' => 'omicron@gmail.com',
+            'telefono' => '12345678',
+            'password' => Hash::make('veintiseis2'),
+            'is_admin' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 }

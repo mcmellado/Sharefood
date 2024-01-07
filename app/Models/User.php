@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -41,9 +42,15 @@ class User extends Authenticatable
         return $this->hasMany(Restaurante::class);
     }
 
+    public function amigos()
+    {
+        return $this->belongsToMany(User::class, 'amigos_user', 'usuario_id', 'amigo_id')->withTimestamps();
+    }
+    
     public function misRestaurantes()
     {
         return $this->hasMany(Restaurante::class, 'id_usuario')->orderBy('id');
     }
 
+    
 }

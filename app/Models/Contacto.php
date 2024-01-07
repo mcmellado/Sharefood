@@ -8,7 +8,10 @@ class Contacto extends Model
 {
     protected $fillable = [
         'usuario_id',
-        'contacto_id',
+        'otro_usuario_id',
+        'mensaje',
+        'aceptada',
+        'bloqueado',
     ];
 
     public function usuario()
@@ -16,8 +19,8 @@ class Contacto extends Model
         return $this->belongsTo(User::class, 'usuario_id');
     }
 
-    public function contacto()
+    public function otroUsuario()
     {
-        return $this->belongsTo(User::class, 'contacto_id');
+        return $this->belongsTo(User::class, 'otro_usuario_id');
     }
 }

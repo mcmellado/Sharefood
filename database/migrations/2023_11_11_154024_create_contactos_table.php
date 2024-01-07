@@ -6,27 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateContactosTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+
     public function up()
     {
         Schema::create('contactos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('usuario_id')->constrained('users'); // ID del usuario que realiza el contacto
-            $table->foreignId('otro_usuario_id')->constrained('users'); // ID del otro usuario involucrado
+            $table->unsignedBigInteger('usuario_id');
+            $table->unsignedBigInteger('otro_usuario_id');
             $table->text('mensaje');
+            $table->enum('estado', ['pendiente', 'aceptada', 'rechazada'])->default('pendiente');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+
     public function down()
     {
         Schema::dropIfExists('contactos');

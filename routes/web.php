@@ -41,6 +41,7 @@ Route::get('/restaurantes/{slug}/ver-reservas', [RestauranteController::class, '
 Route::get('/restaurantes/{slug}/ver-comentarios', [RestauranteController::class, 'verComentariosRestaurante'])->name('restaurantes.verComentarios');
 Route::post('/restaurantes/{slug}/puntuar', [RestauranteController::class, 'puntuar'])->name('restaurantes.puntuar');
 Route::get('/perfil/{nombreUsuario}', [PerfilController::class, 'ver'])->name('perfil.ver');
+Route::post('/perfil/{nombreUsuario}/enviar-solicitud', [PerfilController::class, 'enviarSolicitudAmistad'])->name('perfil.enviarSolicitud');
 
 
 // Rutas para Reservas
@@ -91,4 +92,13 @@ Route::get('/perfil/mis-restaurantes/{nombreUsuario}', [PerfilController::class,
 Route::get('/{nombreUsuario}/mis-restaurantes', [PerfilController::class, 'misRestaurantes'])->name('perfil.mis-restaurantes');
 Route::get('/mis-restaurantes/modificar/{slug}', [RestauranteController::class, 'mostrarFormularioModificar'])->name('restaurante.mis-restaurantes.modificar');
 Route::put('/mis-restaurantes/modificar/{slug}', [RestauranteController::class, 'modificarRestaurante'])->name('restaurante.mis-restaurantes.guardar-modificacion');
+
+
+// SOCIAL:
+
+Route::get('/perfil/social/{nombreUsuario}', [PerfilController::class, 'mostrarSocial'])->name('perfil.social');
+Route::get('/perfil/mostrar/{nombreUsuario}', [PerfilController::class, 'mostrar'])->name('perfil.mostrar');
+Route::post('/perfil/aceptar-solicitud/{id}', [PerfilController::class, 'aceptarSolicitud'])->name('perfil.aceptarSolicitud');
+Route::get('/perfil/rechazar-solicitud/{id}', [PerfilController::class, 'rechazarSolicitud'])->name('perfil.rechazarSolicitud');
+
 

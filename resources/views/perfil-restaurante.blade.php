@@ -75,9 +75,13 @@
                         <div class="media mt-3">
                             <div class="media-body">
                                 <h5 class="mt-0">
-                                    <a href="{{ route('perfil.ver', ['nombreUsuario' => $comentario->usuario->usuario]) }}">
-                                        {{ $comentario->usuario->usuario }}
-                                    </a>:
+                                    @if(Auth::check() && auth()->user()->id !== $comentario->usuario_id)
+                                        <a href="{{ route('perfil.ver', ['nombreUsuario' => $comentario->usuario->usuario]) }}" target="_blank">
+                                            {{ $comentario->usuario->usuario }}
+                                        </a>:
+                                    @else
+                                        {{ $comentario->usuario->usuario }}:
+                                    @endif
                                 </h5>
                                 {{ $comentario->contenido }}
                                 @auth
