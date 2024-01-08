@@ -20,6 +20,9 @@
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#eliminarAmigoModal{{ $amigo->id }}">
                             Eliminar
                         </button>
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#bloquearAmigoModal{{ $amigo->id }}">
+                            Bloquear
+                        </button>
                     </div>
                 </li>
 
@@ -42,6 +45,30 @@
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger">Eliminar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal para confirmar el bloqueo de un amigo -->
+                <div class="modal fade" id="bloquearAmigoModal{{ $amigo->id }}" tabindex="-1" role="dialog" aria-labelledby="bloquearAmigoModalLabel{{ $amigo->id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="bloquearAmigoModalLabel{{ $amigo->id }}">Confirmar Bloqueo</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                ¿Seguro que quieres bloquear a {{ $amigo->usuario }}? Esto eliminará todos los mensajes y no podrán enviarte más solicitudes de amistad.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <form action="{{ route('perfil.bloquearAmigo', ['amigoId' => $amigo->id]) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-warning">Bloquear</button>
                                 </form>
                             </div>
                         </div>

@@ -14,7 +14,7 @@ class CreateContactosTable extends Migration
             $table->unsignedBigInteger('usuario_id');
             $table->unsignedBigInteger('otro_usuario_id');
             $table->text('mensaje');
-            $table->enum('estado', ['pendiente', 'aceptada', 'rechazada'])->default('pendiente');
+            $table->enum('estado', ['pendiente', 'aceptada', 'rechazada', 'bloqueada'])->default('pendiente');
             $table->timestamps();
         });
     }

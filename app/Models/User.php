@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+use App\Models\Bloqueado;
+
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -50,6 +52,16 @@ class User extends Authenticatable
     public function misRestaurantes()
     {
         return $this->hasMany(Restaurante::class, 'id_usuario')->orderBy('id');
+    }
+
+    public function bloqueados()
+    {
+        return $this->hasMany(Bloqueado::class, 'usuario_id');
+    }
+
+    public function usuariosBloqueados()
+    {
+        return $this->hasMany(Bloqueado::class, 'usuario_bloqueado_id');
     }
 
     

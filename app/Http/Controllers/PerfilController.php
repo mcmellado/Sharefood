@@ -224,9 +224,41 @@
         return redirect()->back()->with('success', 'Mensaje enviado correctamente.');
     }
 
+    private function eliminarMensajes($usuarioId, $amigoId)
+    {
+        DB::table('contactos')
+            ->where(function ($query) use ($usuarioId, $amigoId) {
+                $query->where('usuario_id', $usuarioId)
+                    ->where('otro_usuario_id', $amigoId);
+            })
+            ->orWhere(function ($query) use ($usuarioId, $amigoId) {
+                $query->where('usuario_id', $amigoId)
+                    ->where('otro_usuario_id', $usuarioId);
+            })
+            ->delete();
+    }
+
+
     public function eliminarAmigo($amigoId)
 {
     $usuario = Auth::user();
+
+    // Verificar si el usuario actual ha bloqueado al amigo
+    $bloqueadoPorUsuario = DB::table('bloqueados')
+        ->where('usuario_id', $usuario->id)
+        ->where('usuario_bloqueado_id', $amigoId)
+        ->exists();
+
+    // Verificar si el amigo ha bloqueado al usuario
+    $amigo = User::find($amigoId);
+    $bloqueadoPorAmigo = DB::table('bloqueados')
+        ->where('usuario_id', $amigoId)
+        ->where('usuario_bloqueado_id', $usuario->id)
+        ->exists();
+
+    if ($bloqueadoPorUsuario || $bloqueadoPorAmigo) {
+        return redirect()->back()->with('warning', 'No puedes eliminar al amigo debido al bloqueo.');
+    }
 
     $amigoExistente = DB::table('amigos_user')
         ->whereIn('usuario_id', [$usuario->id, $amigoId])
@@ -257,18 +289,58 @@
     }
 }
 
-    private function eliminarMensajes($usuarioId, $amigoId)
-    {
+public function bloquearAmigo($amigoId)
+{
+    $usuario = Auth::user();
+
+    $bloqueadoPorUsuario = DB::table('bloqueados')
+        ->where('usuario_id', $usuario->id)
+        ->where('usuario_bloqueado_id', $amigoId)
+        ->exists();
+
+    $amigo = User::find($amigoId);
+    $bloqueadoPorAmigo = DB::table('bloqueados')
+        ->where('usuario_id', $amigoId)
+        ->where('usuario_bloqueado_id', $usuario->id)
+        ->exists();
+
+    if ($bloqueadoPorUsuario || $bloqueadoPorAmigo) {
+        return redirect()->back()->with('warning', 'No puedes bloquear al amigo debido al bloqueo.');
+    }
+
+    $amigoExistente = DB::table('amigos_user')
+        ->whereIn('usuario_id', [$usuario->id, $amigoId])
+        ->whereIn('amigo_id', [$usuario->id, $amigoId])
+        ->count();
+
+    if ($amigoExistente) {
+        DB::table('bloqueados')->insert([
+            'usuario_id' => $usuario->id,
+            'usuario_bloqueado_id' => $amigoId,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
         DB::table('contactos')
-            ->where(function ($query) use ($usuarioId, $amigoId) {
-                $query->where('usuario_id', $usuarioId)
+            ->where(function ($query) use ($usuario, $amigoId) {
+                $query->where('usuario_id', $usuario->id)
                     ->where('otro_usuario_id', $amigoId);
             })
-            ->orWhere(function ($query) use ($usuarioId, $amigoId) {
+            ->orWhere(function ($query) use ($usuario, $amigoId) {
                 $query->where('usuario_id', $amigoId)
-                    ->where('otro_usuario_id', $usuarioId);
+                    ->where('otro_usuario_id', $usuario->id);
             })
+            ->update(['estado' => 'bloqueada']);
+
+        DB::table('amigos_user')
+            ->whereIn('usuario_id', [$usuario->id, $amigoId])
+            ->whereIn('amigo_id', [$usuario->id, $amigoId])
             ->delete();
+
+        return redirect()->back()->with('success', 'Amigo bloqueado correctamente.');
+    } else {
+        return redirect()->back()->with('error', 'No se pudo bloquear al amigo. La relación no existe.');
     }
+}
 
     }
