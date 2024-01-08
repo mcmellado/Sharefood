@@ -102,6 +102,8 @@ Route::post('/perfil/aceptar-solicitud/{id}', [PerfilController::class, 'aceptar
 Route::get('/perfil/rechazar-solicitud/{id}', [PerfilController::class, 'rechazarSolicitud'])->name('perfil.rechazarSolicitud');
 Route::get('/perfil/mensajes/{amigoId}', [PerfilController::class, 'mostrarMensajes'])->name('perfil.mensajes');
 Route::post('/perfil/enviar-mensaje/{amigoId}', [PerfilController::class, 'enviarMensaje'])->name('enviarMensaje');
+Route::delete('/perfil/eliminar-amigo/{amigoId}', [PerfilController::class, 'eliminarAmigo'])->name('perfil.eliminarAmigo');
+
 
 
 
