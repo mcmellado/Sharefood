@@ -176,4 +176,52 @@ public function aceptarSolicitud($id)
         ->with('success', 'Solicitud de amistad aceptada correctamente.');
 }
 
+public function mostrarMensajes($amigoId)
+{
+    $amigo = User::find($amigoId);
+    $sonAmigos = Auth::user()->amigos->contains($amigo);
+
+    if (!$sonAmigos) {
+        $solicitudAceptada = Contacto::where(function ($query) use ($amigoId) {
+            $query->where('usuario_id', Auth::id())
+                ->where('otro_usuario_id', $amigoId)
+                ->where('estado', 'aceptada');
+        })->orWhere(function ($query) use ($amigoId) {
+            $query->where('usuario_id', $amigoId)
+                ->where('otro_usuario_id', Auth::id())
+                ->where('estado', 'aceptada');
+        })->exists();
+
+        if (!$solicitudAceptada) {
+            return redirect()->back()->with('warning', 'No puedes ver los mensajes con alguien que no es tu amigo.');
+        }
+    }
+
+    $mensajes = Contacto::where(function ($query) use ($amigoId) {
+        $query->where('usuario_id', Auth::id())
+            ->where('otro_usuario_id', $amigoId);
+    })->orWhere(function ($query) use ($amigoId) {
+        $query->where('usuario_id', $amigoId)
+            ->where('otro_usuario_id', Auth::id());
+    })->where('estado', 'aceptada')->orderBy('created_at', 'asc')->get();
+
+    return view('mensajes', ['amigo' => $amigo, 'mensajes' => $mensajes]);
+}
+
+public function enviarMensaje(Request $request, $amigoId)
+{
+    $request->validate([
+        'mensaje' => 'required|string',
+    ]);
+
+    Contacto::create([
+        'usuario_id' => Auth::id(),
+        'otro_usuario_id' => $amigoId,
+        'mensaje' => $request->mensaje,
+        'estado' => 'aceptada',
+    ]);
+
+    return redirect()->back()->with('success', 'Mensaje enviado correctamente.');
+}
+
 }

@@ -1,0 +1,30 @@
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.messages-container {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ddd; 
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.message {
+    margin-bottom: 10px;
+    position: relative; 
+}
+
+.message p {
+    margin-bottom: 5px;
+}
+
+.small {
+    font-size: 100%; 
+    bottom: 0; 
+    top: -8px;
+    position: relative;
+}
+

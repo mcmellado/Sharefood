@@ -100,5 +100,9 @@ Route::get('/perfil/social/{nombreUsuario}', [PerfilController::class, 'mostrarS
 Route::get('/perfil/mostrar/{nombreUsuario}', [PerfilController::class, 'mostrar'])->name('perfil.mostrar');
 Route::post('/perfil/aceptar-solicitud/{id}', [PerfilController::class, 'aceptarSolicitud'])->name('perfil.aceptarSolicitud');
 Route::get('/perfil/rechazar-solicitud/{id}', [PerfilController::class, 'rechazarSolicitud'])->name('perfil.rechazarSolicitud');
+Route::get('/perfil/mensajes/{amigoId}', [PerfilController::class, 'mostrarMensajes'])->name('perfil.mensajes');
+Route::post('/perfil/enviar-mensaje/{amigoId}', [PerfilController::class, 'enviarMensaje'])->name('enviarMensaje');
+
+
 
 
