@@ -343,4 +343,20 @@ public function bloquearAmigo($amigoId)
     }
 }
 
+public function rechazarSolicitud($id)
+{
+    $solicitud = Contacto::findOrFail($id);
+
+    if ($solicitud->estado !== 'pendiente') {
+        return redirect()->route('perfil.social', ['nombreUsuario' => Auth::user()->usuario])
+            ->with('warning', 'La solicitud de amistad ya ha sido aceptada o rechazada.');
+    }
+
+    $solicitud->estado = 'rechazada';
+    $solicitud->save();
+
+    return redirect()->route('perfil.social', ['nombreUsuario' => Auth::user()->usuario])
+        ->with('success', 'Solicitud de amistad rechazada correctamente.');
+}
+
     }

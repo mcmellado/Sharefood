@@ -68,63 +68,63 @@
         @endif
 
         <div class="card mt-4">
-            <div class="card-body">
-                <h3>Comentarios:</h3>
-                <div id="comentarios-existentes" class="scrollable-content">
-                    @forelse ($restaurante->comentarios as $comentario)
-                        @php
-                            $usuarioId = auth()->user()->id;
-                            $usuarioBloqueado = DB::table('bloqueados')
-                                ->where('usuario_id', $usuarioId)
-                                ->where('usuario_bloqueado_id', $comentario->usuario_id)
-                                ->exists();
-        
-                            $usuarioDelComentarioBloqueado = DB::table('bloqueados')
-                                ->where('usuario_id', $comentario->usuario_id)
-                                ->where('usuario_bloqueado_id', $usuarioId)
-                                ->exists();
-                        @endphp
-        
-                        <div class="media mt-3">
-                            <div class="media-body">
-                                <h5 class="mt-0">
-                                    @if(Auth::check() && auth()->user()->id !== $comentario->usuario_id)
-                                        @if ($usuarioBloqueado)
-                                            No puedes ver este comentario porque el usuario te ha bloqueado.
-                                        @elseif ($usuarioDelComentarioBloqueado)
-                                            
-                                        @else
-                                            <a href="{{ route('perfil.ver', ['nombreUsuario' => $comentario->usuario->usuario]) }}" target="_blank">
-                                                {{ $comentario->usuario->usuario }}
-                                            </a>:
-                                        @endif
-                                    @else
-                                        {{ $comentario->usuario->usuario }}:
-                                    @endif
-                                </h5>
-                                @if (!$usuarioBloqueado && !$usuarioDelComentarioBloqueado)
-                                    {{ $comentario->contenido }}
-                                    @auth
-                                        @if(auth()->user()->id == $comentario->usuario_id)
-                                            {{-- Formulario para eliminar comentario --}}
-                                            <form action="{{ route('restaurantes.eliminarComentario', ['comentarioId' => $comentario->id]) }}" method="POST" class="mt-2">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger">Eliminar Comentario</button>
-                                            </form>
-                                        @endif
-                                    @endauth
+    <div class="card-body">
+        <h3>Comentarios:</h3>
+        <div id="comentarios-existentes" class="scrollable-content">
+            @forelse ($restaurante->comentarios as $comentario)
+                @php
+                    $usuarioId = auth()->user()->id;
+                    $usuarioBloqueado = DB::table('bloqueados')
+                        ->where('usuario_id', $usuarioId)
+                        ->where('usuario_bloqueado_id', $comentario->usuario_id)
+                        ->exists();
+
+                    $usuarioDelComentarioBloqueado = DB::table('bloqueados')
+                        ->where('usuario_id', $comentario->usuario_id)
+                        ->where('usuario_bloqueado_id', $usuarioId)
+                        ->exists();
+                @endphp
+
+                <div class="media mt-3">
+                    <div class="media-body">
+                        <h5 class="mt-0">
+                            @if(Auth::check() && auth()->user()->id !== $comentario->usuario_id)
+                                @if ($usuarioBloqueado)
+                                    No puedes ver este comentario porque el usuario te ha bloqueado.
+                                @elseif ($usuarioDelComentarioBloqueado)
+                                    No puedes ver este comentario porque el usuario ha sido bloqueado.
                                 @else
-                                    No puedes ver este comentario.
+                                    <a href="{{ route('perfil.ver', ['nombreUsuario' => $comentario->usuario->usuario]) }}" target="_blank">
+                                        {{ $comentario->usuario->usuario }}
+                                    </a>:
                                 @endif
-                            </div>
-                        </div>
-                    @empty
-                        <p>No hay comentarios aún.</p>
-                    @endforelse
+                            @else
+                                {{ $comentario->usuario->usuario }}:
+                            @endif
+                        </h5>
+                        @if (!$usuarioBloqueado && !$usuarioDelComentarioBloqueado)
+                            {{ $comentario->contenido }}
+                            @auth
+                                @if(auth()->user()->id == $comentario->usuario_id)
+                                    {{-- Formulario para eliminar comentario --}}
+                                    <form action="{{ route('restaurantes.eliminarComentario', ['comentarioId' => $comentario->id]) }}" method="POST" class="mt-2">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger">Eliminar Comentario</button>
+                                    </form>
+                                @endif
+                            @endauth
+                        @else
+                            No puedes ver este comentario.
+                        @endif
+                    </div>
                 </div>
-            </div>
+            @empty
+                <p>No hay comentarios aún.</p>
+            @endforelse
         </div>
+    </div>
+</div>
 
         {{-- Agregar nuevo comentario --}}
         @auth

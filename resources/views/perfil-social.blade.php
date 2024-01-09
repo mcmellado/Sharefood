@@ -86,16 +86,23 @@
             @forelse($solicitudesPendientes as $solicitud)
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     {{ $solicitud->usuario->usuario }} te ha enviado una solicitud de amistad.
-                    <form action="{{ route('perfil.aceptarSolicitud', ['id' => $solicitud->id]) }}" method="POST">
-                        @csrf
-                        <button type="submit" class="btn btn-success">Aceptar</button>
-                    </form>
+                    <div class="d-flex">
+                        <form action="{{ route('perfil.aceptarSolicitud', ['id' => $solicitud->id]) }}" method="POST" class="mr-2">
+                            @csrf
+                            <button type="submit" class="btn btn-success">Aceptar</button>
+                        </form>
+                        <form action="{{ route('perfil.rechazarSolicitud', ['id' => $solicitud->id]) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-danger">Rechazar</button>
+                        </form>
+                    </div>
                 </li>
             @empty
                 <li class="list-group-item">No tienes solicitudes pendientes.</li>
             @endforelse
         </ul>
     </div>
+    
 
     @endif
     @endauth
