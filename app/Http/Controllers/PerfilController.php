@@ -10,6 +10,7 @@
     use App\Models\Restaurante;
     use Illuminate\Support\Facades\DB;
     use App\Models\User;
+    use Illuminate\Support\Facades\Redirect;
 
 
 
@@ -369,5 +370,34 @@ public function verBloqueos()
     return view('ver-bloqueos', compact('usuario', 'bloqueos'));
 }
 
+public function desbloquearUsuario($usuarioId)
+{
+    $usuario = Auth::user();
+    $bloqueos = DB::table('bloqueados')
+        ->where('usuario_id', $usuario->id)
+        ->get();
 
+    $bloqueoExistente = DB::table('bloqueados')
+        ->where('usuario_id', $usuario->id)
+        ->where('usuario_bloqueado_id', $usuarioId)
+        ->first();
+
+    if ($bloqueoExistente) {
+        DB::table('bloqueados')
+            ->where('usuario_id', $usuario->id)
+            ->where('usuario_bloqueado_id', $usuarioId)
+            ->delete();
+
+        DB::table('contactos')
+            ->where('usuario_id', $usuario->id)
+            ->where('otro_usuario_id', $usuarioId)
+            ->delete();
+
+        return redirect()->route('perfil.bloqueos')->with('success', 'Usuario desbloqueado correctamente.');
+    } else {
+        return Redirect::back()->with('error', 'El usuario no está bloqueado.');
     }
+
+}
+
+ }

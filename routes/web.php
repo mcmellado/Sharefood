@@ -105,6 +105,8 @@ Route::post('/perfil/enviar-mensaje/{amigoId}', [PerfilController::class, 'envia
 Route::delete('/perfil/eliminar-amigo/{amigoId}', [PerfilController::class, 'eliminarAmigo'])->name('perfil.eliminarAmigo');
 Route::post('/perfil/bloquear-amigo/{amigoId}', [PerfilController::class, 'bloquearAmigo'])->name('perfil.bloquearAmigo');
 Route::post('/perfil/bloqueos', [PerfilController::class, 'verBloqueos'])->name('perfil.bloqueos');
+Route::get('/perfil/desbloquear/{usuarioId}', [PerfilController::class, 'desbloquearUsuario'])->name('perfil.desbloquear');
+Route::post('/perfil/desbloquear-usuario/{usuarioId}', [PerfilController::class, 'desbloquearUsuario'])->name('perfil.desbloquearUsuario');
 
 
 

@@ -4,16 +4,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('css/perfil.css') }}">
 
-    <script>
-        // Agrega un evento al formulario para mostrar la alerta después de enviar la solicitud
-        $('#form-solicitud').submit(function (e) {
-            e.preventDefault();
-            // Realiza la lógica para enviar la solicitud...
-            // Muestra la alerta de solicitud enviada utilizando Bootstrap
-            $('#solicitud-enviada-alert').fadeIn().delay(2000).fadeOut();
-            // Aquí también puedes agregar lógica adicional o redireccionar si es necesario
-        });
-    </script>
     <div class="container mt-5">
         <div class="card">
             <div class="card-body text-center">
@@ -65,8 +55,12 @@
                             <form action="{{ route('perfil.enviarSolicitud', ['nombreUsuario' => $usuario->usuario]) }}" method="POST" id="form-solicitud">
                                 @csrf
                                 <button type="submit" class="btn btn-success btn-enviar-solicitud">Mandar solicitud de amistad</button>
+                                <!-- Agregar el botón para bloquear perfil -->
+                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#bloquearAmigoModal{{ $usuario->id }}">
+                                    Bloquear
+                                </button>
+
                             </form>
-                            <!-- Puedes añadir un botón para bloquear aquí -->
                         @endif
                     @endauth
                 
@@ -80,9 +74,37 @@
                         @endif
                     @endauth
                 </div>
-                
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de bloqueo de perfil -->
+    <div class="modal fade" id="bloquearAmigoModal{{ $usuario->id }}" tabindex="-1" role="dialog" aria-labelledby="bloquearAmigoModalLabel{{ $usuario->id }}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bloquearAmigoModalLabel{{ $usuario->id }}">Confirmar Bloqueo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ¿Seguro que quieres bloquear a {{$usuario->usuario }}? Esto eliminará todos los mensajes y no podrán enviarte más solicitudes de amistad.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <form action="{{ route('perfil.bloquearAmigo', ['amigoId' => $usuario->id]) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-warning">Bloquear</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    
 @endsection
