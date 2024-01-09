@@ -101,8 +101,12 @@
                 <li class="list-group-item">No tienes solicitudes pendientes.</li>
             @endforelse
         </ul>
+
+        <form action="{{ route('perfil.bloqueos') }}" method="POST">
+            @csrf
+            <button type="submit" class="btn btn-primary mt-3">Ver Bloqueos</button>
+        </form>
     </div>
-    
 
     @endif
     @endauth

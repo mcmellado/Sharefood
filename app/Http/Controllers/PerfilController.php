@@ -359,4 +359,15 @@ public function rechazarSolicitud($id)
         ->with('success', 'Solicitud de amistad rechazada correctamente.');
 }
 
+public function verBloqueos()
+{
+    $usuario = Auth::user();
+    $bloqueos = DB::table('bloqueados')
+                    ->where('usuario_id', $usuario->id)
+                    ->get();
+
+    return view('ver-bloqueos', compact('usuario', 'bloqueos'));
+}
+
+
     }
