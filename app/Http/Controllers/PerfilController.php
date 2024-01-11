@@ -10,6 +10,7 @@
     use App\Models\Restaurante;
     use Illuminate\Support\Facades\DB;
     use App\Models\User;
+    use App\Models\Bloqueado;
     use Illuminate\Support\Facades\Redirect;
 
 
@@ -91,11 +92,15 @@
     }
 
     public function mostrar($nombreUsuario)
-        {
-            $usuario = User::where('usuario', $nombreUsuario)->firstOrFail();
-            return view('perfil.mostrar', ['usuario' => $usuario]);
-        }
+{
+    // Obtener el usuario correspondiente al nombre
+    $usuario = User::where('usuario', $nombreUsuario)->firstOrFail();
 
+    // Verificar si el usuario actual puede enviar una solicitud
+    $puedeEnviarSolicitud = $this->puedeEnviarSolicitud(Auth::user()->id, $usuario->id);
+
+    return view('perfil.mostrar', compact('usuario', 'puedeEnviarSolicitud'));
+}
         public function enviarSolicitudAmistad($nombreUsuario)
         {
             $usuario = Auth::user();
@@ -306,7 +311,7 @@ public function bloquearAmigo($amigoId)
         ->exists();
 
     if ($bloqueadoPorUsuario || $bloqueadoPorAmigo) {
-        return redirect()->back()->with('warning', 'No puedes bloquear al amigo debido al bloqueo.');
+        return redirect()->back()->with('warning', 'Ya está bloqueado.');
     }
 
     $amigoExistente = DB::table('amigos_user')
@@ -314,34 +319,33 @@ public function bloquearAmigo($amigoId)
         ->whereIn('amigo_id', [$usuario->id, $amigoId])
         ->count();
 
+    // Verificar si ya son amigos antes de borrar de la tabla de amigos
     if ($amigoExistente) {
-        DB::table('bloqueados')->insert([
-            'usuario_id' => $usuario->id,
-            'usuario_bloqueado_id' => $amigoId,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        DB::table('contactos')
-            ->where(function ($query) use ($usuario, $amigoId) {
-                $query->where('usuario_id', $usuario->id)
-                    ->where('otro_usuario_id', $amigoId);
-            })
-            ->orWhere(function ($query) use ($usuario, $amigoId) {
-                $query->where('usuario_id', $amigoId)
-                    ->where('otro_usuario_id', $usuario->id);
-            })
-            ->update(['estado' => 'bloqueada']);
-
         DB::table('amigos_user')
             ->whereIn('usuario_id', [$usuario->id, $amigoId])
             ->whereIn('amigo_id', [$usuario->id, $amigoId])
             ->delete();
-
-        return redirect()->back()->with('success', 'Amigo bloqueado correctamente.');
-    } else {
-        return redirect()->back()->with('error', 'No se pudo bloquear al amigo. La relación no existe.');
     }
+
+    DB::table('bloqueados')->insert([
+        'usuario_id' => $usuario->id,
+        'usuario_bloqueado_id' => $amigoId,
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
+
+    DB::table('contactos')
+        ->where(function ($query) use ($usuario, $amigoId) {
+            $query->where('usuario_id', $usuario->id)
+                ->where('otro_usuario_id', $amigoId);
+        })
+        ->orWhere(function ($query) use ($usuario, $amigoId) {
+            $query->where('usuario_id', $amigoId)
+                ->where('otro_usuario_id', $usuario->id);
+        })
+        ->update(['estado' => 'bloqueada']);
+
+    return redirect()->back()->with('success', 'Amigo bloqueado correctamente.');
 }
 
 public function rechazarSolicitud($id)
@@ -393,11 +397,26 @@ public function desbloquearUsuario($usuarioId)
             ->where('otro_usuario_id', $usuarioId)
             ->delete();
 
-        return redirect()->route('perfil.bloqueos')->with('success', 'Usuario desbloqueado correctamente.');
+        return view('ver-bloqueos', compact('usuario', 'bloqueos'));
     } else {
-        return Redirect::back()->with('error', 'El usuario no está bloqueado.');
+        return view('ver-bloqueos', compact('usuario', 'bloqueos'));
+        
     }
 
+}
+
+public function puedeEnviarSolicitud($usuarioId, $otroUsuarioId)
+{
+
+    $bloqueadoPorOtro = Bloqueado::where('usuario_id', $otroUsuarioId)
+        ->where('usuario_bloqueado_id', $usuarioId)
+        ->exists();
+
+    $bloqueadoPorUsuario = Bloqueado::where('usuario_id', $usuarioId)
+        ->where('usuario_bloqueado_id', $otroUsuarioId)
+        ->exists();
+
+    return !($bloqueadoPorUsuario || $bloqueadoPorOtro);
 }
 
  }

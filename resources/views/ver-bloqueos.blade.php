@@ -13,7 +13,6 @@
                 @endphp
                 {{ $usuarioBloqueado->usuario }}
 
-                <!-- Botón que activa el modal de desbloqueo -->
                 <button class="btn btn-danger btn-sm float-right" onclick="openModal('{{ $usuarioBloqueado->usuario }}', '{{ route('perfil.desbloquearUsuario', ['usuarioId' => $usuarioBloqueado->id]) }}')">
                     Desbloquear
                 </button>
@@ -24,7 +23,6 @@
     </ul>
     <a href="{{ route('perfil.social', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-danger mt-3">Volver atrás</a>
 
-    <!-- Modal para confirmar desbloqueo -->
     <div class="modal fade" id="desbloquearModal" tabindex="-1" role="dialog" aria-labelledby="desbloquearModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -40,7 +38,6 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                     
-                    <!-- Formulario para enviar la solicitud de desbloqueo -->
                     <form id="desbloquearForm" method="POST" action="">
                         @csrf
                         <button type="submit" class="btn btn-danger">Desbloquear</button>
@@ -61,6 +58,24 @@
         $('#desbloquearModal').on('hidden.bs.modal', function () {
             $(this).find('form').trigger('reset'); // Reinicia el formulario dentro del modal
         });
+
+        // Añade este código para recargar la página después de desbloquear
+        $('#desbloquearForm').on('submit', function () {
+            location.reload(true);
+        });
+
+        $.ajax({
+        type: form.attr('method'),
+        url: form.attr('action'),
+        data: form.serialize(),
+        success: function (data) {
+            $('#desbloquearModal').modal('hide');
+            location.reload(true);
+        },
+        error: function (data) {
+            console.log('Error al desbloquear usuario');
+        }
+    });
     </script>
 </div>
 

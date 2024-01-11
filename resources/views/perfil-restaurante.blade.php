@@ -90,9 +90,9 @@
                         <h5 class="mt-0">
                             @if(Auth::check() && auth()->user()->id !== $comentario->usuario_id)
                                 @if ($usuarioBloqueado)
-                                    No puedes ver este comentario porque el usuario te ha bloqueado.
-                                @elseif ($usuarioDelComentarioBloqueado)
                                     No puedes ver este comentario porque el usuario ha sido bloqueado.
+                                @elseif ($usuarioDelComentarioBloqueado)
+                                    No puedes ver este comentario porque el usuario te ha bloqueado.
                                 @else
                                     <a href="{{ route('perfil.ver', ['nombreUsuario' => $comentario->usuario->usuario]) }}" target="_blank">
                                         {{ $comentario->usuario->usuario }}

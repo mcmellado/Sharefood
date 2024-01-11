@@ -51,19 +51,26 @@
                 
                 <div class="mt-3">
                     @auth
-                        @if(Auth::user()->id !== $usuario->id)
-                            <form action="{{ route('perfil.enviarSolicitud', ['nombreUsuario' => $usuario->usuario]) }}" method="POST" id="form-solicitud">
-                                @csrf
-                                <button type="submit" class="btn btn-success btn-enviar-solicitud">Mandar solicitud de amistad</button>
-                                <!-- Agregar el botón para bloquear perfil -->
-                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#bloquearAmigoModal{{ $usuario->id }}">
-                                    Bloquear
-                                </button>
+        @if(Auth::user()->id !== $usuario->id)
+            @php
+                $usuarioBloqueado = DB::table('bloqueados')
+                    ->where('usuario_id', Auth::user()->id)
+                    ->where('usuario_bloqueado_id', $usuario->id)
+                    ->exists();
+            @endphp
 
-                            </form>
-                        @endif
-                    @endauth
-                
+            <form action="{{ route('perfil.enviarSolicitud', ['nombreUsuario' => $usuario->usuario]) }}" method="POST" id="form-solicitud">
+                @csrf
+                <button type="submit" class="btn btn-success btn-enviar-solicitud" @if($usuarioBloqueado) disabled @endif>
+                    Mandar solicitud de amistad
+                </button>
+                <!-- Agregar el botón para bloquear perfil -->
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#bloquearAmigoModal{{ $usuario->id }}">
+                    Bloquear
+                </button>
+            </form>
+        @endif
+    @endauth
                     @auth
                         @if(Auth::user()->id === $usuario->id)
                             <a href="{{ route('perfil.modificar', ['nombreUsuario' => $usuario->usuario]) }}" class="btn btn-primary btn-modificar mr-2">Modificar Perfil</a>
