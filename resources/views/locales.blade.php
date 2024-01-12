@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
 @section('contenido')
-
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="{{ asset('css/locales.css') }}">
 
 @if(session('success'))
     <div class="alert alert-success alert-dismissible fade show alert-short" role="alert">
@@ -19,7 +17,7 @@
         <div class="card-body">
             <h1 class="mb-4">Mis Restaurantes</h1>
 
-            <div class="scroll-container">
+            <div class="scroll-container" style="max-height: 300px; overflow-y: auto;">
                 @if(count($restaurantes) > 0)
                     <ul class="list-group">
                         @foreach($restaurantes as $restaurante)
@@ -31,6 +29,26 @@
                                 <a href="{{ route('restaurante.mis-restaurantes.modificar', ['slug' => $restaurante->slug]) }}" class="btn btn-info btn-sm">Modificar Restaurante</a>
                                 <a href="{{ route('restaurantes.verReservas', ['slug' => $restaurante->slug]) }}" class="btn btn-primary btn-sm">Ver Reservas</a>
                                 <a href="{{ route('restaurantes.verComentarios', ['slug' => $restaurante->slug]) }}" class="btn btn-secondary btn-sm">Ver Comentarios</a>
+                                <button class="btn btn-danger btn-sm" data-toggle="collapse" data-target="#borrarCollapse{{ $restaurante->id }}" aria-expanded="false" aria-controls="borrarCollapse{{ $restaurante->id }}">
+                                    Borrar Restaurante
+                                </button>
+
+                                <div class="float-right">
+
+                                    <!-- Contenido de borrado colapsable -->
+                                    <div class="collapse mt-2" id="borrarCollapse{{ $restaurante->id }}">
+                                        <p class="mb-3">¿Estás seguro de que quieres borrar este restaurante?</p>
+                                        <!-- Formulario para enviar la solicitud de borrado -->
+                                        <form action="{{ route('restaurante.borrar', ['slug' => $restaurante->slug]) }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm mr-2">Borrar</button>
+                                            <button type="button" class="btn btn-secondary btn-sm" data-toggle="collapse" data-target="#borrarCollapse{{ $restaurante->id }}" aria-expanded="false" aria-controls="borrarCollapse{{ $restaurante->id }}">
+                                                Cancelar
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
                             </li>
                         @endforeach
                     </ul>
@@ -51,5 +69,9 @@
         </form>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
 @endsection

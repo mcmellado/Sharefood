@@ -20,7 +20,8 @@ class Restaurante extends Model
         'slug',
         'id_usuario',
         'aforo_maximo',
-        'tiempo_permanencia'
+        'tiempo_permanencia',
+        'gastronomia'
     ];
 
     public function comentarios()

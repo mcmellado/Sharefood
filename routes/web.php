@@ -80,11 +80,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/admin/restaurantes/actualizar/{id}', [AdminController::class, 'actualizarRestaurante'])->name('admin.restaurantes.actualizar');
     Route::get('/api/horas-disponibles', [ReservaController::class, 'obtenerHorasDisponibles'])->name('restaurantes.obtenerHorasDisponibles');
     Route::post('/admin/modificar-reserva/{reservaId}', 'AdminController@modificarReserva')->name('admin.modificarReserva');
+    Route::delete('/restaurante/borrar/{slug}', [RestauranteController::class, 'borrarRestaurante'])->name('restaurante.borrar');
 });
 
 Route::get('/perfil/mis-restaurantes/{nombreUsuario}', [PerfilController::class, 'misRestaurantes'])->name('perfil.mis-restaurantes');
 Route::get('/{nombreUsuario}/mis-restaurantes', [PerfilController::class, 'misRestaurantes'])->name('perfil.mis-restaurantes');
-Route::get('/mis-restaurantes/modificar/{slug}', [PerfilController::class, 'mostrarFormularioModificar'])->name('restaurante.mis-restaurantes.modificar');
+Route::get('/mis-restaurantes/modificar/{slug}', [RestauranteController::class, 'mostrarFormularioModificar'])->name('restaurante.mis-restaurantes.modificar');
+Route::put('/mis-restaurantes/modificar/{slug}', [RestauranteController::class, 'modificarRestaurante'])->name('restaurante.mis-restaurantes.guardar-modificacion');
 Route::post('/crear-nuevo-restaurante', [RestauranteController::class, 'formularioCrearRestaurante'])->name('crear-nuevo-restaurante.formulario');
 Route::post('/registrar-nuevo-restaurante', [RestauranteController::class, 'registrarNuevoRestaurante'])->name('registrar-nuevo-restaurante');
 

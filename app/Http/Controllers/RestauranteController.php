@@ -215,7 +215,8 @@ public function puntuar(Request $request, $slug)
         }
     }
 
-    return redirect()->route('perfil', ['nombreUsuario' => auth()->user()->usuario])->with('success', 'Restaurante creado exitosamente.');
+    return redirect()->route('perfil.mis-restaurantes', ['nombreUsuario' => auth()->user()->usuario])->with('success', 'Restaurante creado exitosamente.');
+
 }
 
         public function formularioCrearRestaurante()
@@ -229,6 +230,21 @@ public function puntuar(Request $request, $slug)
 
         return view('crear-restaurante', compact('usuario', 'restaurantes'));
     }
+
+
+    public function borrarRestaurante($slug)
+{
+    $restaurante = Restaurante::where('slug', $slug)->first();
+    if ($restaurante && $restaurante->usuario->id == auth()->user()->id) {
+        $restaurante->horarios()->delete();
+        $restaurante->delete();
+
+        return redirect()->route('perfil.mis-restaurantes',  ['nombreUsuario' => auth()->user()->usuario])->with('success', 'Restaurante borrado exitosamente.');
+    }
+
+    return redirect()->route('perfil.mis-restaurantes',  ['nombreUsuario' => auth()->user()->usuario])->with('error', 'No tienes permisos para borrar este restaurante.');
+}
+
 
 
 }
