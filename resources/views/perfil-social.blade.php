@@ -101,11 +101,14 @@
                 <li class="list-group-item">No tienes solicitudes pendientes.</li>
             @endforelse
         </ul>
-
+        <br>
         <form action="{{ route('perfil.bloqueos') }}" method="POST">
             @csrf
-            <button type="submit" class="btn btn-primary mt-3">Ver Bloqueos</button>
+            <button type="submit" class="btn btn-danger mr-2">Ver Bloqueos</button>
+            <a href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-primary">Volver al perfil</a>
         </form>
+
+
     </div>
 
     @endif

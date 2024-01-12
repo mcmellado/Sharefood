@@ -22,6 +22,7 @@ Route::get('/registro-restaurante', [RegistroRestauranteController::class, 'regi
 Route::post('/registro-restaurante', [RegistroRestauranteController::class, 'validarRegistro'])->name('registrar.restaurante');
 Route::post('/validar-registro-restaurante', [RegistroRestauranteController::class, 'validarRegistro'])->name('validar-registro-restaurante');
 
+
 // Rutas relacionadas con la visualización y búsqueda de restaurantes
 Route::view('/restaurantes', 'restaurantes')->name('restaurantes');
 Route::get('/restaurantes/buscar-sugerencias', [RestauranteController::class, 'buscarSugerencias'])->name('restaurantes.buscar-sugerencias');
@@ -43,9 +44,7 @@ Route::post('/restaurantes/{slug}/puntuar', [RestauranteController::class, 'punt
 Route::get('/perfil/{nombreUsuario}', [PerfilController::class, 'ver'])->name('perfil.ver');
 Route::post('/perfil/{nombreUsuario}/enviar-solicitud', [PerfilController::class, 'enviarSolicitudAmistad'])->name('perfil.enviarSolicitud');
 
-
 // Rutas para Reservas
-
 Route::get('/restaurantes/{slug}/nueva-reserva', [ReservaController::class, 'nuevaReserva'])->name('restaurantes.nuevaReserva');
 Route::post('/restaurantes/{slug}/guardar-reserva', [ReservaController::class, 'guardarReserva'])->name('restaurantes.guardarReserva');
 Route::get('/restaurantes/{slug}/confirmar-reserva', [ReservaController::class, 'confirmarReserva'])->name('restaurantes.confirmarReserva');
@@ -55,7 +54,6 @@ Route::delete('/reservas/cancelar/{reserva}', [ReservaController::class, 'cancel
 Route::group(['middleware' => ['auth']], function () {
 
     //USUARIOS:
-
     Route::get('/admin/panel', [AdminController::class, 'index'])->name('admin.panel_admin');
     Route::post('/admin/validar/{id}', [AdminController::class, 'validar'])->name('admin.validar');
     Route::delete('/admin/eliminar/{id}', [AdminController::class, 'eliminar'])->name('admin.eliminar');
@@ -76,26 +74,25 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/admin/reservas/modificar-cantidad-personas/{reservaId}', 'AdminController@modificarCantidadPersonas')->name('admin.reservas.modificar-cantidad-personas');
 
     //RESTAURANTES:
-
-    Route::get('/admin/panel-restaurantes', [AdminController::class, 'panelRestaurantes'])->name('admin.panel-admin-restaurante');
     Route::get('/admin/panel-restaurantes', [AdminController::class, 'panelRestaurantes'])->name('admin.panel-admin-restaurante');
     Route::delete('/admin/restaurantes/{restaurante}', [AdminController::class, 'eliminarRestaurante'])->name('admin.restaurantes.eliminar');
     Route::get('/admin/restaurantes/modificar/{id}', [AdminController::class, 'modificarRestaurante'])->name('admin.restaurantes.modificar');
     Route::put('/admin/restaurantes/actualizar/{id}', [AdminController::class, 'actualizarRestaurante'])->name('admin.restaurantes.actualizar');
     Route::get('/api/horas-disponibles', [ReservaController::class, 'obtenerHorasDisponibles'])->name('restaurantes.obtenerHorasDisponibles');
     Route::post('/admin/modificar-reserva/{reservaId}', 'AdminController@modificarReserva')->name('admin.modificarReserva');
-    
-    
 });
 
 Route::get('/perfil/mis-restaurantes/{nombreUsuario}', [PerfilController::class, 'misRestaurantes'])->name('perfil.mis-restaurantes');
 Route::get('/{nombreUsuario}/mis-restaurantes', [PerfilController::class, 'misRestaurantes'])->name('perfil.mis-restaurantes');
-Route::get('/mis-restaurantes/modificar/{slug}', [RestauranteController::class, 'mostrarFormularioModificar'])->name('restaurante.mis-restaurantes.modificar');
-Route::put('/mis-restaurantes/modificar/{slug}', [RestauranteController::class, 'modificarRestaurante'])->name('restaurante.mis-restaurantes.guardar-modificacion');
+Route::get('/mis-restaurantes/modificar/{slug}', [PerfilController::class, 'mostrarFormularioModificar'])->name('restaurante.mis-restaurantes.modificar');
+Route::post('/crear-nuevo-restaurante', [RestauranteController::class, 'formularioCrearRestaurante'])->name('crear-nuevo-restaurante.formulario');
+Route::post('/registrar-nuevo-restaurante', [RestauranteController::class, 'registrarNuevoRestaurante'])->name('registrar-nuevo-restaurante');
+
+
+
 
 
 // SOCIAL:
-
 Route::get('/perfil/social/{nombreUsuario}', [PerfilController::class, 'mostrarSocial'])->name('perfil.social');
 Route::get('/perfil/mostrar/{nombreUsuario}', [PerfilController::class, 'mostrar'])->name('perfil.mostrar');
 Route::post('/perfil/aceptar-solicitud/{id}', [PerfilController::class, 'aceptarSolicitud'])->name('perfil.aceptarSolicitud');
@@ -107,28 +104,3 @@ Route::post('/perfil/bloquear-amigo/{amigoId}', [PerfilController::class, 'bloqu
 Route::post('/perfil/bloqueos', [PerfilController::class, 'verBloqueos'])->name('perfil.bloqueos');
 Route::get('/perfil/desbloquear/{usuarioId}', [PerfilController::class, 'desbloquearUsuario'])->name('perfil.desbloquear');
 Route::post('/perfil/desbloquear-usuario/{usuarioId}', [PerfilController::class, 'desbloquearUsuario'])->name('perfil.desbloquearUsuario');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

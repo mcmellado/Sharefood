@@ -11,6 +11,7 @@
     use Illuminate\Support\Facades\DB;
     use App\Models\User;
     use App\Models\Bloqueado;
+    use Illuminate\Support\Str;
     use Illuminate\Support\Facades\Redirect;
 
 

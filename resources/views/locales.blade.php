@@ -14,7 +14,6 @@
     </div>
 @endif
 
-
 <div class="container mt-5">
     <div class="card">
         <div class="card-body">
@@ -41,11 +40,16 @@
             </div>
         </div>
     </div>
-    
-    <br>
-    
-    <a href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-primary">Volver al perfil</a>
 
+    <br>
+    <div class="btn-group">
+        <a href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-primary mr-2">Volver al perfil</a>
+
+        <form action="{{ route('crear-nuevo-restaurante.formulario') }}" method="post">
+            @csrf
+            <button type="submit" class="btn btn-success mr-2">Crear Nuevo Restaurante</button>
+        </form>
+    </div>
 </div>
 
 @endsection

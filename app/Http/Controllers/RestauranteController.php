@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reserva;
+use App\Models\Horario;
 use App\Models\Restaurante;
 use App\Models\Comentario;
 use App\Models\User;
@@ -10,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Puntuacion;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 
 class RestauranteController extends Controller
 {
@@ -168,5 +171,64 @@ public function puntuar(Request $request, $slug)
             ->where('restaurante_id', $restauranteId)
             ->exists();
     }
+
+    public function registrarNuevoRestaurante(Request $request)
+{
+    $request->validate([
+        'nombre' => 'required|string|max:255',
+        'direccion' => 'required|string|max:255',
+        'gastronomia' => 'nullable|string|max:255',
+        'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'intervalo' => 'required|integer|min:1',
+        'sitio_web' => 'nullable|url', 
+        'aforo_maximo' => 'required|integer|min:1',
+    ]);
+
+    $restaurante = new Restaurante([
+        'nombre' => $request->input('nombre'),
+        'direccion' => $request->input('direccion'),
+        'gastronomia' => $request->input('gastronomia'),
+        'imagen' => $request->input('imagen'),
+        'telefono' => $request->input('telefono'),
+        'sitio_web' => $request->input('sitio_web'),
+        'aforo_maximo' => $request->input('aforo_maximo'),
+        'slug' => Str::slug($request->input('nombre')),
+    ]);
+
+    $restaurante->usuario()->associate(auth()->user());
+    $restaurante->save();
+
+    foreach(['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'] as $dia) {
+        $horaApertura = $request->input("hora_apertura_$dia", null);
+        $horaCierre = $request->input("hora_cierre_$dia", null);
+
+        if ($horaApertura !== null && $horaCierre !== null) {
+            $horario = new Horario([
+                'dia_semana' => $dia,
+                'hora_apertura' => $horaApertura,
+                'hora_cierre' => $horaCierre,
+                'intervalo' => $request->input('intervalo'),
+            ]);
+
+            $horario->restaurante()->associate($restaurante);
+            $horario->save();
+        }
+    }
+
+    return redirect()->route('perfil', ['nombreUsuario' => auth()->user()->usuario])->with('success', 'Restaurante creado exitosamente.');
+}
+
+        public function formularioCrearRestaurante()
+    {
+        $usuario = Auth::user();
+        if (!$usuario) {
+            abort(404);
+        }
+
+        $restaurantes = $usuario->misRestaurantes;
+
+        return view('crear-restaurante', compact('usuario', 'restaurantes'));
+    }
+
 
 }

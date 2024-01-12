@@ -78,6 +78,7 @@
                             <a href="{{ route('perfil.reservas', ['nombreUsuario' => $usuario->usuario]) }}" class="btn btn-info btn-ver-reservas mr-2">Ver Reservas</a>
                             <a href="{{ route('perfil.social', ['nombreUsuario' => $usuario->usuario]) }}" class="btn btn-info btn-ver-reservas mr-2">Social</a>
                             <a href="{{ route('logout') }}" class="btn btn-danger btn-cerrar-sesion ml-2">Cerrar Sesión</a>
+                            
                         @endif
                     @endauth
                 </div>
