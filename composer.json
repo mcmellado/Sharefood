@@ -10,6 +10,7 @@
         "laravel/breeze": "^1.26",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
+        "laravel/socialite": "^5.11",
         "laravel/tinker": "^2.8",
         "livewire/livewire": "*",
         "spatie/laravel-permission": "^6.1"
@@ -64,6 +65,6 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true
 }
