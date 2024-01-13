@@ -46,3 +46,17 @@
 .custom-star-rating label:hover ~ label:before {
     opacity: 1;
 }
+
+.area-edicion {
+    margin-top: 10px; /* Espaciado superior */
+    padding: 10px; /* Relleno interno */
+    border: 1px solid #ddd; /* Borde */
+    border-radius: 5px; /* Bordes redondeados */
+    background-color: #f9f9f9; /* Fondo */
+}
+
+/* Estilo opcional para resaltar visualmente el área de edición cuando está activa */
+.area-edicion.active {
+    border-color: #007bff; /* Cambia el color del borde cuando está activa */
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); /* Agrega una sombra */
+}

@@ -245,6 +245,39 @@ public function puntuar(Request $request, $slug)
     return redirect()->route('perfil.mis-restaurantes',  ['nombreUsuario' => auth()->user()->usuario])->with('error', 'No tienes permisos para borrar este restaurante.');
 }
 
+public function editarComentario($comentarioId, Request $request)
+{
+    $comentario = Comentario::findOrFail($comentarioId);
+
+    if (auth()->user()->id == $comentario->usuario_id) {
+        $comentario->contenido = $request->input('contenido');
+        $comentario->modificado = true;
+        $comentario->save();
+
+        return redirect()->route('perfil.mis-restaurantes')->with('success', 'Comentario actualizado exitosamente.');
+    }
+
+    return redirect()->route('perfil.mis-restaurantes')->with('error', 'No tienes permisos para editar este comentario.');
+}
+
+
+public function actualizarComentario(Request $request)
+{
+    $comentarioId = $request->input('comentarioId');
+    $nuevoContenido = $request->input('nuevoContenido');
+
+    $comentario = Comentario::find($comentarioId);
+    $comentario->contenido = $nuevoContenido;
+    $comentario->modificado = true;
+    $comentario->save();
+
+    $comentarioActualizado = Comentario::find($comentarioId);
+
+    return response()->json([
+        'mensaje' => 'Comentario actualizado con éxito',
+        'nuevoContenido' => $comentarioActualizado->contenido
+    ]);
+}
 
 
 }

@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->string('imagen')->nullable();
             $table->timestamp('fecha_publicacion')->useCurrent();
             $table->timestamps();
+            $table->boolean('modificado')->default(false);
         });
     }
 

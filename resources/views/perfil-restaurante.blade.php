@@ -85,58 +85,75 @@
                                 ->exists();
                         @endphp
         
-                        <div class="media mt-3">
-                            <div class="media-body">
-                                <h5 class="mt-0">
-                                    @if(Auth::check() && auth()->user()->id !== $comentario->usuario_id)
-                                        @if ($usuarioBloqueado)
-                                            No puedes ver este comentario porque el usuario ha sido bloqueado.
-                                        @elseif ($usuarioDelComentarioBloqueado)
-                                            No puedes ver este comentario porque el usuario te ha bloqueado.
-                                        @else
-                                            <a href="{{ route('perfil.ver', ['nombreUsuario' => $comentario->usuario->usuario]) }}" target="_blank">
-                                                {{ $comentario->usuario->usuario }}
-                                            </a>:
-                                        @endif
-                                    @else
-                                        {{ $comentario->usuario->usuario }}:
-                                    @endif
-                                </h5>
-                                @if (!$usuarioBloqueado && !$usuarioDelComentarioBloqueado)
-                                    {{ $comentario->contenido }}
-                                    @auth
-                                    @if(auth()->user()->id == $comentario->usuario_id)
-                                    {{-- Formulario para eliminar comentario y Botones para compartir en redes sociales --}}
-                                    <div class="d-flex align-items-center mt-2">
-                                        <form action="{{ route('restaurantes.eliminarComentario', ['comentarioId' => $comentario->id]) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger">Eliminar Comentario</button>
-                                        </form>
-                                        <button type="button" class="btn btn-sm btn-primary compartir-facebook ml-2"
-                                        data-comentario="{{ $comentario->contenido }}"
-                                        data-usuario="{{ $comentario->usuario->usuario }}">
-                                        <i class="fab fa-facebook"></i> Compartir en Facebook
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-info compartir-twitter ml-2"
-                                        data-comentario="{{ $comentario->contenido }}"
-                                        data-usuario="{{ $comentario->usuario->usuario }}">
-                                        <i class="fab fa-twitter"></i> Compartir en Twitter
-                                    </button>
-                                    </div>
-                                @endif
-                                    @endauth
-                                @else
-                                    No puedes ver este comentario.
-                                @endif
-                            </div>
-                        </div>
-                    @empty
-                        <p>No hay comentarios aún.</p>
-                    @endforelse
+        <div class="media mt-3">
+            <div class="media-body">
+                <h5 class="mt-0">
+                    @if(Auth::check() && auth()->user()->id !== $comentario->usuario_id)
+                        @if ($usuarioBloqueado)
+                            No puedes ver este comentario porque el usuario ha sido bloqueado.
+                        @elseif ($usuarioDelComentarioBloqueado)
+                            No puedes ver este comentario porque el usuario te ha bloqueado.
+                        @else
+                            <a href="{{ route('perfil.ver', ['nombreUsuario' => $comentario->usuario->usuario]) }}" target="_blank">
+                                {{ $comentario->usuario->usuario }}
+                            </a>:
+                        @endif
+                    @else
+                        {{ $comentario->usuario->usuario }}:
+                    @endif
+        
+                    @if ($comentario->modificado)
+                        <span class="text-muted">(Modificado)</span>
+                    @endif
+                </h5>
+        
+                @if (!$usuarioBloqueado && !$usuarioDelComentarioBloqueado)
+                    {{ $comentario->contenido }}
+                    @auth
+                        @if(auth()->user()->id == $comentario->usuario_id)
+                            <div class="d-flex align-items-center mt-2">
+                                <form action="{{ route('restaurantes.eliminarComentario', ['comentarioId' => $comentario->id]) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger">Eliminar Comentario</button>
+                                </form>
+        
+                                <button class="btn btn-sm btn-warning ml-2" onclick="activarEdicion({{ $comentario->id }})">
+                                    <i class="fas fa-edit"></i> Editar Comentario
+                                </button>
+        
+                                <button type="button" class="btn btn-sm btn-primary compartir-facebook ml-2"
+                                data-comentario="{{ $comentario->contenido }}"
+                                data-usuario="{{ $comentario->usuario->usuario }}">
+                                <i class="fab fa-facebook"></i> Compartir en Facebook
+                            </button>
+                            
+                            <button type="button" class="btn btn-sm btn-info compartir-twitter ml-2"
+                            data-comentario="{{ $comentario->contenido }}"
+                            data-usuario="{{ $comentario->usuario->usuario }}">
+                            <i class="fab fa-twitter"></i> Compartir en Twitter
+                        </button>
+                        
+                    </div>
+                    <br>
+                    <div id="areaEdicion{{ $comentario->id }}" style="display: none;">
+                        <textarea class="form-control" id="nuevoContenido{{ $comentario->id }}" rows="3" required>{{ $comentario->contenido }}</textarea>
+                        <a class="btn btn-primary mt-2" onclick="guardarEdicion({{ $comentario->id }})">Guardar Cambios</a>
+                    </div>
+                        @endif
+                    @endauth
+                @else
+                    No puedes ver este comentario.
+                @endif
+            </div>
+        </div>
+        @empty
+            <p>No hay comentarios aún.</p>
+        @endforelse
                 </div>
             </div>
         </div>
+
 
                 @auth
                 <div id="agregar-comentario" class="card mt-4">
@@ -291,6 +308,41 @@
                     compartirEnRedSocial('twitter', $(this).data('comentario'), $(this).data('usuario'));
                 });
             });
+
+            function activarEdicion(comentarioId) {
+        $('[id^=areaEdicion]').hide();
+        $('#areaEdicion' + comentarioId).show();
+    }
+
+    function guardarEdicion(comentarioId) {
+    var nuevoContenido = $('#nuevoContenido' + comentarioId).val();
+
+    fetch('{{ route('restaurantes.actualizarComentario') }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        body: JSON.stringify({
+            comentarioId: comentarioId,
+            nuevoContenido: nuevoContenido
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+
+        console.log(data.mensaje);
+
+
+        $('#areaEdicion' + comentarioId).hide();
+
+        $('#comentario' + comentarioId).html(data.nuevoContenido);
+        location.reload();
+    })
+    .catch(error => {
+        console.error('Error al actualizar el comentario:', error);
+    });
+}
         </script>
         @endsection
         

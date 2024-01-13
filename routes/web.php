@@ -31,6 +31,7 @@ Route::get('/index', [RegistroRestauranteController::class, 'index'])->name('ind
 Route::get('/restaurantes/{slug}', [RestauranteController::class, 'mostrarPerfil'])->name('restaurantes.perfil');
 Route::post('/restaurantes/comentar/{restauranteId}', [RestauranteController::class, 'comentar'])->name('restaurantes.comentar');
 Route::delete('/restaurantes/comentarios/{comentarioId}', [RestauranteController::class, 'eliminarComentario'])->name('restaurantes.eliminarComentario');
+Route::post('/actualizar-comentario', [RestauranteController::class, 'actualizarComentario'])->name('restaurantes.actualizarComentario');
 
 Route::get('/{nombreUsuario}', [PerfilController::class, 'show'])->name('perfil');
 Route::get('/{nombreUsuario}/modificar', [PerfilController::class, 'mostrarFormularioModificar'])->name('perfil.modificar');
