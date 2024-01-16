@@ -44,12 +44,14 @@ Route::get('/restaurantes/{slug}/ver-comentarios', [RestauranteController::class
 Route::post('/restaurantes/{slug}/puntuar', [RestauranteController::class, 'puntuar'])->name('restaurantes.puntuar');
 Route::get('/perfil/{nombreUsuario}', [PerfilController::class, 'ver'])->name('perfil.ver');
 Route::post('/perfil/{nombreUsuario}/enviar-solicitud', [PerfilController::class, 'enviarSolicitudAmistad'])->name('perfil.enviarSolicitud');
+Route::get('/restaurante/{id}/carta', [RestauranteController::class, 'mostrarCarta'])->name('restaurante.mostrar_carta');
 
 // Rutas para Reservas
 Route::get('/restaurantes/{slug}/nueva-reserva', [ReservaController::class, 'nuevaReserva'])->name('restaurantes.nuevaReserva');
 Route::post('/restaurantes/{slug}/guardar-reserva', [ReservaController::class, 'guardarReserva'])->name('restaurantes.guardarReserva');
 Route::get('/restaurantes/{slug}/confirmar-reserva', [ReservaController::class, 'confirmarReserva'])->name('restaurantes.confirmarReserva');
 Route::delete('/reservas/cancelar/{reserva}', [ReservaController::class, 'cancelar'])->name('cancelar.reserva');
+
 
 // Rutas para el panel de administrador
 Route::group(['middleware' => ['auth']], function () {

@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use App\Models\Producto;
+
+
 
 class Restaurante extends Model
 {
@@ -67,9 +70,8 @@ class Restaurante extends Model
 public function actualizarPuntuacionPromedio()
 {
     $puntuacionPromedio = $this->puntuaciones()->avg('puntuacion');
-    $this->puntuacion = $puntuacionPromedio * 2; // Ajustar a escala de 0-10
+    $this->puntuacion = $puntuacionPromedio * 2; 
     $this->save();
 }
-    
     
 }

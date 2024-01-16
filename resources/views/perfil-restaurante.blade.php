@@ -47,6 +47,10 @@
                                 @endfor
                             </div>
                         </div>
+                        <form action="{{ route('restaurante.mostrar_carta', ['id' => $restaurante->id]) }}" method="GET">
+                            @csrf
+                            <button type="submit" class="btn btn-primary">Ver Carta</button>
+                        </form>                        
                     </div>
                     <div class="col-md-4">
                         {{-- <img src="{{ asset($restaurante->imagen) }}" alt="{{ $restaurante->nombre }}" class="img-fluid"> --}}

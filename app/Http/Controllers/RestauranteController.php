@@ -279,5 +279,21 @@ public function actualizarComentario(Request $request)
     ]);
 }
 
+public function mostrarCarta($id)
+{
+    try {
+        $restaurante = Restaurante::findOrFail($id);
+        $productos = DB::table('productos')
+            ->where('restaurante_id', $id)
+            ->get();
+
+
+        return view('carta', compact('restaurante', 'productos'));
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        // Restaurante no encontrado, podrías redirigir a una página de error 404 o hacer algo más
+        abort(404, 'Restaurante no encontrado');
+    }
+}
+
 
 }
