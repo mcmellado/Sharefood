@@ -8,6 +8,11 @@ use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\ReservaController; 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PagoController;
+use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\PayPalController;
+
+
 
 // Rutas para la autenticación de usuarios
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
@@ -109,3 +114,11 @@ Route::post('/perfil/bloquear-amigo/{amigoId}', [PerfilController::class, 'bloqu
 Route::post('/perfil/bloqueos', [PerfilController::class, 'verBloqueos'])->name('perfil.bloqueos');
 Route::get('/perfil/desbloquear/{usuarioId}', [PerfilController::class, 'desbloquearUsuario'])->name('perfil.desbloquear');
 Route::post('/perfil/desbloquear-usuario/{usuarioId}', [PerfilController::class, 'desbloquearUsuario'])->name('perfil.desbloquearUsuario');
+
+
+// PEDIDOS:
+Route::post('/realizar-pedido', [PedidoController::class, 'realizarPedido'])->name('realizar-pedido');
+Route::get('/stripe/success', [PedidoController::class, 'stripeSuccess'])->name('stripe.success');
+Route::get('/stripe/cancel', [PedidoController::class, 'stripeCancel'])->name('stripe.cancel');
+
+

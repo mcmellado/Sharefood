@@ -28,7 +28,8 @@
                     <input type="number" class="form-control" id="cantidad_personas" name="cantidad_personas" required>
                 </div>
                 <button type="submit" class="btn btn-success">Confirmar Reserva</button>
-                <a href="javascript:history.back()" class="btn btn-secondary">Volver Atrás</a>
+                <a href="{{ route('restaurantes.perfil', ['slug' => $restaurante->slug ]) }}" class="btn btn-secondary">Volver al Perfil</a>
+                
             </form>
         </div>
     </div>
