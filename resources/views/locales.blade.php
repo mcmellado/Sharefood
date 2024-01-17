@@ -17,7 +17,7 @@
         <div class="card-body">
             <h1 class="mb-4">Mis Restaurantes</h1>
 
-            <div class="scroll-container" style="max-height: 300px; overflow-y: auto;">
+            <div class="scroll-container" style="max-height: 500px; overflow-y: auto;">
                 @if(count($restaurantes) > 0)
                     <ul class="list-group">
                         @foreach($restaurantes as $restaurante)
@@ -27,7 +27,7 @@
                                 <p>Sitio web: {{ $restaurante->sitio_web ?? 'No disponible' }}</p>
                                 <p>Teléfono: {{ $restaurante->telefono ?? 'No disponible' }}</p>
                                 <a href="{{ route('restaurante.mis-restaurantes.modificar', ['slug' => $restaurante->slug]) }}" class="btn btn-info btn-sm">Modificar Restaurante</a>
-                                <a href="{{ route('restaurantes.verReservas', ['slug' => $restaurante->slug]) }}" class="btn btn-primary btn-sm">Ver Reservas</a>
+                                <a href="{{ route('restaurantes.verReservas', ['slug' => $restaurante->slug]) }}" class="btn btn-primary btn-sm">Ver Reservas y Pedidos</a>
                                 <a href="{{ route('restaurantes.verComentarios', ['slug' => $restaurante->slug]) }}" class="btn btn-secondary btn-sm">Ver Comentarios</a>
                                 <button class="btn btn-danger btn-sm" data-toggle="collapse" data-target="#borrarCollapse{{ $restaurante->id }}" aria-expanded="false" aria-controls="borrarCollapse{{ $restaurante->id }}">
                                     Borrar Restaurante

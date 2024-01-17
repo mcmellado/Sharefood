@@ -30,6 +30,9 @@
 
             <div class="mt-4">
                 <a href="{{ route('perfil.mis-restaurantes', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-danger">Volver atrás</a>
+                <a href="{{ route('restaurantes.ver_pedidos', ['slug' => $restaurante->slug]) }}" class="btn btn-primary">Ver Pedidos</a>
+
+
             </div>
         </div>
     </div>

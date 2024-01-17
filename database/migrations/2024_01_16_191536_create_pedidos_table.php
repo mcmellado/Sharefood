@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('restaurante_id'); 
             $table->enum('estado', ['pendiente', 'pagado'])->default('pendiente');
             $table->decimal('precio_total', 8, 2)->nullable();
+            $table->string('direccion');
             $table->timestamps();
         });
     }

@@ -17,12 +17,14 @@ class PedidoController extends Controller
     {
         $restauranteId = $request->input('restaurante_id');
         $productos = $request->input('productos');
+        $direccion = $request->input('direccion');
         $precioTotalPedido = 0;
 
         $pedido = new Pedido();
         $pedido->usuario_id = auth()->id();
         $pedido->restaurante_id = $restauranteId;
         $pedido->estado = 'pendiente';
+        $pedido->direccion = $direccion;
         $pedido->save();
 
         $productoIds = [];
@@ -97,4 +99,16 @@ public function getRestauranteSlug($restauranteId)
     return null;
 }
 
+public function verPedidos($slug)
+{
+    $restaurante = Restaurante::where('slug', $slug)->first();
+
+    if (!$restaurante) {
+        abort(404);
+    }
+
+    $pedidos = Pedido::where('restaurante_id', $restaurante->id)->get();
+
+    return view('ver_pedidos', compact('restaurante', 'pedidos'));
+}
 }

@@ -50,6 +50,9 @@ Route::post('/restaurantes/{slug}/puntuar', [RestauranteController::class, 'punt
 Route::get('/perfil/{nombreUsuario}', [PerfilController::class, 'ver'])->name('perfil.ver');
 Route::post('/perfil/{nombreUsuario}/enviar-solicitud', [PerfilController::class, 'enviarSolicitudAmistad'])->name('perfil.enviarSolicitud');
 Route::get('/restaurante/{id}/carta', [RestauranteController::class, 'mostrarCarta'])->name('restaurante.mostrar_carta');
+Route::get('/restaurantes/{slug}/ver-pedidos', [PedidoController::class, 'verPedidos'])->name('restaurantes.ver_pedidos');
+
+
 
 // Rutas para Reservas
 Route::get('/restaurantes/{slug}/nueva-reserva', [ReservaController::class, 'nuevaReserva'])->name('restaurantes.nuevaReserva');
