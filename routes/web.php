@@ -125,3 +125,10 @@ Route::get('/stripe/success', [PedidoController::class, 'stripeSuccess'])->name(
 Route::get('/stripe/cancel', [PedidoController::class, 'stripeCancel'])->name('stripe.cancel');
 
 
+//GESTION DE LA CARTA:
+Route::get('/restaurantes/{slug}/gestionar-carta', [RestauranteController::class, 'gestionarCarta'])->name('restaurantes.gestionar_carta');
+Route::post('/restaurantes/{slug}/agregar-producto', [RestauranteController::class, 'agregarProducto'])->name('restaurantes.agregar_producto');
+Route::get('/restaurantes/{slug}/agregar-producto', [RestauranteController::class, 'formularioAgregarProducto'])->name('restaurantes.formulario_agregar_producto');
+Route::get('/restaurantes/{slug}/editar-producto/{id}', [RestauranteController::class, 'editarProducto'])->name('restaurantes.editar_producto');
+Route::put('/restaurantes/{slug}/actualizar-producto/{id}', [RestauranteController::class, 'actualizarProducto'])->name('restaurantes.actualizar_producto');
+Route::get('/restaurantes/{slug}/eliminar-producto/{id}', [RestauranteController::class, 'eliminarProducto'])->name('restaurantes.eliminar_producto');

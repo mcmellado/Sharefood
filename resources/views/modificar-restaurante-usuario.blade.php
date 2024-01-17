@@ -54,6 +54,7 @@
                 
                 <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                 <a href="{{ route('perfil.mis-restaurantes', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-danger">Volver atrás</a>
+                <a href="{{ route('restaurantes.gestionar_carta', ['slug' => $restaurante->slug]) }}" class="btn btn-secondary">Gestionar Carta</a>
             </form>
         </div>
     </div>
