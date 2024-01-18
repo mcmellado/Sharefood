@@ -53,16 +53,16 @@
 
 .cajita {
     border: 1px solid #ccc; 
-    border-radius: 10px; /* Bordes redondeados */
-    padding: 20px; /* Espaciado interno */
-    text-align: center; /* Alineación del texto al centro */
-    margin-bottom: 20px; /* Espacio inferior entre las cajitas */
+    border-radius: 10px; 
+    padding: 20px; 
+    text-align: center; 
+    margin-bottom: 20px; 
     background-color:   #343a40;
 }
 
 .cajita i {
-    display: block; /* Hace que el icono sea un bloque para que pueda centrarse fácilmente */
-    margin: 0 auto 10px; /* Margen inferior para separar el icono del texto */
+    display: block; 
+    margin: 0 auto 10px; 
 }
 
 .row {
@@ -83,9 +83,9 @@ img {
 
 .titulo {
     text-align: center;
-    color: #D5EB9B; /* Color azul de Bootstrap */
-    margin-bottom: 5rem; /* Ajusta el margen inferior según tus necesidades */
-    font-size: 2rem; /* Ajusta el tamaño de la fuente según tus necesidades */
+    color: #D5EB9B; 
+    margin-bottom: 5rem; 
+    font-size: 2rem;
     top: 75px;
     position: relative;
 }
@@ -95,10 +95,10 @@ img {
     top: 20px;
 }
 
-/* Estilos adicionales para el esquema de color verde */
+
 .bg-verde {
-    background-color: #343a40; /* Cambia esto al tono de verde que prefieras */
-    color: #ffffff; /* Color de texto en contraste */
+    background-color: #343a40; 
+    color: #ffffff; 
 }
 
 .border-verde {
@@ -139,13 +139,13 @@ body {
 
 .custom-star-rating label {
     cursor: pointer;
-    color: #f39c12; /* Cambia el color de las estrellas a amarillo (#f39c12) */
-    margin-right: 5px; /* Añade un pequeño margen entre las estrellas */
+    color: #f39c12; 
+    margin-right: 5px; 
 }
 
 .custom-star-rating label:before {
-    content: '\2605'; /* Estrella en Unicode */
-    opacity: 0.5; /* Reduce la opacidad inicial */
+    content: '\2605'; 
+    opacity: 0.5; 
     transition: opacity 0.25s;
 }
 
@@ -157,6 +157,32 @@ body {
 .custom-star-rating label:hover ~ label:before {
     opacity: 1;
 }
+
+html {
+    font-family: 'Roboto', sans-serif!important; 
+}
+
+h4 {
+    font-size: 25px!important; 
+}
+
+.card-title:hover {
+    color: #D5EB9B; 
+    transition: background-color 0.3s; 
+    text-decoration: none;
+}
+
+.card-title {
+    color: white;
+    text-decoration: none;
+}
+
+.imagen-local {
+    height: 300px;
+    object-fit: cover;
+    background-color: #343a40 !important;
+}
+
 
 
 

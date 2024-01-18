@@ -6,3 +6,20 @@
 .list-group-item {
     margin-bottom: 10px;
 }
+
+.card-title:hover {
+    color: #D5EB9B; 
+    transition: background-color 0.3s; 
+    text-decoration: none;
+}
+
+.card-title {
+    color: white;
+    text-decoration: none;
+}
+
+h4 {
+    font-size: 16px; 
+}
+
+

@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 
+
 <div class="container mt-5">
     <form action="{{ route('restaurantes.buscar') }}" method="GET">
         <div class="input-group mb-3 position-relative"> 
@@ -26,30 +27,30 @@
         <div class="col-md-4">
             <div class="cajita bg-verde text-white">
                 <i class="material-icons mb-3 icono-verde">restaurant</i>
-                <h4 class="mb-4">Encuentra los mejores lugares para comer</h4>
-                <p class="lead">4.3 millones de restaurantes, desde puestos de comida en la calle a establecimientos de lujo</p>
+                <h4 class="mb-4 display-6">Encuentra los mejores lugares para comer</h4>
+                <p class="lead">4.3 millones de restaurantes, desde puestos de comida en la calle a establecimientos de lujo.</p>
             </div>
         </div>
         <!-- Div 2 -->
         <div class="col-md-4">
             <div class="cajita bg-verde text-white">
                 <i class="material-icons mb-3 icono-verde">comment</i>
-                <h4 class="mb-4">Lee las opiniones más recientes</h4>
-                <p class="lead">Millones de opiniones sobre restaurantes y fotos de nuestra comunidad global de viajeros</p>
+                <h4 class="mb-4 display-6">Descubre las opiniones más recientes</h4>
+                <p class="lead">Millones de opiniones sobre restaurantes y fotos de nuestra comunidad global de comensales.</p>
             </div>  
         </div>
         <!-- Div 3 -->
         <div class="col-md-4">
             <div class="cajita bg-verde text-white">
                 <i class="material-icons mb-3 icono-verde">event</i>
-                <h4 class="mb-4">Reserva online en restaurantes de todo el mundo</h4>
+                <h4 class="mb-4 display-6">Reserva online en restaurantes de todo el mundo</h4>
                 <p class="lead">Haz tus reservas fácilmente a través de nuestra plataforma en línea.</p>
             </div>
         </div>
     </div>
 
     <div class="row mb-5">
-        <h2 class="titulo text-verde">Descubre los Mejores Restaurantes: </h2>
+        <h2 class="titulo text-verde display-4">Descubre los Mejores Restaurantes: </h2>
         <div class="custom-row-item my-4">
             @php
                 $mejoresLocales = \App\Models\Restaurante::orderByDesc('puntuacion')->take(4)->get();
@@ -62,7 +63,7 @@
                 <img src="{{ $local->imagen }}" class="card-img-top img-fluid img-thumbnail mx-auto" alt="{{ $local->nombre }}" style="height: 300px; object-fit: cover;background-color: #343a40!important;">
                 <div class="card-body">
                     <h5 class="card-title text-truncate">
-                        <a href="{{ route('restaurantes.perfil', $local->slug) }}" class="text-decoration-none text-verde">
+                        <a href="{{ route('restaurantes.perfil', $local->slug) }}" class="card-title">
                             {{ $local->nombre }}
                         </a>
                     </h5>
@@ -89,6 +90,7 @@
         <p class="col-12 text-center text-verde">No hay locales disponibles.</p>
     @endforelse
 </div>
+<br>
 
 
 
