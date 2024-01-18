@@ -9,8 +9,6 @@
     <div class="card">
         <div class="card-body">
             <h1 class="mb-4">Gestionar Carta de {{ $restaurante->nombre }}</h1>
-
-            <!-- Alerta de éxito con botón para cerrar -->
             @if(session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     {{ session('success') }}
@@ -26,8 +24,6 @@
                         <span>{{ $producto->nombre }} - {{ $producto->descripcion }} - {{ $producto->precio }} € </span>
                         <div class="btn-group">
                             <a href="{{ route('restaurantes.editar_producto', ['slug' => $restaurante->slug, 'id' => $producto->id]) }}" class="btn btn-primary">Editar</a>
-
-                            <!-- Botón para activar la ventana de confirmación -->
                             <button type="button" class="btn btn-danger" onclick="confirmarEliminar('{{ route('restaurantes.eliminar_producto', ['slug' => $restaurante->slug, 'id' => $producto->id]) }}')">
                                 Eliminar
                             </button>
@@ -37,11 +33,7 @@
                     <li class="list-group-item">No hay productos en la carta.</li>
                 @endforelse
             </ul>
-
-            <!-- Agregar nuevo producto -->
             <a href="{{ route('restaurantes.formulario_agregar_producto', ['slug' => $restaurante->slug]) }}" class="btn btn-success mt-3">Agregar Producto</a>
-
-            <!-- Volver atrás -->
             <a href="{{ route('perfil.mis-restaurantes', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-danger mt-3">Volver atrás</a>
         </div>
     </div>

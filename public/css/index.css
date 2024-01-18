@@ -50,4 +50,117 @@
     width: 20%!important;
     height: 80%;
 }
+
+.cajita {
+    border: 1px solid #ccc; 
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 20px; /* Espaciado interno */
+    text-align: center; /* Alineación del texto al centro */
+    margin-bottom: 20px; /* Espacio inferior entre las cajitas */
+    background-color:   #343a40;
+}
+
+.cajita i {
+    display: block; /* Hace que el icono sea un bloque para que pueda centrarse fácilmente */
+    margin: 0 auto 10px; /* Margen inferior para separar el icono del texto */
+}
+
+.row {
+    position: relative;
+    width: 100%;
+    left: 10px;
+    
+}
+
+img {
+    height: 300px;
+    object-fit: cover;
+}
+
+.mb-5 {
+    margin-bottom: 20rem!important;
+}
+
+.titulo {
+    text-align: center;
+    color: #D5EB9B; /* Color azul de Bootstrap */
+    margin-bottom: 5rem; /* Ajusta el margen inferior según tus necesidades */
+    font-size: 2rem; /* Ajusta el tamaño de la fuente según tus necesidades */
+    top: 75px;
+    position: relative;
+}
+
+.espaciado-superior {
+    position: relative;
+    top: 20px;
+}
+
+/* Estilos adicionales para el esquema de color verde */
+.bg-verde {
+    background-color: #343a40; /* Cambia esto al tono de verde que prefieras */
+    color: #ffffff; /* Color de texto en contraste */
+}
+
+.border-verde {
+    border-color: #343a40;
+}
+
+.text-verde {
+    color: #343a40;
+}
+
+.icono-verde {
+    color: #D5EB9B;
+}
+
+body {
+    background-color: #D5EB9B!important;
+}
+.card {
+    background-color: #343a40!important; 
+    color: #ffffff; 
+}
+
+.card-title a,
+.card-text,
+.card-footer {
+    color: #ffffff; 
+}
+
+
+.custom-star-rating {
+    display: inline-block;
+    font-size: 1.5rem;
+}
+
+.custom-star-rating input {
+    display: none;
+}
+
+.custom-star-rating label {
+    cursor: pointer;
+    color: #f39c12; /* Cambia el color de las estrellas a amarillo (#f39c12) */
+    margin-right: 5px; /* Añade un pequeño margen entre las estrellas */
+}
+
+.custom-star-rating label:before {
+    content: '\2605'; /* Estrella en Unicode */
+    opacity: 0.5; /* Reduce la opacidad inicial */
+    transition: opacity 0.25s;
+}
+
+.custom-star-rating input:checked ~ label:before {
+    opacity: 1;
+}
+
+.custom-star-rating label:hover:before,
+.custom-star-rating label:hover ~ label:before {
+    opacity: 1;
+}
+
+
+
+
+
+
  
