@@ -3,10 +3,20 @@
 nav {
     background-color: #333;
     padding: 1rem;
+    top: 0;
+    position: fixed !important;
+    width: 100%;
+    z-index: 1000;
+    padding: 10px;
+}
+
+.main-container {
+    margin-top: 100px; 
 }
 
 .navbar {
     background-color: #333;
+    position: fixed;
 }
 
 .navbar-brand {

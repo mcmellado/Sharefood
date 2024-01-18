@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
 </head>
 <body class="font-sans antialiased">
+
+    <div class="main-container">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">
@@ -44,6 +46,7 @@
             </ul>
         </div>
     </nav>
+</div>
 
     <!-- Contenido de la página -->
     @yield('contenido')
