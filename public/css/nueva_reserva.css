@@ -1,6 +1,6 @@
-
 body {
     font-family: 'Arial', sans-serif;
+    background-color: #D5EB9B!important;
 }
 
 .container {
@@ -8,7 +8,8 @@ body {
 }
 
 .card {
-    border: 1px solid #ccc;
+    background-color: #343a40;
+    color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
@@ -19,7 +20,7 @@ body {
 }
 
 h1 {
-    color: #333;
+    color: #fff;
 }
 
 /* Estilos para el formulario */
@@ -30,10 +31,12 @@ h1 {
 label {
     font-weight: bold;
     display: block;
+    color: #fff;
 }
 
 input[type="date"],
-input[type="time"] {
+input[type="time"],
+select {
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
@@ -53,3 +56,5 @@ button {
 button:hover {
     background-color: #218838;
 }
+
+

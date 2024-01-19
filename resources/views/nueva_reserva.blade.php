@@ -3,14 +3,16 @@
 @section('contenido')
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-JA9LSTp+ZMfsB01d5WVTTK9K4xXvZF7S81Lp6FDtkFZFM4/+r2kZU5JlQa86j6A+xEBk2OL/xCUZQpG6RbApRg==" crossorigin="anonymous" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha512-Gn5384xq1ii1+FXMYFcUfuBWCAtb2JaeQGfcYxpPuwvc8vR+5tZ/sM47KaS5tn9eqODJdSqGXCXT9RQZBmqQK/eg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-9BScY9K9B8WV0Ec4zLDI2+rBXTXD4bU+TfZK7K0aGj4O7TC2M0Zg9urN42Yq4oYH1C8chY3Leb4Ju6Xvmf9CEw==" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="{{ asset('css/nueva_reserva.css') }}">
 
-
 <div class="container mt-5">
-    <div id="alerts-container"> </div>
+    <div id="alerts-container"></div>
     <div class="card">
         <div class="card-body">
-            <h1>Hacer Reserva</h1>
+            <h1 class="mb-4">Hacer Reserva</h1>
             <form action="{{ route('restaurantes.guardarReserva', ['slug' => $restaurante->slug]) }}" method="POST" onsubmit="return validarReserva()">
                 @csrf
                 <div class="form-group">
@@ -29,11 +31,11 @@
                 </div>
                 <button type="submit" class="btn btn-success">Confirmar Reserva</button>
                 <a href="{{ route('restaurantes.perfil', ['slug' => $restaurante->slug ]) }}" class="btn btn-secondary">Volver al Perfil</a>
-                
             </form>
         </div>
     </div>
 </div>
+
 
 <script>
 
@@ -196,6 +198,7 @@ function formatHora(hora) {
         var partes = horaString.split(':');
         return new Date(1970, 0, 1, partes[0], partes[1]);
     }
+    
 </script>
 
 @endsection
