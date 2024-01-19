@@ -5,6 +5,14 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.2/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.2/dist/sweetalert2.all.min.js"></script>
 
+<form action="{{ route('restaurantes.eliminarComentario', ['comentarioId' => $comentario->id]) }}" method="POST" id="formEliminarComentario">
+    @csrf
+    @method('DELETE')
+    <button type="button" class="btn btn-sm btn-danger" onclick="confirmarEliminacion()">
+        <i class="fa fa-trash"></i> Eliminar
+    </button>
+</form>
+
 <div class="container mt-5">
     <div class="card">
         <div class="card-body">

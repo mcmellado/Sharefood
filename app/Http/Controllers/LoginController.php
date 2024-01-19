@@ -27,6 +27,7 @@ class LoginController extends Controller
         $user->usuario = $request->usuario;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
+        $user->imagen = asset('storage/imagenes/foto_perfil.jpg');
         $user->save();
         Auth::login($user);
 

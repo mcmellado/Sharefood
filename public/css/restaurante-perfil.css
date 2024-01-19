@@ -60,3 +60,190 @@
     border-color: #007bff; /* Cambia el color del borde cuando está activa */
     box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); /* Agrega una sombra */
 }
+
+/* Restaurante-perfil.css */
+
+body {
+    background-color: #343a40;
+    color: #D5EB9B;
+    font-family: 'Roboto', sans-serif;
+}
+
+.container {
+    margin-top: 20px;
+}
+
+.card {
+    background-color: #343a40!important;
+    color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    color: #D5EB9B;
+}
+
+.btn-primary {
+    background-color: #D5EB9B;
+    border: 1px solid #D5EB9B;
+}
+
+.btn-primary:hover {
+    background-color: #343a40;
+    border: 1px solid #D5EB9B;
+}
+
+.custom-star-rating {
+    color: #f39c12;
+}
+
+.custom-star-rating label:before {
+    color: #f39c12;
+}
+
+.custom-star-rating input:checked ~ label:before {
+    color: #f39c12;
+}
+
+.list-group {
+    background-color: #343a40!important;
+    color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.list-group-item {
+    margin-bottom: 10px;
+}
+
+.list-group-item:hover {
+    background-color: #2a2f35;
+}
+
+.list-group-item a {
+    color: #D5EB9B;
+}
+
+.list-group-item a:hover {
+    color: #f39c12;
+}
+
+#comentarios-existentes {
+    overflow-y: scroll;
+    max-height: 400px;
+    border: none!important;
+
+
+}
+
+#agregar-comentario,
+#hacer-reserva {
+    background-color: #343a40;
+    color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+#agregar-comentario .form-group label,
+#hacer-reserva a {
+    color: #D5EB9B;
+}
+
+#agregar-comentario .form-group label:hover, a:hover {
+    color: #f39c12;
+}
+
+.media.mt-3 {
+    width: 96%;
+    border: 1px solid #ddd; 
+    padding: 20px; 
+    border-radius: 7px; 
+    position: relative;
+    bottom: 2px;
+}
+
+.media.mt-3 .btn {
+    top: 20px; 
+    position: relative;
+}
+
+.card mt-4 {
+    margin-right: 10px;
+}
+
+.text-area {
+    margin-bottom: 10px;
+}
+
+.text-area .btn {
+    position: relative;
+    top: 50px;
+}
+
+.main-container {
+    margin-bottom: 100px; 
+}
+
+body {
+    background-color: #D5EB9B!important;
+}
+
+.horarios {
+    margin-bottom: 15px;
+}
+
+label {
+    color: white!important;
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.comentario_iniciasesion {
+    font-size: 25px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.rating {
+    display: flex;
+    flex-direction: row-reverse;
+    right: 77%;
+    position: relative;
+}
+
+.rating input {
+    display: none;
+}
+
+.rating label {
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    background-image: url('path/to/star-icon.png'); 
+    background-size: cover;
+}
+
+.rating input:checked ~ label,
+.rating input:checked ~ label ~ label {
+    background-image: url('path/to/star-icon-filled.png');
+
+.rating label:hover,
+.rating label:hover ~ label {
+    color: #fdd;
+}
+
+.rating input:checked ~ label {
+    color: #fdd;
+}
+}
+
+
+

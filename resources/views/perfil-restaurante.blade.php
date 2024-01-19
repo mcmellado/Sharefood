@@ -7,8 +7,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.2/dist/sweetalert2.all.min.js"></script>
 
-    <div class="container mt-5 scrollable-container">
+
+
+<div class="main-container">
+    <div class="container mt-5">
         @if(session('reserva-confirmada'))
             <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
                 {{ session('reserva-confirmada') }}
@@ -47,10 +51,16 @@
                                 @endfor
                             </div>
                         </div>
-                        <form action="{{ route('restaurante.mostrar_carta', ['id' => $restaurante->id]) }}" method="GET">
-                            @csrf
-                            <button type="submit" class="btn btn-primary">Ver Carta</button>
-                        </form>                        
+                        <div class="d-flex">
+                            @auth
+                                <a href="{{ route('restaurantes.nuevaReserva', ['slug' => $restaurante->slug]) }}" class="btn btn-success mr-2">Hacer Reserva</a>
+                            @endauth
+                        
+                            <form action="{{ route('restaurante.mostrar_carta', ['id' => $restaurante->id]) }}" method="GET">
+                                @csrf
+                                <button type="submit" class="btn btn-success">Ver Carta</button>
+                            </form>
+                        </div>             
                     </div>
                     <div class="col-md-4">
                         {{-- <img src="{{ asset($restaurante->imagen) }}" alt="{{ $restaurante->nombre }}" class="img-fluid"> --}}
@@ -59,25 +69,40 @@
             </div>
         </div>
 
-        {{-- Mostrar horarios si existen --}}
         @if ($restaurante->horarios)
-            <div class="card mt-4">
-                <div class="card-body">
-                    <h3>Horarios:</h3>
-                    @foreach ($restaurante->horarios as $horario)
-                        <p>{{ $horario->dia_semana }}: {{ \Carbon\Carbon::parse($horario->hora_apertura)->format('H:i') }} - {{ \Carbon\Carbon::parse($horario->hora_cierre)->format('H:i') }}</p>
-                    @endforeach
-                </div>
+    <div class="card mt-4">
+        <div class="card-body">
+            <h3 class="horarios">Horarios:</h3>
+            <div class="row row-cols-1 row-cols-md-2 g-3">
+                @foreach ($restaurante->horarios as $horario)
+                    <div class="col mb-3">
+                        <div class="card">
+                            <div class="card-body d-flex flex-column">
+                                <h6 class="card-subtitle mb-2">{{ $horario->dia_semana }}</h6>
+                                <div class="d-flex justify-content-between">
+                                    <span>{{ \Carbon\Carbon::parse($horario->hora_apertura)->format('H:i') }}</span>
+                                    <span> - </span>
+                                    <span>{{ \Carbon\Carbon::parse($horario->hora_cierre)->format('H:i') }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
-        @endif
+        </div>
+    </div>
+@endif
+
+    
+
 
         <div class="card mt-4">
             <div class="card-body">
                 <h3>Comentarios:</h3>
-                <div id="comentarios-existentes" class="scrollable-content">
+                <div id="comentarios-existentes" class="list-group scrollable-content">
                     @forelse ($restaurante->comentarios as $comentario)
                         @php
-                            $usuarioId = auth()->user()->id;
+                            $usuarioId = auth()->user() ? auth()->user()->id : null;
                             $usuarioBloqueado = DB::table('bloqueados')
                                 ->where('usuario_id', $usuarioId)
                                 ->where('usuario_bloqueado_id', $comentario->usuario_id)
@@ -89,185 +114,192 @@
                                 ->exists();
                         @endphp
         
-        <div class="media mt-3">
-            <div class="media-body">
-                <h5 class="mt-0">
-                    @if(Auth::check() && auth()->user()->id !== $comentario->usuario_id)
-                        @if ($usuarioBloqueado)
-                            No puedes ver este comentario porque el usuario ha sido bloqueado.
-                        @elseif ($usuarioDelComentarioBloqueado)
-                            No puedes ver este comentario porque el usuario te ha bloqueado.
-                        @else
-                            <a href="{{ route('perfil.ver', ['nombreUsuario' => $comentario->usuario->usuario]) }}" target="_blank">
-                                {{ $comentario->usuario->usuario }}
-                            </a>:
-                        @endif
-                    @else
-                        {{ $comentario->usuario->usuario }}:
-                    @endif
+                        <div class="media mt-3">
+                            @if ($comentario->usuario->imagen)
+                                <img src="{{ '/storage/' . $comentario->usuario->imagen }}" class="mr-3 rounded-circle" alt="{{ $comentario->usuario->usuario }}" width="50">
+                            @else
+                                <img src="{{ '/imagenes/' . "foto_perfil.jpg" }}" class="mr-3 rounded-circle" alt="{{ $comentario->usuario->usuario }}" width="50">
+                            @endif
+                            <div class="media-body">
+                                <h5 class="mt-0">
+                                    @if(Auth::check() && auth()->user()->id !== $comentario->usuario_id)
+                                        @if ($usuarioBloqueado)
+                                            <span class="text-danger">No puedes ver este comentario porque el usuario ha sido bloqueado.</span>
+                                        @elseif ($usuarioDelComentarioBloqueado)
+                                            <span class="text-danger">No puedes ver este comentario porque el usuario te ha bloqueado.</span>
+                                        @else
+                                            <a href="{{ route('perfil.ver', ['nombreUsuario' => $comentario->usuario->usuario]) }}" target="_blank">
+                                                {{ $comentario->usuario->usuario }}
+                                            </a>:
+                                        @endif
+                                    @else
+                                        {{ $comentario->usuario->usuario }}:
+                                    @endif
         
-                    @if ($comentario->modificado)
-                        <span class="text-muted">(Modificado)</span>
-                    @endif
-                </h5>
+                                    @if ($comentario->modificado)
+                                        <span class="text-muted">(Modificado)</span>
+                                    @endif
+                                </h5>
         
-                @if (!$usuarioBloqueado && !$usuarioDelComentarioBloqueado)
-                    {{ $comentario->contenido }}
-                    @auth
-                        @if(auth()->user()->id == $comentario->usuario_id)
-                            <div class="d-flex align-items-center mt-2">
-                                <form action="{{ route('restaurantes.eliminarComentario', ['comentarioId' => $comentario->id]) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger">Eliminar Comentario</button>
-                                </form>
+                                @if (!$usuarioBloqueado && !$usuarioDelComentarioBloqueado)
+                                
+                                        <p>{{ $comentario->contenido }}</p>
+                              
+                                    @auth
+                                        @if(auth()->user()->id == $comentario->usuario_id)
+                                            <div class="d-flex align-items-center mt-2">
+                                      
+                                                <form action="{{ route('restaurantes.eliminarComentario', ['comentarioId' => $comentario->id]) }}" method="POST" id="formEliminarComentario">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button" class="btn btn-sm btn-danger" onclick="confirmarEliminacion()">
+                                                        <i class="fa fa-trash"></i> 
+                                                    </button>
+                                                </form>
         
-                                <button class="btn btn-sm btn-warning ml-2" onclick="activarEdicion({{ $comentario->id }})">
-                                    <i class="fas fa-edit"></i> Editar Comentario
-                                </button>
+                                                <button class="btn btn-sm btn-warning ml-2" onclick="activarEdicion({{ $comentario->id }})">
+                                                    <i class="fas fa-edit"></i> 
+                                                </button>
         
-                                <button type="button" class="btn btn-sm btn-primary compartir-facebook ml-2"
-                                data-comentario="{{ $comentario->contenido }}"
-                                data-usuario="{{ $comentario->usuario->usuario }}">
-                                <i class="fab fa-facebook"></i> Compartir en Facebook
-                            </button>
-                            
-                            <button type="button" class="btn btn-sm btn-info compartir-twitter ml-2"
-                            data-comentario="{{ $comentario->contenido }}"
-                            data-usuario="{{ $comentario->usuario->usuario }}">
-                            <i class="fab fa-twitter"></i> Compartir en Twitter
-                        </button>
-                        
-                    </div>
-                    <br>
-                    <div id="areaEdicion{{ $comentario->id }}" style="display: none;">
-                        <textarea class="form-control" id="nuevoContenido{{ $comentario->id }}" rows="3" required>{{ $comentario->contenido }}</textarea>
-                        <a class="btn btn-primary mt-2" onclick="guardarEdicion({{ $comentario->id }})">Guardar Cambios</a>
-                    </div>
-                        @endif
-                    @endauth
-                @else
-                    No puedes ver este comentario.
-                @endif
-            </div>
-        </div>
-        @empty
-            <p>No hay comentarios aún.</p>
-        @endforelse
+                                                <div class="d-flex justify-content-end">
+                                                    <button type="button" class="btn btn-sm btn-primary compartir-facebook ml-2"
+                                                            data-comentario="{{ $comentario->contenido }}"
+                                                            data-usuario="{{ $comentario->usuario->usuario }}">
+                                                        <i class="fab fa-facebook"></i>
+                                                    </button>
+                                                
+                                                    <button type="button" class="btn btn-sm btn-info compartir-twitter ml-2"
+                                                            data-comentario="{{ $comentario->contenido }}"
+                                                            data-usuario="{{ $comentario->usuario->usuario }}">
+                                                        <i class="fab fa-twitter"></i> 
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="text-area" id="areaEdicion{{ $comentario->id }}" style="display: none;">
+                                                <textarea class="form-control" id="nuevoContenido{{ $comentario->id }}" rows="3" required>{{ $comentario->contenido }}</textarea>
+                                                <a class="btn btn-primary mt-2" onclick="guardarEdicion({{ $comentario->id }})">Guardar Cambios</a>
+                                                <a class="btn btn-secondary mt-2" onclick="cancelarEdicion({{ $comentario->id }})">Cancelar</a>
+                                            </div>
+                                        @endif
+                                    @endauth
+                                @else
+                                    <p class="text-danger">No puedes ver este comentario.</p>
+                                @endif
+                            </div>
+                        </div>
+                    @empty
+                        <p class="list-group-item list-group-item-action">No hay comentarios aún.</p>
+                    @endforelse
                 </div>
             </div>
         </div>
-
-
-                @auth
-                <div id="agregar-comentario" class="card mt-4">
-                    <div class="card-body">
-                        <form action="{{ route('restaurantes.comentar', ['restauranteId' => $restaurante->slug]) }}" method="POST">
-                            @csrf
-                            <div class="form-group">
-                                <label for="contenido">Agregar Comentario:</label>
-                                <textarea class="form-control" id="contenido" name="contenido" rows="3" required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Comentar</button>
-                        </form>
-                    </div>
-                </div>
-        
-                <!-- Enlaces para compartir en redes sociales -->
-                <div class="card mt-4">
-                    <div class="card-body">
-                        <h4>Compartir restaurante en redes sociales:</h4>
-                
-                        <div class="social-share-links mt-3">
-                            <a href="https://www.facebook.com/sharer/sharer.php?u=http://sharefood.local/restaurantes/{{ $restaurante->slug }}" target="_blank" class="btn btn-primary">
-                                <i class="fab fa-facebook"></i> Compartir en Facebook
-                            </a>
-                            
-                            <a href="https://twitter.com/intent/tweet?url=http://sharefood.local/restaurantes/{{ $restaurante->slug }}&text=¡Echa un vistazo a este restaurante increíble!" target="_blank" class="btn btn-info ml-2">
-                                <i class="fab fa-twitter"></i> Compartir en Twitter
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                    
-                @if ($usuarioReserva)
-                    @php
-                        $fechaReserva = $usuarioReserva->fecha;
-                        $haPasadoDeFecha = $usuarioReserva->haPasadoDeFecha();
-                    @endphp
-        
-        <div>
-            @if ($haPasadoDeFecha)
-                @if ($usuarioHaVotado)
-                    @php
-                        $puntuacionesUsuario = DB::table('puntuaciones')
-                            ->where('usuario_id', auth()->user()->id)
-                            ->where('restaurante_id', $restaurante->id)
-                            ->get();
-                    @endphp
-        
-                    @if ($puntuacionesUsuario->isNotEmpty())
-                        @php
-                            $promedioPuntuaciones = $puntuacionesUsuario->avg('puntuacion');
-                            $puntuacionRedondeada = round($promedioPuntuaciones);
-                        @endphp
-        
-        
-                        <div class="card mt-4">
-                            <div class="alert alert-success" role="alert">
-                                ¡Ya votaste este restaurante con una puntuación de {{ $puntuacionRedondeada }} estrella{{ $puntuacionRedondeada != 1 ? 's' : '' }}, gracias!
-                            </div>
-                            <div class="card-body">
-                                <h4 class="mb-3">Compartir puntuación del restaurante en redes sociales: </h4>
-                                <div class="social-share-links">
-                                    <button class="btn btn-primary compartir-facebook"
-                                            data-comentario="¡He votado este restaurante en ShareFood con una puntuación de {{ $puntuacionRedondeada }} estrella{{ $puntuacionRedondeada != 1 ? 's' : '' }}! ¡Ven a echar un vistazo!"
-                                            data-usuario="{{ auth()->user()->usuario }}">
-                                        <i class="fab fa-facebook-f"></i> Compartir en Facebook
-                                    </button>
-                                    <button class="btn btn-info compartir-twitter"
-                                            data-comentario="¡He votado este restaurante en ShareFood con una puntuación de {{ $puntuacionRedondeada }} estrella{{ $puntuacionRedondeada != 1 ? 's' : '' }}! ¡Ven a echar un vistazo!"
-                                            data-usuario="{{ auth()->user()->usuario }}">
-                                        <i class="fab fa-twitter"></i> Compartir en Twitter
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    @else
-                        <div class="alert alert-info" role="alert">
-                            Aún no has dado ninguna puntuación a este restaurante.
-                        </div>
-                    @endif
-                @else
-                    <h3 class="mb-3">Puntuar Restaurante</h3>
-                    <form action="{{ route('restaurantes.puntuar', ['slug' => $restaurante->slug]) }}" method="POST">
+        @auth
+            <div id="agregar-comentario" class="card mt-4">
+                <div class="card-body">
+                    <form action="{{ route('restaurantes.comentar', ['restauranteId' => $restaurante->slug]) }}" method="POST">
                         @csrf
                         <div class="form-group">
-                            <label for="puntuacion">Puntuación (1-5):</label>
-                            <select class="form-control" name="puntuacion" id="puntuacion" required>
-                                @for ($i = 1; $i <= 5; $i++)
-                                    <option value="{{ $i }}">{{ $i }}</option>
-                                @endfor
-                            </select>
+                            <label for="contenido">Agregar Comentario:</label>
+                            <textarea class="form-control" id="contenido" name="contenido" rows="3" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Puntuar</button>
+                        <button type="submit" class="btn btn-primary">Comentar</button>
                     </form>
-                @endif
-            @endif
-        </div>
-        
-        
-                @endif
-                <div id="hacer-reserva" class="card mt-4">
-                    <div class="card-body">
-                        <a href="{{ route('restaurantes.nuevaReserva', ['slug' => $restaurante->slug]) }}" class="btn btn-success">Hacer Reserva</a>
+                </div>
+            </div>
+
+            <!-- Enlaces para compartir en redes sociales -->
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h4>Compartir restaurante en redes sociales:</h4>
+                
+                    <div class="social-share-links mt-3">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=http://sharefood.local/restaurantes/{{ $restaurante->slug }}" target="_blank" class="btn btn-primary">
+                            <i class="fab fa-facebook"></i> Compartir en Facebook
+                        </a>
+                        
+                        <a href="https://twitter.com/intent/tweet?url=http://sharefood.local/restaurantes/{{ $restaurante->slug }}&text=¡Echa un vistazo a este restaurante increíble!" target="_blank" class="btn btn-info ml-2">
+                            <i class="fab fa-twitter"></i> Compartir en Twitter
+                        </a>
                     </div>
                 </div>
-            @else
-                <p class="mt-4">Inicia sesión para dejar un comentario o realizar una reserva.</p>
-            @endauth
-        </div>
+            </div>
+            
+            @if ($usuarioReserva)
+                @php
+                    $fechaReserva = $usuarioReserva->fecha;
+                    $haPasadoDeFecha = $usuarioReserva->haPasadoDeFecha();
+                @endphp
         
+                <div>
+                    @if ($haPasadoDeFecha)
+                        @if ($usuarioHaVotado)
+                            @php
+                                $puntuacionesUsuario = DB::table('puntuaciones')
+                                    ->where('usuario_id', auth()->user()->id)
+                                    ->where('restaurante_id', $restaurante->id)
+                                    ->get();
+                            @endphp
+        
+                            @if ($puntuacionesUsuario->isNotEmpty())
+                                @php
+                                    $promedioPuntuaciones = $puntuacionesUsuario->avg('puntuacion');
+                                    $puntuacionRedondeada = round($promedioPuntuaciones);
+                                @endphp
+        
+        
+                                <div class="card mt-4">
+                                    <div class="alert alert-success" role="alert">
+                                        ¡Ya votaste este restaurante con una puntuación de {{ $puntuacionRedondeada }} estrella{{ $puntuacionRedondeada != 1 ? 's' : '' }}, gracias!
+                                    </div>
+                                    <div class="card-body">
+                                        <h4 class="mb-3">Compartir puntuación del restaurante en redes sociales: </h4>
+                                        <div class="social-share-links">
+                                            <button class="btn btn-primary compartir-facebook"
+                                                    data-comentario="¡He votado este restaurante en ShareFood con una puntuación de {{ $puntuacionRedondeada }} estrella{{ $puntuacionRedondeada != 1 ? 's' : '' }}! ¡Ven a echar un vistazo!"
+                                                    data-usuario="{{ auth()->user()->usuario }}">
+                                                <i class="fab fa-facebook-f"></i> Compartir en Facebook
+                                            </button>
+                                            <button class="btn btn-info compartir-twitter"
+                                                    data-comentario="¡He votado este restaurante en ShareFood con una puntuación de {{ $puntuacionRedondeada }} estrella{{ $puntuacionRedondeada != 1 ? 's' : '' }}! ¡Ven a echar un vistazo!"
+                                                    data-usuario="{{ auth()->user()->usuario }}">
+                                                <i class="fab fa-twitter"></i> Compartir en Twitter
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="alert alert-info" role="alert">
+                                    Aún no has dado ninguna puntuación a este restaurante.
+                                </div>
+                            @endif
+                        @else
+                        <div class="card mt-4">
+                            <div class="card-body">
+                                <h3 class="mb-4">Puntuar Restaurante</h3>
+                                <form action="{{ route('restaurantes.puntuar', ['slug' => $restaurante->slug]) }}" method="POST">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="puntuacion">Puntuación (1-5):</label>
+                                        <select class="form-control" name="puntuacion" id="puntuacion" required>
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <option value="{{ $i }}">{{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Puntuar</button>
+                                </form>
+                            </div>
+                        </div>
+                        @endif
+                    @endif
+                </div>
+            @endif
+        @else
+            <p class="comentario_iniciasesion">Inicia sesión para dejar un comentario o realizar una reserva.</p>
+        @endauth
+    </div>
+</div>
         <script>
             $(document).ready(function() {
 
@@ -346,7 +378,30 @@
     .catch(error => {
         console.error('Error al actualizar el comentario:', error);
     });
+
 }
+function cancelarEdicion(comentarioId) {
+    $('#areaEdicion' + comentarioId).hide();
+}
+
+function confirmarEliminacion() {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'Esta acción no se puede deshacer.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminarlo',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('formEliminarComentario').submit();
+            }
+        });
+    }
+
+
         </script>
         @endsection
         
