@@ -3,7 +3,12 @@
 @section('contenido')
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="{{ asset('css/mensajes.css') }}">
+<link rel="stylesheet" href="{{ asset('css/perfil-social.css') }}">
+<!-- Agregamos SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.2/dist/sweetalert2.all.min.js"></script>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <div class="container mt-3">
     @auth
@@ -16,64 +21,24 @@
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     {{ $amigo->usuario }}
                     <div class="btn-group" role="group">
-                        <a href="{{ route('perfil.mensajes', ['amigoId' => $amigo->id]) }}" class="btn btn-primary btn-messages">Mensajes</a>
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#eliminarAmigoModal{{ $amigo->id }}">
-                            Eliminar
-                        </button>
-                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#bloquearAmigoModal{{ $amigo->id }}">
-                            Bloquear
-                        </button>
+                        <a href="{{ route('perfil.mensajes', ['amigoId' => $amigo->id]) }}" class="btn btn-primary btn-sm"><i class="fas fa-envelope"></i></a>
+
+                        <form id="formEliminarAmigo{{ $amigo->id }}" method="post" style="display:inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="button" class="btn btn-danger btn-sm eliminar-amigo" data-amigo-id="{{ $amigo->id }}" onclick="confirmEliminarAmigo({{ $amigo->id }})">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
+
+                        <form id="formBloquearAmigo{{ $amigo->id }}" method="post" style="display:inline">
+                            @csrf
+                            <button type="button" class="btn btn-warning btn-sm bloquear-amigo" data-amigo-id="{{ $amigo->id }}" onclick="confirmBloquearAmigo({{ $amigo->id }})">
+                                <i class="fas fa-ban"></i>
+                            </button>
+                        </form>
                     </div>
                 </li>
-
-                <!-- Modal para confirmar la eliminación de un amigo -->
-                <div class="modal fade" id="eliminarAmigoModal{{ $amigo->id }}" tabindex="-1" role="dialog" aria-labelledby="eliminarAmigoModalLabel{{ $amigo->id }}" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="eliminarAmigoModalLabel{{ $amigo->id }}">Confirmar Eliminación</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                ¿Seguro que quieres eliminar a {{ $amigo->usuario }} de tu lista de amigos?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <form action="{{ route('perfil.eliminarAmigo', ['amigoId' => $amigo->id]) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Eliminar</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Modal para confirmar el bloqueo de un amigo -->
-                <div class="modal fade" id="bloquearAmigoModal{{ $amigo->id }}" tabindex="-1" role="dialog" aria-labelledby="bloquearAmigoModalLabel{{ $amigo->id }}" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="bloquearAmigoModalLabel{{ $amigo->id }}">Confirmar Bloqueo</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                ¿Seguro que quieres bloquear a {{ $amigo->usuario }}? Esto eliminará todos los mensajes y no podrán enviarte más solicitudes de amistad.
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <form action="{{ route('perfil.bloquearAmigo', ['amigoId' => $amigo->id]) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="btn btn-warning">Bloquear</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             @empty
                 <li class="list-group-item">No tienes amigos.</li>
             @endforelse
@@ -89,11 +54,11 @@
                     <div class="d-flex">
                         <form action="{{ route('perfil.aceptarSolicitud', ['id' => $solicitud->id]) }}" method="POST" class="mr-2">
                             @csrf
-                            <button type="submit" class="btn btn-success">Aceptar</button>
+                            <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-check"></i></button>
                         </form>
                         <form action="{{ route('perfil.rechazarSolicitud', ['id' => $solicitud->id]) }}" method="POST">
                             @csrf
-                            <button type="submit" class="btn btn-danger">Rechazar</button>
+                            <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></button>
                         </form>
                     </div>
                 </li>
@@ -104,15 +69,55 @@
         <br>
         <form action="{{ route('perfil.bloqueos') }}" method="POST">
             @csrf
-            <button type="submit" class="btn btn-danger mr-2">Ver Bloqueos</button>
-            <a href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-primary">Volver al perfil</a>
+            <button type="submit" class="btn btn-danger mr-2" style="width: 150px;">Ver Bloqueos</button>
+            <a href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-primary">
+                <i class="fas fa-arrow-left"></i> 
+            </a>
+            
         </form>
-
-
     </div>
 
     @endif
     @endauth
 </div>
+
+<script>
+    function confirmEliminarAmigo(amigoId) {
+        Swal.fire({
+            title: 'Confirmar Eliminación',
+            text: '¿Seguro que quieres eliminar a este amigo?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var form = document.getElementById('formEliminarAmigo' + amigoId);
+                form.action = "{{ route('perfil.eliminarAmigo', ['amigoId' => ':amigoId']) }}".replace(':amigoId', amigoId);
+                form.submit();
+            }
+        });
+    }
+
+    function confirmBloquearAmigo(amigoId) {
+        Swal.fire({
+            title: 'Confirmar Bloqueo',
+            text: '¿Seguro que quieres bloquear a este amigo?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, bloquear'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var form = document.getElementById('formBloquearAmigo' + amigoId);
+                form.action = "{{ route('perfil.bloquearAmigo', ['amigoId' => ':amigoId']) }}".replace(':amigoId', amigoId);
+                form.submit();
+            }
+        });
+    }
+    
+</script>
 
 @endsection
