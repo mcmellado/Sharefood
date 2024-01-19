@@ -1,32 +1,37 @@
+/* ver-reservas.css */
+
+body {
+    background-color: #D5EB9B !important;
+}
+
 .container {
     margin-top: 40px;
 }
 
-.alert-success-container {
-    margin-bottom: 20px;
+table {
+    background-color: #343a40;
+    color: #ffffff; /* texto en blanco */
+}
+
+.table {
+    border-radius: 10px!important; /* Ajusta este valor según tus preferencias */
+}
+
+.card {
+    background-color: #343a40 !important; 
+    color: white !important; 
+}
+
+.table th,
+.table td {
+    padding: 15px; 
+    margin: 5px; 
+    color: white !important; 
+    background-color: #343a40 !important; 
+    font-size: 20px; 
 }
 
 
-.reserva-container {
-    max-height: 800px;
-    overflow-y: auto;
-}
-
-.reserva-card {
-    margin-bottom: 20px;
-}
-
-
-.btn-cancelar-reserva {
-    margin-right: 10px;
-}
-
-
-.btn-modificar-reserva {
-    margin-right: 10px;
-}
-
-
-.btn-return-admin {
-    margin-top: 20px;
+.btn btn-primary {
+    width: 150px;
 }

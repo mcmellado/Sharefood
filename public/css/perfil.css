@@ -26,3 +26,21 @@
 .btn-container .btn {
     margin-right: 10px; 
 }
+
+
+body {
+    background-color: #D5EB9B !important; /* Fondo del body */
+}
+
+.card {
+    background-color: #343a40 !important; /* Fondo de las tarjetas */
+    color: white !important; /* Texto dentro de las tarjetas */
+}
+
+.table th,
+.table td {
+    color: white !important; /* Color del texto en las celdas de la tabla */
+    background-color: #343a40 !important; /* Fondo de las tarjetas */
+
+}
+
