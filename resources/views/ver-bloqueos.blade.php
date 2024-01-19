@@ -48,8 +48,6 @@
             if (result.isConfirmed) {
                 var form = document.getElementById('desbloquearForm' + usuarioId);
                 form.submit();
-
-                // Ocultar el elemento de la lista después de desbloquear
                 var elementoLista = elementoBoton.closest('.list-group-item');
                 if (elementoLista) {
                     elementoLista.style.display = 'none';

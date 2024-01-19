@@ -1,19 +1,66 @@
+
+
+.main-container {
+        margin-bottom: 200px;
+        position: relative;
+    }
+
+/* Añade tus estilos personalizados para locales.blade.php aquí */
+
+/* Mejora la apariencia de la lista de restaurantes */
+.list-group-item {
+    background-color: #2a2f35; /* Fondo de las listas */
+    color: #ffffff; /* Texto en las listas */
+    border: 1px solid #34495E; /* Borde de las listas */
+    margin-bottom: 10px;
+}
+
+.list-group-item h5 {
+    color: white; 
+    font-size: 20px;
+}
+
+
+.btn-danger:hover {
+    background-color: #C0392B !important; /* Fondo del botón de borrar al pasar el mouse */
+    border-color: #C0392B !important; /* Borde del botón de borrar al pasar el mouse */
+}
+
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
+    background-color: #D5EB9B!important; 
+    color: #ffffff; 
 }
 
-.scroll-container {
-    max-height: 40vh; 
-    overflow-y: auto;
-    margin-top: 20px; 
+
+h5 {
+    color: white;
+}
+.card-body {
+    position: relative;
+    bottom: 103px;
 }
 
-.fixed-alert {
-    position: fixed;
-    top: 0;
-    right: 0;
-    z-index: 999; }
+.btn-group {
+    position: relative;
+    bottom: 100px;
+    left: 415px;
+
+}
+
+h1 {
+    color: #2a2f35;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #D4EDFC;
+    border-color: #c3e6cb;
+    bottom: 110px;
+    border: solid 1px green;
+    margin: 10px;
+}
+
+
+
+
 

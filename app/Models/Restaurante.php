@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use App\Models\Producto;
+use App\Models\Comentario;
+use App\Models\Reserva;
 
 
 
@@ -32,6 +34,7 @@ class Restaurante extends Model
         return $this->hasMany(Comentario::class)->orderBy('id');
     }
 
+
     public function restaurante()
     {
         return view('restaurantes.restaurante');
@@ -45,6 +48,17 @@ class Restaurante extends Model
     public function horarios()
     {
         return $this->hasMany(Horario::class);
+    }
+
+    public function productos()
+    {
+        return $this->hasMany(Producto::class);
+    }
+
+    
+    public function comentario()
+    {
+        return $this->hasMany(Comentario::class);
     }
 
     public function usuario()

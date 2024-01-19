@@ -238,6 +238,9 @@ public function puntuar(Request $request, $slug)
     $restaurante = Restaurante::where('slug', $slug)->first();
     if ($restaurante && $restaurante->usuario->id == auth()->user()->id) {
         $restaurante->horarios()->delete();
+        $restaurante->productos()->delete();
+        $restaurante->comentario()->delete();
+        $restaurante->reservas()->delete();
         $restaurante->delete();
 
         return redirect()->route('perfil.mis-restaurantes',  ['nombreUsuario' => auth()->user()->usuario])->with('success', 'Restaurante borrado exitosamente.');
