@@ -1,0 +1,40 @@
+body {
+    background-color: #D5EB9B;
+}
+
+.btn-danger, .btn-warning, .btn-success, a{
+    color: white;
+    margin: 5px;
+}
+
+.btn-danger {
+    background-color: #d33 !important;
+    width: 50px;
+    left: 85%;
+    position: relative;
+}
+
+.btn-warning {
+    background-color: #FFD700 !important;
+    width: 60px;
+
+}
+
+.btn-primary {
+    width: 60px;
+
+}
+
+.btn-success {
+    background-color: #28a745 !important;
+}
+
+.list-group-item {
+    background-color: #343a40;
+    color: white;
+    margin-top: 5px;
+}
+
+.list-group-item:hover {
+    background-color: #495057;
+}

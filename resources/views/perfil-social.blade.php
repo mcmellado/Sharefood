@@ -15,7 +15,7 @@
     @if(Auth::user()->id === $usuario->id)
 
     <div class="mt-3">
-        <h3>Amigos</h3>
+        <h3>Amigos:</h3>
         <ul class="list-group">
             @forelse($amigos as $amigo)
                 <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -44,9 +44,10 @@
             @endforelse
         </ul>
     </div>
+    <br>
 
     <div class="mt-3">
-        <h3>Solicitudes Pendientes</h3>
+        <h3>Solicitudes Pendientes:</h3>
         <ul class="list-group">
             @forelse($solicitudesPendientes as $solicitud)
                 <li class="list-group-item d-flex justify-content-between align-items-center">

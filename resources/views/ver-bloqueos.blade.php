@@ -2,6 +2,11 @@
 
 @section('contenido')
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.2/dist/sweetalert2.all.min.js"></script>
+<link rel="stylesheet" href="{{ asset('css/bloqueos.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+
 
 <div class="container mt-3">
     <h3>Bloqueos</h3>
@@ -13,70 +18,45 @@
                 @endphp
                 {{ $usuarioBloqueado->usuario }}
 
-                <button class="btn btn-danger btn-sm float-right" onclick="openModal('{{ $usuarioBloqueado->usuario }}', '{{ route('perfil.desbloquearUsuario', ['usuarioId' => $usuarioBloqueado->id]) }}')">
-                    Desbloquear
-                </button>
+                <form id="desbloquearForm{{ $usuarioBloqueado->id }}" action="{{ route('perfil.desbloquearUsuario', ['usuarioId' => $usuarioBloqueado->id]) }}" method="POST" style="display:inline">
+                    @csrf
+                    <button type="button" class="btn btn-danger btn-sm btn-desbloquear" onclick="confirmDesbloquearUsuario({{ $usuarioBloqueado->id }}, this)">
+                        <i class="fas fa-unlock"></i> 
+                    </button>
+                </form>
             </li>
         @empty
             <li class="list-group-item">No tienes usuarios bloqueados.</li>
         @endforelse
+        <a href="{{ route('perfil.social', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-primary">
+            <i class="fas fa-arrow-left"></i> 
+        </a>
     </ul>
-    <a href="{{ route('perfil.social', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-danger mt-3">Volver atrás</a>
-
-    <div class="modal fade" id="desbloquearModal" tabindex="-1" role="dialog" aria-labelledby="desbloquearModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="desbloquearModalLabel">Desbloquear Usuario</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p id="usuarioDesbloquear"></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    
-                    <form id="desbloquearForm" method="POST" action="">
-                        @csrf
-                        <button type="submit" class="btn btn-danger">Desbloquear</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function openModal(nombreUsuario, urlDesbloqueo) {
-            $('#desbloquearForm').attr('action', urlDesbloqueo);
-            $('#usuarioDesbloquear').html('¿Estás seguro de desbloquear a ' + nombreUsuario + '?');
-            $('#desbloquearModal').modal('show');
-        }
-
-        // Añade este código para cerrar el modal cuando se hace clic en "Cancelar"
-        $('#desbloquearModal').on('hidden.bs.modal', function () {
-            $(this).find('form').trigger('reset'); // Reinicia el formulario dentro del modal
-        });
-
-        // Añade este código para recargar la página después de desbloquear
-        $('#desbloquearForm').on('submit', function () {
-            location.reload(true);
-        });
-
-        $.ajax({
-        type: form.attr('method'),
-        url: form.attr('action'),
-        data: form.serialize(),
-        success: function (data) {
-            $('#desbloquearModal').modal('hide');
-            location.reload(true);
-        },
-        error: function (data) {
-            console.log('Error al desbloquear usuario');
-        }
-    });
-    </script>
 </div>
+
+<script>
+    function confirmDesbloquearUsuario(usuarioId, elementoBoton) {
+        Swal.fire({
+            title: 'Confirmar Desbloqueo',
+            text: '¿Seguro que quieres desbloquear a este usuario?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, desbloquear'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var form = document.getElementById('desbloquearForm' + usuarioId);
+                form.submit();
+
+                // Ocultar el elemento de la lista después de desbloquear
+                var elementoLista = elementoBoton.closest('.list-group-item');
+                if (elementoLista) {
+                    elementoLista.style.display = 'none';
+                }
+            }
+        });
+    }
+</script>
 
 @endsection
