@@ -33,9 +33,16 @@
                         <a href="{{ route('restaurantes.verComentarios', ['slug' => $restaurante->slug]) }}" class="btn btn-secondary "><i class="far fa-comments"></i> </a>
                         <a href="{{ route('restaurantes.gestionar_carta', ['slug' => $restaurante->slug]) }}" class="btn btn-secondary"> <i class="fas fa-book-open"></i> </a>
                         
+                        @if(!$restaurante->tieneReservasFuturas())
                         <button class="btn btn-danger" onclick="confirmarBorrado('{{ $restaurante->slug }}')">
                             <i class="far fa-trash-alt"></i> 
                         </button>
+                    @else
+                        <button class="btn btn-danger" onclick="mostrarMensajeReservas()">
+                            <i class="far fa-trash-alt"></i> 
+                        </button>
+                    @endif
+                    
                
                         
                     </li>
@@ -94,6 +101,16 @@
         }
     });
 }
+
+function mostrarMensajeReservas() {
+        Swal.fire({
+            title: 'No puedes borrar el restaurante',
+            text: 'Tienes reservas pendientes para este restaurante.',
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Entendido'
+        });
+    }
 </script>
 
 @endsection

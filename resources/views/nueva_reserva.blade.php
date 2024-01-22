@@ -127,7 +127,7 @@ function formatHora(hora) {
         });
     @endforeach
 
-    var horariosRestaurante = {!! json_encode($restaurante->horarios) !!};
+    var horariosRestaurante = {!! json_encode($restaurante->horarios) !!};    
 
     function validarReserva() {
         var fechaInput = document.getElementById('fecha');
@@ -170,17 +170,19 @@ function formatHora(hora) {
         intervaloFin.setHours(intervaloFin.getHours() + 1);
 
         var reservasEnIntervalo = 1;
+        var tiempoPermanencia = {{ $restaurante->tiempo_permanencia * 60 * 1000 }}; // Convertir a milisegundos
 
         Object.keys(reservasPorFecha).forEach(function (fecha) {
             reservasPorFecha[fecha].forEach(function (reserva) {
                 var fechaReserva = new Date(fecha + 'T' + reserva.hora);
-                if (fechaReserva >= intervaloInicio && fechaReserva <= intervaloFin) {
+                var fechaReservaFin = new Date(fechaReserva.getTime() + tiempoPermanencia); // Calcular fin del intervalo de la reserva
+                if ((fechaReserva >= intervaloInicio && fechaReserva <= intervaloFin) || (fechaReservaFin >= intervaloInicio && fechaReservaFin <= intervaloFin)) {
                     reservasEnIntervalo += parseInt(reserva.personas);
                 }
             });
         });
-
-        if (reservasEnIntervalo + parseInt(cantidadPersonasInput.value) > {{ $restaurante->aforo_maximo }}) {
+        
+        if (reservasEnIntervalo + parseInt(cantidadPersonasInput.value) > {{ $restaurante->aforo_maximo }} + 1) {
             mostrarAlerta('Aforo completo en esos momentos. Por favor, reserva más tarde.', 'danger');
             return false;
         }

@@ -87,5 +87,10 @@ public function actualizarPuntuacionPromedio()
     $this->puntuacion = $puntuacionPromedio * 2; 
     $this->save();
 }
+
+public function tieneReservasFuturas()
+{
+    return $this->reservas()->where('fecha', '>', now()->toDateString())->exists();
+}
     
 }

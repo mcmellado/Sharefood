@@ -14,11 +14,9 @@ class ReservaController extends Controller
 {
     $restaurante = Restaurante::where('slug', $slug)->firstOrFail();
 
-    // Obtener la fecha actual
     $fecha = now()->toDateString();
     $restauranteId = $restaurante->id;
 
-    // Llamar al método estático directamente
     $controller = new ReservaController();
     $horasDisponibles = $controller->obtenerHorasDisponibles(new Request([
         'fecha' => $fecha,

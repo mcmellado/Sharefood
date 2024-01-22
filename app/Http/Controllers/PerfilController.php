@@ -95,10 +95,9 @@
 
     public function mostrar($nombreUsuario)
 {
-    // Obtener el usuario correspondiente al nombre
+
     $usuario = User::where('usuario', $nombreUsuario)->firstOrFail();
 
-    // Verificar si el usuario actual puede enviar una solicitud
     $puedeEnviarSolicitud = $this->puedeEnviarSolicitud(Auth::user()->id, $usuario->id);
 
     return view('perfil.mostrar', compact('usuario', 'puedeEnviarSolicitud'));
@@ -138,7 +137,7 @@
         public function obtenerSolicitudesPendientes()
         {
             $solicitudesPendientes = Contacto::where('otro_usuario_id', auth()->user()->id)
-                ->where('estado', 'pendiente') // Cambiado de 'aceptada' a 'estado'
+                ->where('estado', 'pendiente') 
                 ->get();
         
             return $solicitudesPendientes;
@@ -151,7 +150,6 @@
         
         $solicitudesPendientes = $this->obtenerSolicitudesPendientes();
 
-        // Obtener la lista de amigos del usuario actual
         $amigos = Auth::user()->amigos;
 
         return view('perfil-social', [
@@ -165,13 +163,11 @@
     {
         $solicitud = Contacto::findOrFail($id);
 
-        // Verificar si la solicitud está pendiente
         if ($solicitud->estado !== 'pendiente') {
             return redirect()->route('perfil.social', ['nombreUsuario' => Auth::user()->usuario])
                 ->with('warning', 'La solicitud de amistad ya ha sido aceptada o rechazada.');
         }
 
-        // Marcar la solicitud como aceptada
         $solicitud->estado = 'aceptada';
         $solicitud->save();
 
@@ -251,13 +247,11 @@
 {
     $usuario = Auth::user();
 
-    // Verificar si el usuario actual ha bloqueado al amigo
     $bloqueadoPorUsuario = DB::table('bloqueados')
         ->where('usuario_id', $usuario->id)
         ->where('usuario_bloqueado_id', $amigoId)
         ->exists();
 
-    // Verificar si el amigo ha bloqueado al usuario
     $amigo = User::find($amigoId);
     $bloqueadoPorAmigo = DB::table('bloqueados')
         ->where('usuario_id', $amigoId)
@@ -321,7 +315,6 @@ public function bloquearAmigo($amigoId)
         ->whereIn('amigo_id', [$usuario->id, $amigoId])
         ->count();
 
-    // Verificar si ya son amigos antes de borrar de la tabla de amigos
     if ($amigoExistente) {
         DB::table('amigos_user')
             ->whereIn('usuario_id', [$usuario->id, $amigoId])

@@ -30,10 +30,10 @@ class Reserva extends Model
     public function haPasadoDeFecha()
 {
     $fechaActual = Carbon::now();
-
-    $fechaReserva = Carbon::parse($this->fecha)->startOfDay();
-
-    return $fechaReserva->lessThanOrEqualTo($fechaActual);
+    $fechaReserva = Carbon::parse($this->fecha);
+    $horaReserva = Carbon::parse($this->hora);
+    $fechaHoraReserva = $fechaReserva->setHour($horaReserva->hour)->setMinute($horaReserva->minute);
+    return $fechaHoraReserva->lte($fechaActual);
 }
 
         
