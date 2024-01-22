@@ -5,6 +5,8 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="{{ asset('css/ver-reservas.css') }}">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.2/dist/sweetalert2.all.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 
 <div class="container mt-5">
     <div class="card">
@@ -47,8 +49,9 @@
             @endif
 
             <div class="mt-4">
-                <a href="{{ route('perfil.mis-restaurantes', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-danger">Volver atrás</a>
-                <a href="{{ route('restaurantes.ver_pedidos', ['slug' => $restaurante->slug]) }}" class="btn btn-primary">Ver Pedidos</a>
+                <a href="{{ route('perfil.mis-restaurantes', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-danger">
+                    <i class="fas fa-arrow-left"></i> 
+                </a>                
             </div>
         </div>
     </div>

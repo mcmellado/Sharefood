@@ -64,5 +64,10 @@ class User extends Authenticatable
         return $this->hasMany(Bloqueado::class, 'usuario_bloqueado_id');
     }
 
+    public function puntuaciones()
+{
+    return $this->hasMany(Puntuacion::class, 'usuario_id');
+}
+
     
 }

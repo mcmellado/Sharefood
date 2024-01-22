@@ -2,6 +2,7 @@
 
 @section('contenido')
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link rel="stylesheet" href="{{ asset('css/modificar-restaurante-usuario.css') }}">
 
 
@@ -48,15 +49,31 @@
 
                 <div class="form-group">
                     <label for="aforo_maximo">Aforo Máximo:</label>
-                    <input type="number" name="aforo_maximo" value="{{ old('aforo_maximo', $restaurante->aforo_maximo) }}" class="form-control" required>
-                    @error('aforo_maximo')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
+                    @if(!$restaurante->tieneReservasFuturas())
+                        <input type="number" name="aforo_maximo" value="{{ old('aforo_maximo', $restaurante->aforo_maximo) }}" class="form-control" required>
+                        @error('aforo_maximo')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    @else
+                        <p class="text-danger">No puedes modificar el aforo máximo con reservas próximas pendientes.</p>
+                    @endif
+                </div>
+
+                <div class="form-group">
+                    <label for="tiempo_permanencia">Tiempo de Permanencia (en minutos):</label>
+                    @if(!$restaurante->tieneReservasFuturas())
+                        <input type="number" name="tiempo_permanencia" value="{{ old('tiempo_permanencia', $restaurante->tiempo_permanencia) }}" class="form-control" required>
+                        @error('tiempo_permanencia')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    @else
+                        <p class="text-warning">No puedes modificar el tiempo de permanencia con reservas próximas pendientes.</p>
+                    @endif
                 </div>
                 
-                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                <a href="{{ route('perfil.mis-restaurantes', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-danger">Volver atrás</a>
-                <a href="{{ route('restaurantes.gestionar_carta', ['slug' => $restaurante->slug]) }}" class="btn btn-secondary">Gestionar Carta</a>
+                
+                <a href="{{ route('perfil.mis-restaurantes', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-danger"><i class="fas fa-arrow-left"></i></a>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar cambios</button>
             </form>
         </div>
     </div>

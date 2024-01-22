@@ -19,6 +19,15 @@
 <div class="container mt-5">
     <div class="card-body">
         <h1 class="mb-4 display-4">Mis Restaurantes:</h1>
+        
+        <div  class="d-flex mb-2">
+            <a href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-primary mr-2">Volver al perfil</a>
+        
+            <form action="{{ route('crear-nuevo-restaurante.formulario') }}" method="post">
+                @csrf
+                <button type="submit" class="btn btn-success mr-2">Crear Nuevo Restaurante</button>
+            </form>
+        </div>
 
         @if(count($restaurantes) > 0)
             <ul class="list-group">
@@ -32,6 +41,9 @@
                         <a href="{{ route('restaurantes.verReservas', ['slug' => $restaurante->slug]) }}" class="btn btn-primary "><i class="far fa-calendar"></i> </a>
                         <a href="{{ route('restaurantes.verComentarios', ['slug' => $restaurante->slug]) }}" class="btn btn-secondary "><i class="far fa-comments"></i> </a>
                         <a href="{{ route('restaurantes.gestionar_carta', ['slug' => $restaurante->slug]) }}" class="btn btn-secondary"> <i class="fas fa-book-open"></i> </a>
+                        <a href="{{ route('restaurantes.ver_pedidos', ['slug' => $restaurante->slug]) }}" class="btn btn-primary"> <i class="fas fa-utensils"> </i> </a>
+                        
+
                         
                         @if(!$restaurante->tieneReservasFuturas())
                         <button class="btn btn-danger" onclick="confirmarBorrado('{{ $restaurante->slug }}')">
@@ -53,14 +65,7 @@
         @endif
     </div>
 </div>
-<div class="btn-group">
-    <a href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-primary mr-2">Volver al perfil</a>
 
-    <form action="{{ route('crear-nuevo-restaurante.formulario') }}" method="post">
-        @csrf
-        <button type="submit" class="btn btn-success mr-2">Crear Nuevo Restaurante</button>
-    </form>
-</div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
@@ -75,7 +80,8 @@
         showCancelButton: true,
         confirmButtonColor: '#d33',
         cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Sí, borrar'
+        confirmButtonText: 'Sí, borrar',
+        cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
             var form = document.createElement('form');
