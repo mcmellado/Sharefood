@@ -13,6 +13,7 @@
     use App\Models\Bloqueado;
     use Illuminate\Support\Str;
     use Illuminate\Support\Facades\Redirect;
+    use App\Models\Pedido;
 
 
 
@@ -418,6 +419,14 @@ public function puedeEnviarSolicitud($usuarioId, $otroUsuarioId)
         ->exists();
 
     return !($bloqueadoPorUsuario || $bloqueadoPorOtro);
+}
+
+public function verPedidos()
+{
+    $usuarioId = Auth::id();
+    $pedidos = Pedido::where('usuario_id', $usuarioId)->get();
+
+    return view('ver-pedidos', compact('pedidos'));
 }
 
  }

@@ -29,22 +29,23 @@
 
 
 body {
-    background-color: #D5EB9B !important; /* Fondo del body */
+    background-color: #D5EB9B !important; 
 }
 
 .card {
-    background-color: #343a40 !important; /* Fondo de las tarjetas */
-    color: white !important; /* Texto dentro de las tarjetas */
+    background-color: #343a40 !important; 
+    color: white !important; 
 }
 
 .table th,
 .table td {
-    color: white !important; /* Color del texto en las celdas de la tabla */
-    background-color: #343a40 !important; /* Fondo de las tarjetas */
+    color: white !important; 
+    background-color: #343a40 !important;
+    align-items: center;
 
 }
 
-.d-flex {
-    position: relative!important;
-    left: 15%!important; }
+.form-group input {
+    background-color: gray;
+}
 

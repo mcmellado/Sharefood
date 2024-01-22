@@ -53,8 +53,14 @@
         <h2 class="titulo text-verde display-4">Descubre los Mejores Restaurantes: </h2>
         <div class="custom-row-item my-4">
             @php
-                $mejoresLocales = \App\Models\Restaurante::orderByDesc('puntuacion')->take(4)->get();
+                    $mejoresLocales = \App\Models\Restaurante::with('puntuaciones')
+                        ->take(4)
+                        ->get();
+
+                    $mejoresLocales = $mejoresLocales->sortBy('puntuacion');
             @endphp
+
+        
 
 <div class="row">
     @forelse($mejoresLocales as $local)
@@ -73,7 +79,7 @@
                     <p class="mb-0">Puntuación:</p>
                     <div class="custom-star-rating">
                         @php
-                            $puntuacion = $local->puntuacion ?: 0;
+                            $puntuacion = $local->puntuaciones->avg('puntuacion') ?: 0;
                         @endphp
                         @for ($i = 1; $i <= 5; $i++)
                             @if ($i <= $puntuacion)

@@ -100,6 +100,7 @@ Route::get('/mis-restaurantes/modificar/{slug}', [RestauranteController::class, 
 Route::put('/mis-restaurantes/modificar/{slug}', [RestauranteController::class, 'modificarRestaurante'])->name('restaurante.mis-restaurantes.guardar-modificacion');
 Route::post('/crear-nuevo-restaurante', [RestauranteController::class, 'formularioCrearRestaurante'])->name('crear-nuevo-restaurante.formulario');
 Route::post('/registrar-nuevo-restaurante', [RestauranteController::class, 'registrarNuevoRestaurante'])->name('registrar-nuevo-restaurante');
+Route::post('/perfil/ver-pedidos', [PerfilController::class, 'verPedidos'])->name('perfil.verPedidos');
 
 
 

@@ -7,7 +7,6 @@
     <div class="container mt-5">
         <div class="card">
             <div class="card-body text-center">
-                <!-- Alerta para mostrar después de enviar la solicitud -->
                 @if(session('success'))
                 <div id="solicitud-enviada-alert" class="alert alert-success alert-dismissible fade show" style="display: none;">
                         {{ session('success') }}
@@ -16,7 +15,6 @@
                     </button>
                  </div>
                 @endif
-                <!-- Alerta para mostrar si ya existe una solicitud de amistad o son amigos -->
                 @if(session('warning'))
                     <div class="alert alert-warning alert-dismissible fade show mt-2">
                         {{ session('warning') }}
@@ -73,11 +71,17 @@
     @endauth
                     @auth
                         @if(Auth::user()->id === $usuario->id)
+                        <div class="d-flex">
                             <a href="{{ route('perfil.modificar', ['nombreUsuario' => $usuario->usuario]) }}" class="btn btn-success btn-modificar mr-2">Modificar Perfil</a>
                             <a href="{{ route('perfil.mis-restaurantes', ['nombreUsuario' => $usuario->usuario]) }}" class="btn btn-success btn-modificar mr-2">Mis Restaurantes</a>
                             <a href="{{ route('perfil.reservas', ['nombreUsuario' => $usuario->usuario]) }}" class="btn btn-success btn-ver-reservas mr-2">Ver Reservas</a>
                             <a href="{{ route('perfil.social', ['nombreUsuario' => $usuario->usuario]) }}" class="btn btn-success btn-ver-reservas mr-2">Social</a>
+                            <form action="{{ route('perfil.verPedidos') }}" method="POST" class="mr-2">
+                                @csrf
+                                <button type="submit" class="btn btn-success btn-ver-reservas">Ver Pedidos</button>
+                            </form>
                             <a href="{{ route('logout') }}" class="btn btn-danger btn-cerrar-sesion ml-2">Cerrar Sesión</a>
+                        </div>
                             
                         @endif
                     @endauth

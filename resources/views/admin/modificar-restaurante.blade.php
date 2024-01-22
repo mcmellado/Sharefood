@@ -42,7 +42,6 @@
 
         <button type="submit" class="btn btn-primary">Actualizar Restaurante</button>
 
-        <!-- Botón para volver al panel de administración del restaurante -->
         <a href="{{ route('admin.panel-admin-restaurante') }}" class="btn btn-secondary">Volver al Panel de Administración</a>
 
     </form>

@@ -2,6 +2,8 @@
 
 @section('contenido')
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="{{ asset('css/modificar-restaurante-usuario.css') }}">
+
 
 <div class="container mt-5">
     <div class="card">

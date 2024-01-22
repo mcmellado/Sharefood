@@ -28,13 +28,12 @@
                         <p>Dirección: {{ $restaurante->direccion }}</p>
                         <p>Sitio web: {{ $restaurante->sitio_web ?? 'No disponible' }}</p>
                         <p>Teléfono: {{ $restaurante->telefono ?? 'No disponible' }}</p>
-                        <a href="{{ route('restaurante.mis-restaurantes.modificar', ['slug' => $restaurante->slug]) }}" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i> </a>
-                        <a href="{{ route('restaurantes.verReservas', ['slug' => $restaurante->slug]) }}" class="btn btn-primary btn-sm"><i class="far fa-calendar"></i> </a>
-                        <a href="{{ route('restaurantes.verComentarios', ['slug' => $restaurante->slug]) }}" class="btn btn-secondary btn-sm"><i class="far fa-comments"></i> </a>
+                        <a href="{{ route('restaurante.mis-restaurantes.modificar', ['slug' => $restaurante->slug]) }}" class="btn btn-info "><i class="fas fa-pencil-alt"></i> </a>
+                        <a href="{{ route('restaurantes.verReservas', ['slug' => $restaurante->slug]) }}" class="btn btn-primary "><i class="far fa-calendar"></i> </a>
+                        <a href="{{ route('restaurantes.verComentarios', ['slug' => $restaurante->slug]) }}" class="btn btn-secondary "><i class="far fa-comments"></i> </a>
+                        <a href="{{ route('restaurantes.gestionar_carta', ['slug' => $restaurante->slug]) }}" class="btn btn-secondary"> <i class="fas fa-book-open"></i> </a>
                         
-                    
-                        
-                        <button class="btn btn-danger btn-sm" onclick="confirmarBorrado('{{ $restaurante->slug }}')">
+                        <button class="btn btn-danger" onclick="confirmarBorrado('{{ $restaurante->slug }}')">
                             <i class="far fa-trash-alt"></i> 
                         </button>
                

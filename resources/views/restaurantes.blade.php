@@ -16,7 +16,14 @@
             @foreach($mejoresRestaurantes as $mejorRestaurante)
                 <div class="col-md-6 mb-4">
                     <div class="card">
+                        @if($mejorRestaurante->imagen)
                         <img src="{{ asset($mejorRestaurante->imagen) }}" class="card-img-top" alt="Imagen del restaurante">
+                    @else
+                    <div class="no-imagen-disponible text-center p-4">
+                        <p class="mb-0">Imagen no disponible</p>
+                        <p class="text-muted">Este restaurante aún no tiene imágenes disponibles</p>
+                    </div>
+                    @endif
                         <div class="card-body">
                             <a href="{{ route('restaurantes.perfil', ['slug' => $mejorRestaurante->slug]) }}" class="nombre-restaurante" style="text-decoration: none;">
                                 <h5 class="card-title">{{ $mejorRestaurante->nombre }}</h5>
@@ -24,7 +31,7 @@
                             <p class="card-text">{{ $mejorRestaurante->gastronomia }}</p>
                             <div class="custom-star-rating">
                                 @for ($i = 1; $i <= 5; $i++)
-                                    @if ($i <= $mejorRestaurante->puntuacion)
+                                    @if ($i <= $mejorRestaurante->puntuaciones->avg('puntuacion'))
                                         <i class="fas fa-star text-warning"></i>
                                     @else
                                         <i class="far fa-star text-warning"></i>

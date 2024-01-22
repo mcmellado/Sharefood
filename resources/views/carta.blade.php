@@ -5,23 +5,20 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
 
-    <div class="container mt-5">
-        @if(session('reserva-confirmada'))
-            <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
-                {{ session('reserva-confirmada') }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    $('#confirmacionReserva').modal('show');
-                });
-            </script>
-        @endif
-
+    
     <div class="main-container">
-
+        <div class="container mt-5">
+            <div x-data="{ showMessage: true }">
+                <template x-if="showMessage">
+                    @if(Session::has('success_message'))
+                        <div class="alert alert-success">
+                            <span>{{ Session::get('success_message') }}</span>
+                            <button x-on:click="showMessage = false" class="close" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
+        
         <div class="card mt-4">
             <div class="card-body">
                 <div class="row">
@@ -95,10 +92,13 @@
                 return;
             }
 
-            // Agregar aquí cualquier otra lógica de envío de formulario si es necesario.
-
-            // Envía el formulario
             this.$refs.form.submit();
         }
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                $('#confirmacionReserva').modal('show');
+            });
+        </script>
     </script>
 @endsection
