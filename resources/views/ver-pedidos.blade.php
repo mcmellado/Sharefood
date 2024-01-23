@@ -1,45 +1,116 @@
-
-
 @extends('layouts.app')
 
 @section('contenido')
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
-<div class="container mt-5">
-    <div class="card">
-        <div class="card-body">
-            <h1 class="mb-4">Mis Pedidos</h1>
+    <style>
+        body {
+            background-color: #D5EB9B;
+            color: #343a40;
+        }
 
-            @if(count($pedidos) > 0)
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Precio total</th>
-                            <th>Dirección</th>
-                            <th>Fecha del Pedido</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($pedidos as $pedido)
+        .container {
+            margin-top: 50px;
+        }
+
+        .card {
+            border: 1px solid #343a40;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .card-body {
+            padding: 20px;
+            background-color: #343a40!important;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+
+        }
+
+        th, td, table {
+            color: #fff!important;
+            padding: 10px;
+            text-align: center;
+            background-color: #343a40!important;
+        }
+
+        th {
+            background-color: #343a40;
+        }
+
+        tbody {
+            background-color: #343a40;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        .btn-danger {
+            width: 100px;
+        }
+
+        h1 {
+            color: white;
+        }
+    </style>
+
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="mb-4">Mis Pedidos:</h1>
+
+                @if(count($pedidos) > 0)
+                    <table class="table">
+                        <thead>
                             <tr>
-                                <td>{{ $pedido->precio_total }} €</td>
-                                <td>{{ $pedido->direccion }}</td>
-                                <td>{{ $pedido->created_at }}</td>
+                                <th>Precio total</th>
+                                <th>Dirección</th>
+                                <th>Fecha del Pedido</th>
+                                <th>Platos Pedidos</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            @else
-                <p>No tienes pedidos.</p>
-            @endif
+                        </thead>
+                        <tbody>
+                            @foreach ($pedidos as $pedido)
+                                <tr>
+                                    <td>{{ $pedido->precio_total }} €</td>
+                                    <td>{{ $pedido->direccion }}</td>
+                                    <td>{{ $pedido->created_at }}</td>
+                                    <td>
+                                        <ul>
+                                            @foreach($pedido->platos as $plato)
+                                                <li>
+                                                    {{ $plato->nombre }} - 
+                                                    Cantidad: {{ $plato->cantidad }} - 
+                                                    Precio: {{ $plato->precio }} €
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @else
+                    <p>No tienes pedidos.</p>
+                @endif
 
-            <div class="mt-4">
-                <a href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-primary">
-                </a>
             </div>
         </div>
+        <div class="mt-4">
+            <a href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-danger">
+                <i class="fas fa-arrow-left"></i> 
+            </a>
+        </div>
     </div>
-</div>
-
 @endsection

@@ -30,4 +30,5 @@ class Pedido extends Model
     {
         return json_decode($this->attributes['platos']);
     }
+
 }
