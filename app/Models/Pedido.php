@@ -25,4 +25,9 @@ class Pedido extends Model
     {
         return $this->belongsToMany(Producto::class)->withPivot('cantidad', 'precio_total');
     }
+
+    public function getPlatosAttribute()
+    {
+        return json_decode($this->attributes['platos']);
+    }
 }
