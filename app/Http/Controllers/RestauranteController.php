@@ -289,13 +289,16 @@ public function mostrarCarta($id)
 {
     try {
         $restaurante = Restaurante::findOrFail($id);
+        $horarios = DB::table('horarios')
+            ->where('restaurante_id', $id)
+            ->get();
+
         $productos = DB::table('productos')
             ->where('restaurante_id', $id)
             ->orderBy('id') 
-            ->get();        
+            ->get();
 
-
-        return view('carta', compact('restaurante', 'productos'));
+        return view('carta', compact('restaurante', 'productos', 'horarios'));
     } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
         abort(404, 'Restaurante no encontrado');
     }

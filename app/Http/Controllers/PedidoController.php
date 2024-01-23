@@ -9,12 +9,23 @@ use App\Models\Restaurante;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
 use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
+use App\Models\Horario;
+use Illuminate\Support\Facades\DB;
+
+
 
 
 class PedidoController extends Controller
 {
     public function realizarPedido(Request $request)
     {
+        $restauranteId = $request->input('restaurante_id');
+
+        if (!$this->restauranteEstaAbierto($restauranteId)) {
+        return redirect()->back()->with('error_message', 'El restaurante está cerrado en este momento.');
+        }
+
         $platos = [];
         $restauranteId = $request->input('restaurante_id');
         $productos = $request->input('productos');
@@ -75,10 +86,10 @@ class PedidoController extends Controller
 
             }
         }
-        
+
         if (empty($lineItems)) {
-            // no se que poner 
-          
+            // no se que poner
+
         } else {
             $session = Session::create([
                 'payment_method_types' => ['card'],
@@ -88,7 +99,7 @@ class PedidoController extends Controller
                 'cancel_url' => route('stripe.cancel', ['restauranteId' => $restauranteId]),
             ]);
         }
-        
+
         return redirect()->away($session->url);
     }
 
@@ -124,7 +135,7 @@ public function getRestauranteSlug($restauranteId)
     $restaurante = Restaurante::find($restauranteId);
 
     if ($restaurante) {
-        return $restaurante->slug; 
+        return $restaurante->slug;
     }
 
     return null;
@@ -142,4 +153,49 @@ public function verPedidos($slug)
 
     return view('ver_pedidos', compact('restaurante', 'pedidos'));
 }
+
+
+public function restauranteEstaAbierto($restauranteId)
+{
+
+    Carbon::setLocale('es');
+
+    $horaActual = Carbon::now()->addHour();
+    $diaSemanaActual = $horaActual->format('l');
+    $mapeoDias = [
+        'Monday' => 'Lunes',
+        'Tuesday' => 'Martes',
+        'Wednesday' => 'Miércoles',
+        'Thursday' => 'Jueves',
+        'Friday' => 'Viernes',
+        'Saturday' => 'Sábado',
+        'Sunday' => 'Domingo',
+    ];
+
+    $diaSemanaActualEnEspanol = $mapeoDias[$diaSemanaActual];
+
+    $horarioRestaurante = Horario::where('restaurante_id', $restauranteId)
+        ->where('dia_semana', $diaSemanaActualEnEspanol)
+        ->first();
+
+    if (!$horarioRestaurante) {
+        return false;
+    }
+
+    $horaApertura = Carbon::parse($horarioRestaurante->hora_apertura);
+    $horaCierre = Carbon::parse($horarioRestaurante->hora_cierre);
+
+    // dd([
+    //     'horaActual' => $horaActual->format('Y-m-d H:i:s'),
+    //     'horaApertura' => $horaApertura->format('Y-m-d H:i:s'),
+    //     'horaCierre' => $horaCierre->format('Y-m-d H:i:s'),
+    // ]);
+
+
+    if ($horaActual >= $horaApertura && $horaActual <= $horaCierre) {
+        return true;
+    }
+}
+
+
 }
