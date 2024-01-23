@@ -71,6 +71,27 @@ button:hover {
     margin-top: 20px;
 }
 
+.input-container {
+    position: relative;
+}
+
+#direccionesGuardadas {
+    display: none;
+    position: absolute;
+    width: 100%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+#direccionesGuardadas li {
+    cursor: pointer;
+}
+
+#direccion:focus + #direccionesGuardadas {
+    display: block;
+}
+
+
 
 
 

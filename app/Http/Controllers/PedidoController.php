@@ -15,19 +15,22 @@ class PedidoController extends Controller
 {
     public function realizarPedido(Request $request)
     {
+        $platos = [];
         $restauranteId = $request->input('restaurante_id');
         $productos = $request->input('productos');
         $direccion = $request->input('direccion');
         $precioTotalPedido = 0;
+
+        if (empty($productos)) {
+            return redirect()->back()->with('error_message', 'No has marcado ningún producto.');
+        }
 
         $pedido = new Pedido();
         $pedido->usuario_id = auth()->id();
         $pedido->restaurante_id = $restauranteId;
         $pedido->estado = 'pendiente';
         $pedido->direccion = $direccion;
-        $pedido->save();
 
-        $productoIds = [];
         foreach ($productos as $productoId => $cantidad) {
             $producto = Producto::find($productoId);
 
@@ -35,34 +38,57 @@ class PedidoController extends Controller
                 $precioTotalProducto = $producto->precio * $cantidad;
                 $precioTotalPedido += $precioTotalProducto;
 
-                $productoIds[] = $productoId;
-            }
+                $platos[] = [
+                    'id' => $productoId,
+                    'nombre' => $producto->nombre,
+                    'descripcion' => $producto->descripcion,
+                    'precio' => $producto->precio,
+                    'cantidad' => $cantidad,
+                ];
         }
+    }
+
+        $pedido->platos = json_encode($platos);
 
         $pedido->precio_total = $precioTotalPedido;
         $pedido->save();
 
         Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
 
-        $session = Session::create([
-            'payment_method_types' => ['card'],
-            'line_items' => [
-                [
-                    'price_data' => [
-                        'currency' => 'eur', 
-                        'product_data' => [
-                            'name' => 'Pedido', 
-                        ],
-                        'unit_amount' => $precioTotalPedido * 100, 
-                    ],
-                    'quantity' => 1,
-                ],
-            ],
-            'mode' => 'payment',
-            'success_url' => route('stripe.success', ['restauranteId' => $restauranteId]),
-            'cancel_url' => route('stripe.cancel', ['restauranteId' => $restauranteId]),
-        ]);
+        $lineItems = [];
 
+        foreach ($platos as $plato) {
+            $cantidad = (int) $plato['cantidad'];
+            if ($cantidad >= 1) {
+                $lineItems[] = [
+                    'price_data' => [
+                        'currency' => 'eur',
+                        'product_data' => [
+                            'name' => $plato['nombre'],
+                            'description' => $plato['descripcion'],
+                        ],
+                        'unit_amount' => $plato['precio'] * 100,
+                    ],
+                    'quantity' => $cantidad,
+                ];
+            } else {
+
+            }
+        }
+        
+        if (empty($lineItems)) {
+            // no se que poner 
+          
+        } else {
+            $session = Session::create([
+                'payment_method_types' => ['card'],
+                'line_items' => $lineItems,
+                'mode' => 'payment',
+                'success_url' => route('stripe.success', ['restauranteId' => $restauranteId]),
+                'cancel_url' => route('stripe.cancel', ['restauranteId' => $restauranteId]),
+            ]);
+        }
+        
         return redirect()->away($session->url);
     }
 
@@ -73,6 +99,11 @@ class PedidoController extends Controller
         ->where('usuario_id', auth()->id())
         ->latest()
         ->first();
+
+    if ($pedido) {
+        $pedido->estado = 'pagado';
+        $pedido->save();
+    }
 
     return redirect()->route('restaurante.mostrar_carta', ['id' => $restauranteId])->with('success_message', '¡Pedido realizado con éxito, tu pedido llegará pronto a casa!');
 }

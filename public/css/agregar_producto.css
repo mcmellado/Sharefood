@@ -1,0 +1,36 @@
+body {
+    background-color: #D5EB9B;
+}
+
+.card-body, .form-group {
+    background-color: #2a2f35;
+    color: white;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.form-group input,
+.form-group textarea {
+    background-color: #2a2f35;
+    color: white;
+}
+
+.form-group small {
+    color: #ccc;
+}
+
+.btn-group {
+    margin-top: 15px;
+}
+
+    .btn{
+    width: 100px !important;
+}
+
+.btn-success {
+    width: 100%!important;
+}
+
+.card {
+    background-color: #2a2f35;
+}

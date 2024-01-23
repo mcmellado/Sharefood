@@ -67,7 +67,7 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     @else
-                        <p class="text-warning">No puedes modificar el tiempo de permanencia con reservas próximas pendientes.</p>
+                        <p class="text-danger">No puedes modificar el tiempo de permanencia con reservas próximas pendientes.</p>
                     @endif
                 </div>
                 

@@ -1,37 +1,8 @@
 @extends('layouts.app')
-
 @section('contenido')
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-<style>
-    body {
-        background-color: #D5EB9B;
-    }
-
-    .card-body, .list-group-item {
-        background-color: #2a2f35;
-        color: white;
-    }
-
-    .list-group-item img {
-        max-width: 100%;
-        height: auto;
-    }
-
-    .btn-group {
-        margin-top: 20px;
-    }
-
-    .comment-container {
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        padding: 10px;
-        margin-bottom: 10px;
-        list-style-type: none;
-    }
-
-</style>
+<link rel="stylesheet" href="{{ asset('css/ver-comentarios.css') }}">
 
 <div class="container mt-5">
     <div class="card">
