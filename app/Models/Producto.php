@@ -11,7 +11,7 @@ use App\Models\Restaurante;
 
 class Producto extends Model
 {
-    protected $fillable = ['nombre', 'descripcion', 'precio', 'restaurante_id'];
+    protected $fillable = ['nombre', 'descripcion', 'precio', 'restaurante_id', 'imagen'];
 
     public function restaurante()
     {

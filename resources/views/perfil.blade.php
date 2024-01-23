@@ -72,17 +72,20 @@
     @endauth
                     @auth
                         @if(Auth::user()->id === $usuario->id)
-                        <div class="d-flex">
-                            <a href="{{ route('perfil.modificar', ['nombreUsuario' => $usuario->usuario]) }}" class="btn btn-success btn-modificar mr-2">Modificar Perfil</a>
-                            <a href="{{ route('perfil.mis-restaurantes', ['nombreUsuario' => $usuario->usuario]) }}" class="btn btn-success btn-modificar mr-2">Mis Restaurantes</a>
-                            <a href="{{ route('perfil.reservas', ['nombreUsuario' => $usuario->usuario]) }}" class="btn btn-success btn-ver-reservas mr-2">Ver Reservas</a>
-                            <a href="{{ route('perfil.social', ['nombreUsuario' => $usuario->usuario]) }}" class="btn btn-success btn-ver-reservas mr-2">Social</a>
-                            <form action="{{ route('perfil.verPedidos') }}" method="POST" class="mr-2">
+                        <div class="d-flex justify-content-start align-items-center text-center flex-wrap my-3" style="margin-left: 9%">
+                            <a href="{{ route('perfil.modificar', ['nombreUsuario' => $usuario->usuario]) }}" class="btn btn-success btn-modificar mb-2 mr-2">Modificar Perfil 🛠️</a>
+                            <a href="{{ route('perfil.mis-restaurantes', ['nombreUsuario' => $usuario->usuario]) }}" class="btn btn-success btn-modificar mb-2 mr-2">Mis Restaurantes 🍽️</a>
+                            <a href="{{ route('perfil.reservas', ['nombreUsuario' => $usuario->usuario]) }}" class="btn btn-success btn-ver-reservas mb-2 mr-2">Ver Reservas 📅</a>
+                            <a href="{{ route('perfil.social', ['nombreUsuario' => $usuario->usuario]) }}" class="btn btn-success btn-ver-reservas mb-2 mr-2">Social 👥</a>
+                            <form action="{{ route('perfil.verPedidos') }}" method="POST" class="mb-2 mr-2">
                                 @csrf
-                                <button type="submit" class="btn btn-success btn-ver-reservas">Ver Pedidos</button>
+                                <button type="submit" class="btn btn-success btn-ver-reservas">Ver Pedidos 🛍️</button>
                             </form>
-                            <a href="{{ route('logout') }}" class="btn btn-danger btn-cerrar-sesion ml-2">Cerrar Sesión</a>
+                            <a href="{{ route('logout') }}" class="btn btn-danger btn-cerrar-sesion mb-2 mr-2">Cerrar Sesión 🚪</a>
                         </div>
+                        
+                        
+                        
                             
                         @endif
                     @endauth

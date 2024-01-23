@@ -47,6 +47,13 @@
                                     <h4 class="font-weight-bold">{{ $producto->nombre }}</h4>
                                     <p class="mb-2">{{ $producto->descripcion }}</p>
                                     <p class="font-weight-bold">Precio: {{ number_format($producto->precio, 2) }} €</p>
+                                    @if($producto->imagen)
+                                    <div class="col-md-6" style="margin-bottom: 10px;">
+                                        @if($producto->imagen)
+                                            <img src="{{ '/storage/' . $producto->imagen }}" alt="{{ $producto->nombre }}" class="img-fluid">
+                                        @endif
+                                    </div>                                    
+                                    @endif
                                     <label>
                                         Seleccionar plato: <input type="checkbox" onchange="toggleCantidadInput(event, {{ $producto->id }})" name="productos_checkbox[]"> 
                                     </label>

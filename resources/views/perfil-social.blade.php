@@ -4,10 +4,9 @@
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="{{ asset('css/perfil-social.css') }}">
-<!-- Agregamos SweetAlert2 -->
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.2/dist/sweetalert2.all.min.js"></script>
 
-<!-- Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <div class="container mt-3">
@@ -70,11 +69,11 @@
         <br>
         <form action="{{ route('perfil.bloqueos') }}" method="POST">
             @csrf
-            <button type="submit" class="btn btn-danger mr-2" style="width: 150px;">Ver Bloqueos</button>
             <a href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-primary">
                 <i class="fas fa-arrow-left"></i> 
             </a>
             
+            <button type="submit" class="btn btn-danger mr-2" style="width: 150px;">Ver Bloqueos</button>
         </form>
     </div>
 

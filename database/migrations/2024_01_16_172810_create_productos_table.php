@@ -19,6 +19,7 @@ class CreateProductosTable extends Migration
             $table->text('descripcion')->nullable();
             $table->decimal('precio', 8, 2);
             $table->unsignedBigInteger('restaurante_id');
+            $table->string('imagen')->nullable();
             $table->timestamps();
         });
     }

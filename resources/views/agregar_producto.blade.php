@@ -10,7 +10,7 @@
         <div class="card-body">
             <h1 class="mb-4">Agregar Nuevo Producto</h1>
 
-            <form action="{{ route('restaurantes.agregar_producto', ['slug' => $restaurante->slug]) }}" method="post" onsubmit="return validarFormulario()">
+            <form action="{{ route('restaurantes.agregar_producto', ['slug' => $restaurante->slug]) }}" method="post" onsubmit="return validarFormulario()" enctype="multipart/form-data">
                 @csrf
 
                 <div class="form-group">
@@ -29,6 +29,11 @@
                     <small id="precioHelp" class="form-text text-muted">Formato válido: 123.45</small>
                 </div>
 
+                <div class="form-group">
+                    <label for="imagen">Imagen:</label>
+                    <input type="file" name="imagen" accept="image/*">
+                </div>
+
                 <div class="btn-group mt-3">
                     <a href="{{ route('restaurantes.gestionar_carta', ['slug' => $restaurante->slug]) }}" class="btn btn-danger">
                         <i class="fas fa-arrow-left"></i>
@@ -36,7 +41,6 @@
                     <button type="submit" class="btn btn-success">
                         <i class="fas fa-plus"></i> Agregar Producto
                     </button>
-
                 </div>
             </form>
         </div>

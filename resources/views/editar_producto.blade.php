@@ -2,13 +2,16 @@
 
 @section('contenido')
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="stylesheet" href="{{ asset('css/agregar_producto.css') }}">
+
     
 <div class="container mt-5">
     <div class="card">
         <div class="card-body">
-            <h1 class="mb-4">Editar Producto</h1>
+            <h1 class="mb-4">Editar Producto:</h1>
 
-            <form action="{{ route('restaurantes.actualizar_producto', ['slug' => $restaurante->slug, 'id' => $producto->id]) }}" method="post" onsubmit="return validarFormulario()">
+            <form action="{{ route('restaurantes.actualizar_producto', ['slug' => $restaurante->slug, 'id' => $producto->id]) }}" method="post" onsubmit="return validarFormulario()" enctype="multipart/form-data">
                 @csrf
                 @method('put')
 
@@ -28,10 +31,20 @@
                     <small id="precioHelp" class="form-text text-muted">Formato válido: 123.45</small>
                 </div>
 
-                <button type="submit" class="btn btn-success">Actualizar Producto</button>
-            </form>
+                <div class="form-group">
+                    <label for="imagen">Imagen:</label>
+                    <input type="file" name="imagen" accept="image/*">
+                </div>
 
-            <a href="{{ route('restaurantes.gestionar_carta', ['slug' => $restaurante->slug]) }}" class="btn btn-danger mt-3">Volver atrás</a>
+                <div class="btn-group mt-3">
+                    <a href="{{ route('restaurantes.gestionar_carta', ['slug' => $restaurante->slug]) }}" class="btn btn-danger">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-plus"></i> Editar producto
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

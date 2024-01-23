@@ -13,6 +13,8 @@ use App\Models\Puntuacion;
 use App\Models\Producto;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
 
 
 class RestauranteController extends Controller
@@ -289,12 +291,12 @@ public function mostrarCarta($id)
         $restaurante = Restaurante::findOrFail($id);
         $productos = DB::table('productos')
             ->where('restaurante_id', $id)
-            ->get();
+            ->orderBy('id') 
+            ->get();        
 
 
         return view('carta', compact('restaurante', 'productos'));
     } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-        // Restaurante no encontrado, podrías redirigir a una página de error 404 o hacer algo más
         abort(404, 'Restaurante no encontrado');
     }
 }
@@ -313,30 +315,37 @@ public function gestionarCarta($slug)
     }
 
     public function agregarProducto(Request $request, $slug)
-    {
-        $restaurante = Restaurante::where('slug', $slug)->first();
+{
+    $restaurante = Restaurante::where('slug', $slug)->first();
 
-        if (!$restaurante) {
-            abort(404);
-        }
-
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'descripcion' => 'nullable|string',
-            'precio' => 'required|numeric|min:0',
-        ]);
-
-        // Crear un nuevo producto
-        $producto = new Producto();
-        $producto->nombre = $request->nombre;
-        $producto->descripcion = $request->descripcion;
-        $producto->precio = $request->precio;
-        $producto->restaurante_id = $restaurante->id;
-        $producto->save();
-
-        return redirect()->route('restaurantes.gestionar_carta', ['slug' => $slug])
-            ->with('success', 'Producto agregado correctamente');
+    if (!$restaurante) {
+        abort(404);
     }
+
+    $request->validate([
+        'nombre' => 'required|string|max:255',
+        'descripcion' => 'nullable|string',
+        'precio' => 'required|numeric|min:0',
+        'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    $producto = new Producto();
+    $producto->nombre = $request->nombre;
+    $producto->descripcion = $request->descripcion;
+    $producto->precio = $request->precio;
+    $producto->restaurante_id = $restaurante->id;
+
+
+    if ($request->hasFile('imagen')) {
+        $imagenPath = $request->file('imagen')->store('productos', 'public');
+        $producto->imagen = $imagenPath;
+    }
+
+    $producto->save();
+
+    return redirect()->route('restaurantes.gestionar_carta', ['slug' => $slug])
+        ->with('success', 'Producto agregado correctamente');
+}
 
     public function editarProducto($slug, $id)
 {
@@ -351,33 +360,42 @@ public function gestionarCarta($slug)
     return view('editar_producto', compact('producto', 'restaurante'));
 }
 
-    public function actualizarProducto(Request $request, $slug, $id)
-    {
-        $producto = Producto::findOrFail($id);
+public function actualizarProducto(Request $request, $slug, $id)
+{
+    $producto = Producto::findOrFail($id);
 
-        // Validación de datos del formulario
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'descripcion' => 'nullable|string',
-            'precio' => 'required|numeric|min:0',
-        ]);
+    $request->validate([
+        'nombre' => 'required|string|max:255',
+        'descripcion' => 'nullable|string',
+        'precio' => 'required|numeric|min:0',
+        'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', 
+    ]);
 
-        // Actualizar los datos del producto
-        $producto->update([
-            'nombre' => $request->nombre,
-            'descripcion' => $request->descripcion,
-            'precio' => $request->precio,
-        ]);
+    $producto->update([
+        'nombre' => $request->nombre,
+        'descripcion' => $request->descripcion,
+        'precio' => $request->precio,
+    ]);
 
-        return redirect()->route('restaurantes.gestionar_carta', ['slug' => $slug])
-            ->with('success', 'Producto actualizado correctamente');
+    if ($request->hasFile('imagen')) {
+        $imagen = $request->file('imagen');
+        $nombreImagen = time() . '.' . $imagen->getClientOriginalExtension();
+        $imagen->storeAs('public/imagenes_productos', $nombreImagen);
+
+        if ($producto->imagen) {
+            Storage::delete('public/' . $producto->imagen);
+        }
+        $producto->imagen = 'imagenes_productos/' . $nombreImagen;
+        $producto->save();
     }
 
+    return redirect()->route('restaurantes.gestionar_carta', ['slug' => $slug])
+        ->with('success', 'Producto actualizado correctamente');
+}
     public function eliminarProducto($slug, $id)
     {
         $producto = Producto::findOrFail($id);
 
-        // Eliminar el producto
         $producto->delete();
 
         return redirect()->route('restaurantes.gestionar_carta', ['slug' => $slug])

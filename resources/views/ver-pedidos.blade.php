@@ -63,6 +63,11 @@
         h1 {
             color: white;
         }
+
+        p {
+            color: white;
+
+        }
     </style>
 
     <div class="container mt-5">
