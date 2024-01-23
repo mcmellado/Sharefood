@@ -1,8 +1,11 @@
 @extends('layouts.app')
 
 @section('contenido')
-
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="stylesheet" href="{{ asset('css/perfil-modificar.css') }}">
+
+
 
 <div class="container mt-5">
     <div class="card">
@@ -33,8 +36,12 @@
                     <input type="file" name="imagen" accept="image/*" class="form-control-file">
                 </div>
 
-                <button type="submit" class="btn btn-success">Guardar Cambios</button>
-                <a href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-danger">Cancelar</a>
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-check"></i> Guardar Cambios
+                </button>
+                <a href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-danger">
+                    <i class="fas fa-times"></i> Cancelar
+                </a>
             </form>
         </div>
     </div>

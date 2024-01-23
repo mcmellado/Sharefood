@@ -20,14 +20,19 @@
     <div class="card-body">
         <h1 class="mb-4 display-4">Mis Restaurantes:</h1>
         
-        <div  class="d-flex mb-2">
-            <a href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-primary mr-2">Volver al perfil</a>
+        <div class="d-flex mb-2">
+            <a href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-primary mr-2" style="width=100px;!important">
+                <i class="fas fa-arrow-left"></i> 
+            </a>
         
             <form action="{{ route('crear-nuevo-restaurante.formulario') }}" method="post">
                 @csrf
-                <button type="submit" class="btn btn-success mr-2">Crear Nuevo Restaurante</button>
+                <button type="submit" class="btn btn-success mr-2">
+                    <i class="fas fa-plus"></i> Crear Nuevo Restaurante
+                </button>
             </form>
         </div>
+        
 
         @if(count($restaurantes) > 0)
             <ul class="list-group">

@@ -12,6 +12,7 @@ class Contacto extends Model
         'mensaje',
         'aceptada',
         'bloqueado',
+        'estado'
     ];
 
     public function usuario()

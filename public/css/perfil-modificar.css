@@ -1,0 +1,70 @@
+.container {
+    max-width: 800px;
+    margin-bottom: 100px;
+}
+
+.card {
+    background-color: #343a40;
+    color: white;
+    border: 1px solid white;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.scroll-container {
+    background-color: #343a40;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    color: white;
+}
+
+input,
+select {
+    background-color: #343a40;
+    color: white;
+    border: 1px solid white;
+    border-radius: 5px;
+}
+
+.btn-primary {
+    background-color: #D5EB9B;
+    color: #343a40;
+    border: 1px solid #D5EB9B;
+}
+
+.btn-primary:hover {
+    background-color: #A8C759;
+    border: 1px solid #A8C759;
+    color: #343a40;
+}
+
+.btn-back {
+    background-color: #343a40;
+    color: white;
+    border: 1px solid white;
+}
+
+.btn-back:hover {
+    background-color: #555;
+    border: 1px solid #555;
+    color: white;
+}
+
+body {
+    background-color: #D5EB9B!important;
+}
+
+.btn-danger {
+    width: 100px!important;
+}

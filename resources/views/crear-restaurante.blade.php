@@ -3,7 +3,7 @@
 @section('contenido')
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<link rel="stylesheet" href="{{ asset('css/crear-restaurante.css') }}">
+<link rel="stylesheet" href="{{ asset('css/modi.css') }}">
 
 <div class="container mt-5">
     <div class="card">
