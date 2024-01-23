@@ -5,13 +5,13 @@
         position: relative;
     }
 
-/* Añade tus estilos personalizados para locales.blade.php aquí */
 
-/* Mejora la apariencia de la lista de restaurantes */
+
+
 .list-group-item {
-    background-color: #2a2f35; /* Fondo de las listas */
-    color: #ffffff; /* Texto en las listas */
-    border: 1px solid #34495E; /* Borde de las listas */
+    background-color: #2a2f35;
+    color: #ffffff; 
+    border: 1px solid #34495E; 
     margin-bottom: 10px;
 }
 
@@ -22,8 +22,8 @@
 
 
 .btn-danger:hover {
-    background-color: #C0392B !important; /* Fondo del botón de borrar al pasar el mouse */
-    border-color: #C0392B !important; /* Borde del botón de borrar al pasar el mouse */
+    background-color: #C0392B !important; 
+    border-color: #C0392B !important; 
 }
 
 body {
@@ -62,6 +62,12 @@ h1 {
 
 .d-flex {
     margin-bottom: 10px;
+}
+
+.norestaurantes{
+    margin-top:  40px;
+    color: black!important;
+    font-size: 30px;
 }
 
 

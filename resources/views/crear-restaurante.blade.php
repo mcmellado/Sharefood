@@ -2,12 +2,13 @@
 
 @section('contenido')
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link rel="stylesheet" href="{{ asset('css/crear-restaurante.css') }}">
 
 <div class="container mt-5">
     <div class="card">
         <div class="card-body">
-            <h1 class="mb-4">Crear Nuevo Restaurante</h1>
+            <h1 class="mb-4">Crear Nuevo Restaurante:</h1>
 
             <div class="scroll-container">
                 <form action="{{ route('registrar-nuevo-restaurante') }}" method="post">
@@ -70,7 +71,10 @@
                         <input type="number" name="intervalo" class="form-control" min="1" value="60">
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Guardar Restaurante</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Guardar Restaurante
+                    </button>
+                    
                 </form>
             </div>
         </div>
@@ -78,7 +82,10 @@
 
     <br>
 
-    <a href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-primary">Volver al perfil</a>
+    <a href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-danger">
+        <i class="fas fa-arrow-left"></i> 
+    </a>
+    
 </div>
 
 <script>

@@ -25,6 +25,7 @@ body {
 
 .btn-success {
     background-color: #28a745 !important;
+    width: 60px!important;
 }
 
 .list-group-item {

@@ -61,7 +61,7 @@
                 @endforeach
             </ul>
         @else
-            <p>No tienes restaurantes registrados.</p>
+            <p class="norestaurantes">No tienes restaurantes registrados.</p>
         @endif
     </div>
 </div>

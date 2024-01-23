@@ -1,4 +1,3 @@
-
 .container {
     max-width: 800px;
     margin: 0 auto;
@@ -7,14 +6,20 @@
 .messages-container {
     max-height: 400px;
     overflow-y: auto;
-    border: 1px solid #ddd; 
+    border: 1px solid #343a40; 
     padding: 10px;
     margin-bottom: 20px;
+    background-color: #343a40; 
+    color: white; 
+    border-radius: 10px; 
 }
 
 .message {
     margin-bottom: 10px;
-    position: relative; 
+    position: relative;
+    border-radius: 5px; 
+    background-color: #343a40; 
+    padding: 10px;
 }
 
 .message p {
@@ -22,9 +27,24 @@
 }
 
 .small {
-    font-size: 100%; 
-    bottom: 0; 
+    font-size: 100%;
+    bottom: 0;
     top: -8px;
     position: relative;
+    color: white; 
 }
 
+ body {
+        background-color: #D5EB9B;
+        color: #343a40;
+        }
+
+.form-group textarea {
+    color: #343a40;
+    background-color: #343a40; 
+    border: 1px solid #343a40;
+    border-radius: 5px; }
+
+.btn-danger {
+    width: 90px!important;
+}
