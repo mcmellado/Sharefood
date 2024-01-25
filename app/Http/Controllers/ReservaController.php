@@ -7,6 +7,8 @@ use App\Models\Reserva;
 use App\Models\Restaurante;
 use App\Models\Horario;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ReservaCancelada;
 
 class ReservaController extends Controller
 {
@@ -59,26 +61,41 @@ class ReservaController extends Controller
     {
         $fecha = $request->input('fecha');
         $restauranteId = $request->input('restaurante_id');
-    
+
         $diaSemana = Carbon::parse($fecha)->isoFormat('dddd');
-    
+
         $horarios = Horario::where('restaurante_id', $restauranteId)
             ->where('dia_semana', $diaSemana)
             ->get();
-    
+
         $horasDisponibles = [];
-    
+
         foreach ($horarios as $horario) {
             $horaActual = Carbon::parse($horario->hora_apertura);
             $horaCierre = Carbon::parse($horario->hora_cierre);
-    
+
             while ($horaActual < $horaCierre) {
                 $horasDisponibles[] = $horaActual->format('H:i');
                 $horaActual->addMinutes($horario->intervalo);
             }
         }
-    
+
         return response()->json($horasDisponibles);
     }
-    
+
+        public function cancelarReservaRestaurante(Reserva $reserva)
+        {
+
+            Mail::to($reserva->usuario->email)->send(
+                new ReservaCancelada(
+                    $reserva->usuario->nombre,
+                    $reserva->restaurante->nombre
+                )
+            );
+
+            $reserva->delete();
+
+        return redirect()->back()->with('success', 'Reserva cancelada correctamente.');
+    }
+
 }

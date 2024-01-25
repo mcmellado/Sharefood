@@ -133,3 +133,7 @@ Route::get('/restaurantes/{slug}/agregar-producto', [RestauranteController::clas
 Route::get('/restaurantes/{slug}/editar-producto/{id}', [RestauranteController::class, 'editarProducto'])->name('restaurantes.editar_producto');
 Route::put('/restaurantes/{slug}/actualizar-producto/{id}', [RestauranteController::class, 'actualizarProducto'])->name('restaurantes.actualizar_producto');
 Route::get('/restaurantes/{slug}/eliminar-producto/{id}', [RestauranteController::class, 'eliminarProducto'])->name('restaurantes.eliminar_producto');
+
+
+Route::delete('/cancelar-reserva/{reserva}', [ReservaController::class, 'cancelarReservaRestaurante'])->name('cancelar.reservaRestaurante');
+

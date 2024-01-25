@@ -71,7 +71,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 var form = document.getElementById('formCancelarReserva' + reservaId);
-                form.action = "{{ route('cancelar.reserva', ['reserva' => ':reservaId']) }}".replace(':reservaId', reservaId);
+                form.action = "{{ route('cancelar.reservaRestaurante', ['reserva' => ':reservaId']) }}".replace(':reservaId', reservaId);
                 form.submit();
             }
         });

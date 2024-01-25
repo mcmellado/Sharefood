@@ -90,7 +90,16 @@ public function actualizarPuntuacionPromedio()
 
 public function tieneReservasFuturas()
 {
-    return $this->reservas()->where('fecha', '>', now()->toDateString())->exists();
+    return $this->reservas()
+        ->where(function ($query) {
+            $query->where('fecha', '>', now()->toDateString())
+                  ->orWhere(function ($query) {
+                      $query->where('fecha', '=', now()->toDateString())
+                            ->where('hora', '>', now()->toTimeString());
+                  });
+        })
+        ->exists();
 }
+
     
 }
