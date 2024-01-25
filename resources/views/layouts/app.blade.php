@@ -34,9 +34,9 @@
                     <a class="nav-link" href="{{ route('restaurantes') }}">Ver Restaurantes</a>
                 </li>
                 @auth
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}">{{ Auth::user()->usuario }}</a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}">{{ Auth::user()->usuario }}</a>
+                </li>
                 @else
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('login') }}">Iniciar Sesión</a>

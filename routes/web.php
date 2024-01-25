@@ -8,9 +8,8 @@ use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\ReservaController; 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PedidoController;
-use App\Http\Controllers\PayPalController;
+use App\Http\Controllers\NotificacionController;
 
 
 
@@ -136,4 +135,5 @@ Route::get('/restaurantes/{slug}/eliminar-producto/{id}', [RestauranteController
 
 
 Route::delete('/cancelar-reserva/{reserva}', [ReservaController::class, 'cancelarReservaRestaurante'])->name('cancelar.reservaRestaurante');
+Route::get('/mostrar-notificaciones', [NotificacionController::class, 'mostrarNotificaciones'])->name('mostrar.notificaciones');
 

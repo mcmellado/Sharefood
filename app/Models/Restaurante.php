@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use App\Models\Producto;
 use App\Models\Comentario;
 use App\Models\Reserva;
+use App\Models\Pedido;
 
 
 
@@ -99,6 +100,11 @@ public function tieneReservasFuturas()
                   });
         })
         ->exists();
+}
+
+public function pedidos()
+{
+    return $this->hasMany(Pedido::class, 'restaurante_id');
 }
 
     

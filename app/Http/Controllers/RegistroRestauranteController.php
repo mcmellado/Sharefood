@@ -11,11 +11,48 @@ use Illuminate\Support\Str;
 
 class RegistroRestauranteController extends Controller
 {
+
     public function index()
     {
+        $usuario = auth()->user();
+        $notificaciones = [];
+    
+        if ($usuario) {
+            $usuario->misRestaurantes->each(function ($restaurante) use (&$notificaciones) {
+                $nuevasReservas = $restaurante->reservas()->where('leido', false)->count();
+                $nuevosPedidos = $restaurante->pedidos()->where('leido', false)->where('estado', 'pagado')->count();
+    
+                if ($nuevasReservas > 0) {
+                    $restaurante->reservas()->update(['leido' => true]);
+                    $notificaciones[] = [
+                        'mensaje' => "Tienes nuevas reservas en {$restaurante->nombre}.",
+                        'enlace' => route('restaurantes.verReservas', ['slug' => $restaurante->slug])
+                    ];
+                }
+    
+                if ($nuevosPedidos > 0) {
+                    $restaurante->pedidos()->where('estado', 'pagado')->update(['leido' => true]);
+    
+                    $notificaciones[] = [
+                        'mensaje' => "Tienes nuevos pedidos en {$restaurante->nombre}.",
+                        'enlace' => route('restaurantes.ver_pedidos', ['slug' => $restaurante->slug])
+                    ];
+                }
+            });
+    
+            if (!empty($notificaciones)) {
+                session()->flash('notificaciones', $notificaciones);
+                if (url()->current() != route('index')) {
+                    return redirect()->route('index');
+                }
+            }
+        }
+    
         return view('index');
     }
-
+    
+    
+    
     public function registroRestaurante()
     {
         return view('registro-restaurante');

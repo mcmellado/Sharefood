@@ -8,6 +8,19 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 
+@if(session('notificaciones'))
+    <div id="notificacion" class="notificacion alert alert-success alert-dismissible fade show mx-auto mt-4" role="alert">
+        @foreach(session('notificaciones') as $notificacion)
+            @if(isset($notificacion['enlace']))
+                <p>{{ $notificacion['mensaje'] }} <a href="{{ $notificacion['enlace'] }}">Ver más</a></p>
+            @endif
+        @endforeach
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+@endif
+
 
 <div class="container mt-5">
     <form action="{{ route('restaurantes.buscar') }}" method="GET">
@@ -151,6 +164,13 @@
             desplegable.style.display = 'none';
         }
     });
+
+    $(document).ready(function(){
+        setTimeout(function(){
+            $("#notificacion").alert('close');
+        }, 5000);
+    });
+
 </script>
 
 @endsection 

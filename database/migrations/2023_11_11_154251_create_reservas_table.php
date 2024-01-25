@@ -23,7 +23,7 @@ class CreateReservasTable extends Migration
             $table->unsignedInteger('cantidad_personas'); 
             $table->boolean('completada')->default(false);
             $table->unsignedInteger('duracion')->default(60)->comment('Duración estimada de la reserva en minutos');
-
+            $table->boolean('leido')->default(false);
         });
     }
 

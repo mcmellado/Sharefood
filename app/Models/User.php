@@ -1,13 +1,11 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
 use App\Models\Bloqueado;
 
 class User extends Authenticatable
@@ -68,6 +66,5 @@ class User extends Authenticatable
 {
     return $this->hasMany(Puntuacion::class, 'usuario_id');
 }
-
     
 }

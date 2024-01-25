@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('direccion');
             $table->json('platos');
             $table->timestamps();
+            $table->boolean('leido')->default(false);
         });
     }
 
