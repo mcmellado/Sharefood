@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Bloqueado;
 
 class User extends Authenticatable
@@ -66,5 +67,10 @@ class User extends Authenticatable
 {
     return $this->hasMany(Puntuacion::class, 'usuario_id');
 }
-    
+
+public function contactos(): HasMany
+{
+    return $this->hasMany(Contacto::class, 'usuario_id');
+}
+
 }

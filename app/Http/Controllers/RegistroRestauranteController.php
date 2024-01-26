@@ -8,50 +8,86 @@ use App\Models\Restaurante;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use App\Models\Contacto;
+
 
 class RegistroRestauranteController extends Controller
 {
-
+   
     public function index()
-    {
-        $usuario = auth()->user();
-        $notificaciones = [];
-    
-        if ($usuario) {
-            $usuario->misRestaurantes->each(function ($restaurante) use (&$notificaciones) {
-                $nuevasReservas = $restaurante->reservas()->where('leido', false)->count();
-                $nuevosPedidos = $restaurante->pedidos()->where('leido', false)->where('estado', 'pagado')->count();
-    
-                if ($nuevasReservas > 0) {
-                    $restaurante->reservas()->update(['leido' => true]);
-                    $notificaciones[] = [
-                        'mensaje' => "Tienes nuevas reservas en {$restaurante->nombre}.",
-                        'enlace' => route('restaurantes.verReservas', ['slug' => $restaurante->slug])
-                    ];
-                }
-    
-                if ($nuevosPedidos > 0) {
-                    $restaurante->pedidos()->where('estado', 'pagado')->update(['leido' => true]);
-    
-                    $notificaciones[] = [
-                        'mensaje' => "Tienes nuevos pedidos en {$restaurante->nombre}.",
-                        'enlace' => route('restaurantes.ver_pedidos', ['slug' => $restaurante->slug])
-                    ];
-                }
-            });
-    
-            if (!empty($notificaciones)) {
-                session()->flash('notificaciones', $notificaciones);
-                if (url()->current() != route('index')) {
-                    return redirect()->route('index');
-                }
+{
+    $usuario = auth()->user();
+    $notificaciones = [];
+
+    if ($usuario) {
+        $usuario->misRestaurantes->each(function ($restaurante) use (&$notificaciones) {
+            $nuevasReservas = $restaurante->reservas()->where('leido', false)->count();
+            $nuevosPedidos = $restaurante->pedidos()->where('leido', false)->where('estado', 'pagado')->count();
+
+            if ($nuevasReservas > 0) {
+                $restaurante->reservas()->update(['leido' => true]);
+                $notificaciones[] = [
+                    'mensaje' => "Tienes nuevas reservas en {$restaurante->nombre}.",
+                    'enlace' => route('restaurantes.verReservas', ['slug' => $restaurante->slug])
+                ];
+            }
+
+            if ($nuevosPedidos > 0) {
+                $restaurante->pedidos()->where('estado', 'pagado')->update(['leido' => true]);
+
+                $notificaciones[] = [
+                    'mensaje' => "Tienes nuevos pedidos en {$restaurante->nombre}.",
+                    'enlace' => route('restaurantes.ver_pedidos', ['slug' => $restaurante->slug])
+                ];
+            }
+        });
+
+        $mensajesPendientes = Contacto::where('otro_usuario_id', $usuario->id)
+            ->where('estado', 'aceptada')
+            ->where('leido', false)
+            ->get();
+
+        $solicitudesPendientes = Contacto::where('usuario_id', $usuario->id)
+            ->where('estado', 'pendiente')
+            ->where('leido', false)
+            ->count();
+
+        if ($mensajesPendientes->count() > 0) {
+            foreach ($mensajesPendientes as $mensaje) {
+                $otroUsuario = User::find($mensaje->usuario_id);
+                $notificaciones[] = [
+                    'mensaje' => "Tienes un nuevo mensaje de {$otroUsuario->usuario}.",
+                    'enlace' => route('perfil.mensajes', ['amigoId' => $otroUsuario->id])
+                ];
             }
         }
-    
-        return view('index');
+
+        if ($solicitudesPendientes > 0) {
+            $notificaciones[] = [
+                'mensaje' => 'Tienes solicitudes de amistad pendientes.',
+                'enlace' => route('perfil.social', ['nombreUsuario' => $usuario->usuario])
+            ];
+        }
+
+        Contacto::where('otro_usuario_id', $usuario->id)
+            ->where('estado', 'aceptada')
+            ->update(['leido' => true]);
+
+        Contacto::where('usuario_id', $usuario->id)
+            ->where('estado', 'pendiente')
+            ->update(['leido' => true]);
+
+        if (!empty($notificaciones)) {
+            session()->flash('notificaciones', $notificaciones);
+            if (url()->current() != route('index')) {
+                return redirect()->route('index');
+            }
+        }
     }
-    
-    
+
+    return view('index');
+}
+
     
     public function registroRestaurante()
     {
