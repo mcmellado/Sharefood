@@ -28,7 +28,7 @@
             <input type="text" class="form-control" placeholder="Buscar restaurantes..." name="q" id="buscar-input">
             <div class="sugerencias-desplegable position-absolute" id="sugerencias-desplegable"></div>
             <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+
             </div>
         </div>
     </form>

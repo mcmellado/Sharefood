@@ -45,25 +45,12 @@
     @empty
     <p>No hay reservas.</p>
     @endforelse
-
-    <a href="{{ route('admin.panel_admin') }}" class="btn btn-primary btn-return-admin mt-3">Volver al Panel de Administrador</a>
 </div>
 
-        @if(session('reserva-cancelada-' . $reserva->id))
-        <div id="alerta-reserva-cancelada-{{ $reserva->id }}" class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('reserva-cancelada-' . $reserva->id) }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        @endif
+<a href="{{ route('admin.panel_admin') }}" class="btn btn-primary btn-return-admin mt-3">Volver al Panel de Administrador</a>
 
-        @empty
-        <p>No hay reservas.</p>
-        @endforelse
-    </div>
-    <a href="{{ route('admin.panel_admin') }}" class="btn btn-primary btn-return-admin mt-3">Volver al Panel de Administrador</a>
 </div>
+
 <script>
     // Cierra automáticamente la alerta después de 10 segundos
     setTimeout(function() {

@@ -103,8 +103,6 @@ Route::post('/perfil/ver-pedidos', [PerfilController::class, 'verPedidos'])->nam
 
 
 
-
-
 // SOCIAL:
 Route::get('/perfil/social/{nombreUsuario}', [PerfilController::class, 'mostrarSocial'])->name('perfil.social');
 Route::get('/perfil/mostrar/{nombreUsuario}', [PerfilController::class, 'mostrar'])->name('perfil.mostrar');
