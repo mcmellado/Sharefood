@@ -52,7 +52,6 @@
 </div>
 
 <script>
-    // Cierra automáticamente la alerta después de 10 segundos
     setTimeout(function() {
         var alertaReservaModificada = document.getElementById('alerta-reserva-modificada');
         if (alertaReservaModificada) {

@@ -3,6 +3,7 @@
 @section('contenido')
     <link rel="stylesheet" href="{{ asset('css/carta.css') }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    
 
     <div class="main-container">
         <div class="container mt-5">
@@ -35,7 +36,7 @@
                 </div>
             </div>
 
-            <form id="pedidoForm" action="{{ route('realizar-pedido') }}" method="POST" onsubmit="return submitForm()">
+            <form id="pedidoForm" action="{{ route('realizar-pedido') }}" method="POST" x-data="{ mostrarDireccion: false }" @submit.prevent="submitForm()">
                 @csrf
                 <input type="hidden" name="restaurante_id" value="{{ $restaurante->id }}">
 
@@ -48,11 +49,11 @@
                                     <p class="mb-2">{{ $producto->descripcion }}</p>
                                     <p class="font-weight-bold">Precio: {{ number_format($producto->precio, 2) }} €</p>
                                     @if($producto->imagen)
-                                    <div class="col-md-6" style="margin-bottom: 10px;">
-                                        @if($producto->imagen)
-                                            <img src="{{ '/storage/' . $producto->imagen }}" alt="{{ $producto->nombre }}" class="img-fluid">
-                                        @endif
-                                    </div>                                    
+                                        <div class="col-md-6" style="margin-bottom: 10px;">
+                                            @if($producto->imagen)
+                                                <img src="{{ '/storage/' . $producto->imagen }}" alt="{{ $producto->nombre }}" class="img-fluid">
+                                            @endif
+                                        </div>                                    
                                     @endif
                                     <label>
                                         Seleccionar plato: <input type="checkbox" onchange="toggleCantidadInput(event, {{ $producto->id }})" name="productos_checkbox[]"> 
@@ -68,16 +69,12 @@
                             <div class="row mt-3">
                                 <div class="col-md-4">
                                     @auth
-                                    <h3>Dirección de Entrega:</h3>
-                                    <div class="input-container">
-                                        <input id="direccion" type="text" name="direccion" class="form-control input-corto" placeholder="Dirección" required>
-                                        <ul id="direccionesGuardadas" class="list-group mt-2">
-                                        </ul>
-                                    </div>
-                                    
-                                    
-                                    <ul id="direccionesGuardadas" class="list-group mt-2">
-                                    </ul>
+                                        <h3 x-show="mostrarDireccion">Dirección de Entrega:</h3>
+                                        <div class="input-container" x-show="mostrarDireccion">
+                                            <input id="direccion" type="text" name="direccion" class="form-control input-corto" placeholder="Dirección" required>
+                                            <ul id="direccionesGuardadas" class="list-group mt-2">
+                                            </ul>
+                                        </div>
                                     @endauth
                                 </div>
 
@@ -98,99 +95,6 @@
         </div>
     </div>
 
-    <script>
-
-        function setCookie(name, value, days) {
-            var expires = "";
-            if (days) {
-                var date = new Date();
-                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                expires = "; expires=" + date.toUTCString();
-            }
-            document.cookie = name + "=" + (value || "") + expires + "; path=/";
-        }
-
-        function getCookie(name) {
-            var nameEQ = name + "=";
-            var ca = document.cookie.split(';');
-            for(var i = 0; i < ca.length; i++) {
-                var c = ca[i];
-                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-            }
-            return null;
-        }
-        document.addEventListener('DOMContentLoaded', function () {
-    var direccionInput = document.getElementById('direccion');
-    var direccionesGuardadas = document.getElementById('direccionesGuardadas');
-
-    direccionInput.addEventListener('focus', function () {
-        mostrarSugerencias();
-    });
-
-    direccionInput.addEventListener('blur', function () {
-        setTimeout(function () {
-            direccionesGuardadas.style.display = 'none';
-        }, 200); 
-    });
-
-    function mostrarSugerencias() {
-        var direcciones = obtenerDireccionesGuardadas();
-        actualizarSugerencias(direcciones);
-    }
-
-    function obtenerDireccionesGuardadas() {
-        var direcciones = [];
-        var direccionCookie = getCookie("direccion_entrega");
-        if (direccionCookie) {
-            direcciones.push(decodeURIComponent(direccionCookie));
-        }
-
-        return direcciones;
-    }
-
-    function actualizarSugerencias(direcciones) {
-        direccionesGuardadas.innerHTML = '';
-
-        direcciones.forEach(function (direccion) {
-            var li = document.createElement('li');
-            li.className = 'list-group-item';
-            li.innerText = direccion;
-
-            li.addEventListener('click', function () {
-                direccionInput.value = direccion;
-                direccionesGuardadas.style.display = 'none';
-            });
-
-            direccionesGuardadas.appendChild(li);
-        });
-
-        if (direcciones.length > 0) {
-            direccionesGuardadas.style.display = 'block';
-        }
-    }
-});
-
-
-    function submitForm() {
-    var direccion = document.getElementById('direccion').value;
-    if (direccion.trim() !== '') {
-        setCookie('direccion_entrega', encodeURIComponent(direccion), 30);
-    }
-    return true;
-}
-
-        function toggleCantidadInput(event, productId) {
-            var cantidadInput = event.target.parentNode.nextElementSibling;
-            cantidadInput.style.display = event.target.checked ? 'block' : 'none';
-            cantidadInput.disabled = !event.target.checked;
-            cantidadInput.value = 1;
-        }
-
-        function validarCantidad(event) {
-            if (parseFloat(event.target.value) === 0) {
-                event.target.value = 1;
-            }
-        }
-    </script>
+    <script src="{{ asset('js/carta.js') }}" defer></script>
+    
 @endsection

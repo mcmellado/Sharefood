@@ -3,16 +3,26 @@
 @section('contenido')
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('css/perfil_admin_restaurantes.css') }}">
-
+    <!-- Añade SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.2/dist/sweetalert2.min.css">
 
     <div class="container">
         <h2 class="mt-4 mb-4">Bienvenido al Panel de Administrador de Restaurantes</h2>
 
         <div class="row">
             <div class="col-md-12">
-                <h3>Restaurantes</h3>
 
                 <div class="table-responsive table-scrollable">
+
+                    @if(session('success'))
+                    <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
+
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -30,7 +40,7 @@
                                     <td class="text-center">{{ $restaurante->usuario->usuario ?? 'N/A' }}</td>
                                     <td class="text-center">
                                         <a href="{{ route('admin.restaurantes.modificar', $restaurante->id) }}" class="btn btn-primary btn-sm">Modificar</a>
-                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirmarEliminar{{ $restaurante->id }}">
+                                        <button type="button" class="btn btn-danger btn-sm eliminar-restaurante" data-toggle="modal" data-target="#confirmarEliminar{{ $restaurante->id }}">
                                             Eliminar
                                         </button>
                                     </td>
@@ -49,11 +59,11 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                                    <form method="post" action="{{ route('admin.restaurantes.eliminar', $restaurante->id) }}" style="display:inline">
-                                                        @csrf
-                                                        @method('delete')
-                                                        <button type="submit" class="btn btn-danger">Eliminar</button>
-                                                    </form>
+                                                <form method="post" action="{{ route('admin.restaurantes.eliminar', $restaurante->id) }}" style="display:inline">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -70,4 +80,5 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.2/dist/sweetalert2.all.min.js"></script>
 @endsection

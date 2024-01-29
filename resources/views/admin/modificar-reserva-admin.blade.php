@@ -35,6 +35,8 @@
     </div>
 </div>
 
+<script src="{{ asset('js/modificar_reserva.js') }}" defer></script>
+
 <script>
     var reservasPorFecha = {};
     reservasPorFecha["{{ $reserva->fecha }}"] = [{

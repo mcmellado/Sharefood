@@ -88,26 +88,7 @@
     
 </div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const selectsEstado = document.querySelectorAll('[name^="estado_"]');
+<script src="{{ asset('js/crear_restaurante.js') }}" defer></script>
 
-        selectsEstado.forEach(selectEstado => {
-            const inputApertura = selectEstado.parentElement.querySelector('[name^="hora_apertura"]');
-            const inputCierre = selectEstado.parentElement.querySelector('[name^="hora_cierre"]');
-
-            selectEstado.addEventListener("change", function () {
-                const cerrado = this.value === 'cerrado';
-                inputApertura.disabled = cerrado;
-                inputCierre.disabled = cerrado;
-            });
-
-            if (selectEstado.value === 'cerrado') {
-                inputApertura.disabled = true;
-                inputCierre.disabled = true;
-            }
-        });
-    });
-</script>
 
 @endsection

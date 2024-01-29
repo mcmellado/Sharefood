@@ -4,14 +4,14 @@
 @section('contenido')
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('css/perfil_admin.css') }}">
-
+    <!-- Añade SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.2/dist/sweetalert2.min.css">
 
     <div class="container">
         <h2 class="mt-4 mb-4">Bienvenido al Panel de Administrador</h2>
 
         <div class="row">
             <div class="col-md-12">
-                <h3>Usuarios</h3>
 
                 @if(session('contrasena-cambiada'))
                     <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
@@ -67,11 +67,13 @@
                                                 <button type="submit" class="btn btn-danger btn-sm">Invalidar</button>
                                             @endif
                                         </form>
-                                        <form method="post" action="{{ route('admin.eliminar', $user->id) }}" style="display:inline">
+
+                                        <form method="post" action="{{ route('admin.eliminar', $user->id) }}" class="eliminar-usuario-form" style="display:inline">
                                             @csrf
                                             @method('delete')
                                             <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                                         </form>
+
                                         <a href="{{ route('admin.usuarios.modificar', $user->id) }}" class="btn btn-primary btn-sm">Modificar</a>
                                         <a href="{{ route('admin.usuarios.cambiar-contrasena-admin', $user->id) }}" class="btn btn-warning btn-sm">Cambiar Contraseña</a>
                                         <a href="{{ route('admin.usuarios.ver-comentarios', $user->id) }}" class="btn btn-info btn-sm">Ver Comentarios</a>
@@ -86,10 +88,11 @@
                         </tbody>
                     </table>
                     <a href="{{ route('admin.panel-admin-restaurante') }}" class="btn btn-primary">Ir al Panel de Restaurantes</a>
-
                 </div>
             </div>
         </div>
     </div>
-    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.2/dist/sweetalert2.min.js"></script>
+    <script src="{{ asset('js/panel_admin_usuarios.js') }}"></script>
+
 @endsection

@@ -190,8 +190,15 @@ public function modificarReserva(Request $request, $reservaId)
         $restaurantes = Restaurante::orderBy('id')->get();
         return view('admin.panel-admin-restaurante', compact('restaurantes'));
     }
-    public function eliminarRestaurante(Restaurante $restaurante)
+    public function eliminarRestaurante($id)
     {
+
+        $restaurante = Restaurante::findOrFail($id);
+ 
+        $restaurante->horarios()->delete();
+        $restaurante->productos()->delete();
+        $restaurante->comentario()->delete();
+        $restaurante->reservas()->delete();
         $restaurante->delete();
 
         return redirect()->route('admin.panel-admin-restaurante')->with('success', 'Restaurante eliminado correctamente.');

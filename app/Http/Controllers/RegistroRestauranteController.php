@@ -47,10 +47,12 @@ class RegistroRestauranteController extends Controller
             ->where('leido', false)
             ->get();
 
-        $solicitudesPendientes = Contacto::where('usuario_id', $usuario->id)
-            ->where('estado', 'pendiente')
-            ->where('leido', false)
-            ->count();
+        
+        $solicitudesPendientes = Contacto::where('otro_usuario_id', $usuario->id)
+        ->where('estado', 'pendiente')
+        ->where('leido', false)
+        ->get();
+
 
         if ($mensajesPendientes->count() > 0) {
             foreach ($mensajesPendientes as $mensaje) {
@@ -62,18 +64,21 @@ class RegistroRestauranteController extends Controller
             }
         }
 
-        if ($solicitudesPendientes > 0) {
-            $notificaciones[] = [
-                'mensaje' => 'Tienes solicitudes de amistad pendientes.',
-                'enlace' => route('perfil.social', ['nombreUsuario' => $usuario->usuario])
-            ];
+        if ($solicitudesPendientes->count() > 0) {
+            foreach ($solicitudesPendientes as $solicitud) {
+                $otroUsuario = User::find($solicitud->usuario_id);  
+                $notificaciones[] = [
+                    'mensaje' => "Tienes solicitudes de amistad pendientes.",
+                    'enlace' => route('perfil.social', ['nombreUsuario' => $usuario->usuario])
+                ];
+            }
         }
-
+        
         Contacto::where('otro_usuario_id', $usuario->id)
             ->where('estado', 'aceptada')
             ->update(['leido' => true]);
 
-        Contacto::where('usuario_id', $usuario->id)
+        Contacto::where('otro_usuario_id', $usuario->id)
             ->where('estado', 'pendiente')
             ->update(['leido' => true]);
 
