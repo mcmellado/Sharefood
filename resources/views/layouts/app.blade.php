@@ -17,7 +17,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">
-            <span style="font-size: 1.5em;">Sharefood</span>
+            <img src="../imagenes/logo.png" class="imgen-logo">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -54,7 +54,7 @@
 
     <!-- Footer -->
     <footer class="mt-5 bg-dark text-white text-center p-3 fixed-bottom">
-        <p>&copy; 2023 Sharefooding - Todos los derechos reservados</p>
+        <p>&copy; 2023 Sharefood - Todos los derechos reservados</p>
     </footer>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>

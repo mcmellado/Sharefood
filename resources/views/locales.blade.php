@@ -42,11 +42,26 @@
                         <p>Dirección: {{ $restaurante->direccion }}</p>
                         <p>Sitio web: {{ $restaurante->sitio_web ?? 'No disponible' }}</p>
                         <p>Teléfono: {{ $restaurante->telefono ?? 'No disponible' }}</p>
-                        <a href="{{ route('restaurante.mis-restaurantes.modificar', ['slug' => $restaurante->slug]) }}" class="btn btn-info "><i class="fas fa-pencil-alt"></i> </a>
-                        <a href="{{ route('restaurantes.verReservas', ['slug' => $restaurante->slug]) }}" class="btn btn-primary "><i class="far fa-calendar"></i> </a>
-                        <a href="{{ route('restaurantes.verComentarios', ['slug' => $restaurante->slug]) }}" class="btn btn-secondary "><i class="far fa-comments"></i> </a>
-                        <a href="{{ route('restaurantes.gestionar_carta', ['slug' => $restaurante->slug]) }}" class="btn btn-secondary"> <i class="fas fa-book-open"></i> </a>
-                        <a href="{{ route('restaurantes.ver_pedidos', ['slug' => $restaurante->slug]) }}" class="btn btn-primary"> <i class="fas fa-utensils"> </i> </a>
+                        <a href="{{ route('restaurante.mis-restaurantes.modificar', ['slug' => $restaurante->slug]) }}" class="btn btn-info" title="Modificar Restaurante">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+
+                        <a href="{{ route('restaurantes.verReservas', ['slug' => $restaurante->slug]) }}" class="btn btn-primary" title="Ver Reservas">
+                            <i class="far fa-calendar"></i>
+                        </a>
+
+                        <a href="{{ route('restaurantes.verComentarios', ['slug' => $restaurante->slug]) }}" class="btn btn-secondary" title="Ver Comentarios">
+                            <i class="far fa-comments"></i>
+                        </a>
+
+                        <a href="{{ route('restaurantes.gestionar_carta', ['slug' => $restaurante->slug]) }}" class="btn btn-success" title="Gestionar Carta">
+                            <i class="fas fa-book-open"></i>
+                        </a>
+
+                        <a href="{{ route('restaurantes.ver_pedidos', ['slug' => $restaurante->slug]) }}" class="btn btn-primary" title="Ver Pedidos">
+                            <i class="fas fa-utensils"></i>
+                        </a>
+
                         
 
                         

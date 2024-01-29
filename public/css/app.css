@@ -75,5 +75,11 @@ body {
     font-style: normal;
 }
 
+.imgen-logo {
+    max-width: 57%!important;
+    height: auto!important;
+    position: relative!important;
+    left: 6%!important;
+}
 
 

@@ -3,8 +3,9 @@
 @section('contenido')
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('css/perfil_admin_restaurantes.css') }}">
-    <!-- Añade SweetAlert CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.2/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 
     <div class="container">
         <h2 class="mt-4 mb-4">Bienvenido al Panel de Administrador de Restaurantes</h2>
@@ -39,9 +40,9 @@
                                     <td class="text-center">{{ $restaurante->nombre }}</td>
                                     <td class="text-center">{{ $restaurante->usuario->usuario ?? 'N/A' }}</td>
                                     <td class="text-center">
-                                        <a href="{{ route('admin.restaurantes.modificar', $restaurante->id) }}" class="btn btn-primary btn-sm">Modificar</a>
-                                        <button type="button" class="btn btn-danger btn-sm eliminar-restaurante" data-toggle="modal" data-target="#confirmarEliminar{{ $restaurante->id }}">
-                                            Eliminar
+                                        <a href="{{ route('admin.restaurantes.modificar', $restaurante->id) }}" title="Modificar" class="btn btn-primary btn-sm"> <i class="fa fa-pencil-alt"></i></a>
+                                        <button type="button" title="Eliminar" class="btn btn-danger btn-sm eliminar-restaurante" data-toggle="modal" data-target="#confirmarEliminar{{ $restaurante->id }}">
+                                            <i class="fa fa-trash"></i>   
                                         </button>
                                     </td>
                                 </tr>
@@ -62,7 +63,7 @@
                                                 <form method="post" action="{{ route('admin.restaurantes.eliminar', $restaurante->id) }}" style="display:inline">
                                                     @csrf
                                                     @method('delete')
-                                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                                    <button type="submit" class="btn btn-danger"></button>
                                                 </form>
                                             </div>
                                         </div>
