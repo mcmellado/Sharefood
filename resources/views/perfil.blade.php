@@ -72,7 +72,7 @@
     @endauth
                     @auth
                         @if(Auth::user()->id === $usuario->id)
-                        <div class="d-flex justify-content-start align-items-center text-center flex-wrap my-3" style="margin-left: 9%">
+                        <div class="d-flex justify-content-start align-items-center text-center flex-wrap my-3" style="margin-left: 6%">
                             <a href="{{ route('perfil.modificar', ['nombreUsuario' => $usuario->usuario]) }}" class="btn btn-success btn-modificar mb-2 mr-2">Modificar Perfil 🛠️</a>
                             <a href="{{ route('perfil.mis-restaurantes', ['nombreUsuario' => $usuario->usuario]) }}" class="btn btn-success btn-modificar mb-2 mr-2">Mis Restaurantes 🍽️</a>
                             <a href="{{ route('perfil.reservas', ['nombreUsuario' => $usuario->usuario]) }}" class="btn btn-success btn-ver-reservas mb-2 mr-2">Ver Reservas 📅</a>

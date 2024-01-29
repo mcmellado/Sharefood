@@ -68,5 +68,12 @@ body {
     margin-top: 0;
 }
 
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255,255,255,.5);
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
 
 

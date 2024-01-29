@@ -7,6 +7,10 @@
     <link rel="icon" type="image/jpg" href="./media/imagenes/favicon.ico"/>
     <link rel="stylesheet" href="{{ asset('css/registro.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap">
+
+    
+
     <title>Bienvenido a ShareFood - Registro</title>
 </head>
 <body>
@@ -15,6 +19,7 @@
         <nav class="container-sm">  
             <a href="#" class="text-decoration-none text-light me-3">Sobre nosotros</a>
             <a href="#" class="text-decoration-none text-light">Contacto</a>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.2/dist/sweetalert2.all.min.js"></script>
         </nav>
     </header>
 

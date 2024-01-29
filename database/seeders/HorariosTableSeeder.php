@@ -26,7 +26,7 @@ class HorariosTableSeeder extends Seeder
 
     protected function seedHorarios($restauranteId)
 {
-    $dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+    $dias = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
 
     foreach ($dias as $dia) {
         list($horaApertura, $horaCierre) = $this->generateRealisticTimeRange();

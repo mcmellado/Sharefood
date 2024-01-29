@@ -18,3 +18,16 @@
             }
         });
     });
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.btn-agregar-horario').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const dia = this.getAttribute('data-dia');
+                const container = this.closest('.form-group').querySelector('.horarios-container');
+                const nuevoHorario = container.querySelector('.horario').cloneNode(true);
+                container.appendChild(nuevoHorario);
+            });
+        });
+    });
+

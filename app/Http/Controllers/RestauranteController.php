@@ -190,6 +190,14 @@ public function puntuar(Request $request, $slug)
         'aforo_maximo' => 'required|integer|min:1',
     ]);
 
+    $nuevoSlug = Str::slug($request->input('nombre'));
+
+    $contador = 1;
+    while (DB::table('restaurantes')->where('slug', $nuevoSlug)->exists()) {
+        $nuevoSlug = Str::slug($request->input('nombre')) . '-' . $contador;
+        $contador++;
+    }
+
     $restaurante = new Restaurante([
         'nombre' => $request->input('nombre'),
         'direccion' => $request->input('direccion'),
@@ -198,31 +206,34 @@ public function puntuar(Request $request, $slug)
         'telefono' => $request->input('telefono'),
         'sitio_web' => $request->input('sitio_web'),
         'aforo_maximo' => $request->input('aforo_maximo'),
-        'slug' => Str::slug($request->input('nombre')),
+        'slug' => $nuevoSlug,
     ]);
 
     $restaurante->usuario()->associate(auth()->user());
     $restaurante->save();
 
     foreach(['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'] as $dia) {
-        $horaApertura = $request->input("hora_apertura_$dia", null);
-        $horaCierre = $request->input("hora_cierre_$dia", null);
-
-        if ($horaApertura !== null && $horaCierre !== null) {
-            $horario = new Horario([
-                'dia_semana' => $dia,
-                'hora_apertura' => $horaApertura,
-                'hora_cierre' => $horaCierre,
-                'intervalo' => $request->input('intervalo'),
-            ]);
-
-            $horario->restaurante()->associate($restaurante);
-            $horario->save();
+        $horariosApertura = $request->input("hora_apertura_$dia", []);
+        $horariosCierre = $request->input("hora_cierre_$dia", []);
+    
+        if (!empty($horariosApertura) && !empty($horariosCierre) && count($horariosApertura) == count($horariosCierre)) {
+            foreach ($horariosApertura as $key => $horaApertura) {
+                $horaCierre = $horariosCierre[$key];
+    
+                $horario = new Horario([
+                    'dia_semana' => $dia,
+                    'hora_apertura' => $horaApertura,
+                    'hora_cierre' => $horaCierre,
+                    'intervalo' => $request->input('intervalo'),
+                ]);
+    
+                $horario->restaurante()->associate($restaurante);
+                $horario->save();
+            }
         }
     }
-
-    return redirect()->route('perfil.mis-restaurantes', ['nombreUsuario' => auth()->user()->usuario])->with('success', 'Restaurante creado exitosamente.');
-
+    
+    return redirect()->route('perfil.mis-restaurantes', ['nombreUsuario' => auth()->user()->usuario])->with('success', 'Restaurante creado exitosamente.');    
 }
 
         public function formularioCrearRestaurante()

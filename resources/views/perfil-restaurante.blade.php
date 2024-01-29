@@ -7,6 +7,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.2/dist/sweetalert2.all.min.js"></script>
 
 
@@ -71,21 +72,36 @@
             </div>
         </div>
 
-        @if ($restaurante->horarios)
+    @if ($restaurante->horarios)
     <div class="card mt-4">
         <div class="card-body">
             <h3 class="horarios">Horarios:</h3>
             <div class="row row-cols-1 row-cols-md-2 g-3">
-                @foreach ($restaurante->horarios as $horario)
+                @php
+                    $diasSemana = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
+                @endphp
+
+                @foreach ($diasSemana as $dia)
+                    @php
+                        $horariosDia = $restaurante->horarios->where('dia_semana', $dia);
+                    @endphp
+
                     <div class="col mb-3">
                         <div class="card">
                             <div class="card-body d-flex flex-column">
-                                <h6 class="card-subtitle mb-2">{{ $horario->dia_semana }}</h6>
-                                <div class="d-flex justify-content-between">
-                                    <span>{{ \Carbon\Carbon::parse($horario->hora_apertura)->format('H:i') }}</span>
-                                    <span> - </span>
-                                    <span>{{ \Carbon\Carbon::parse($horario->hora_cierre)->format('H:i') }}</span>
-                                </div>
+                                <h6 class="card-subtitle mb-2">{{ ucfirst($dia) }}</h6>
+
+                                @if ($horariosDia->count() > 0)
+                                    @foreach ($horariosDia as $horario)
+                                        <div class="d-flex justify-content-between">
+                                            <span>{{ \Carbon\Carbon::parse($horario->hora_apertura)->format('H:i') }}</span>
+                                            <span> - </span>
+                                            <span>{{ \Carbon\Carbon::parse($horario->hora_cierre)->format('H:i') }}</span>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="text-danger">Cerrado</div>
+                                @endif
                             </div>
                         </div>
                     </div>

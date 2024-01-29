@@ -54,18 +54,35 @@
                     @foreach(['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'] as $dia)
                         <div class="form-group">
                             <label>{{ $dia }}:</label>
-                            <div class="d-flex">
-                                <select name="estado_{{ strtolower($dia) }}" class="form-control" required>
-                                    <option value="abierto">Abierto</option>
-                                    <option value="cerrado">Cerrado</option>
-                                </select>
+                            <div class="horarios-container">
+                                <div class="horario">
+                                    <select name="estado_{{ strtolower($dia) }}[]" class="form-control" required>
+                                        <option value="abierto">Abierto</option>
+                                        <option value="cerrado">Cerrado</option>
+                                    </select>
 
-                                <input type="time" name="hora_apertura_{{ strtolower($dia) }}" class="form-control mr-2" required>
-                                <input type="time" name="hora_cierre_{{ strtolower($dia) }}" class="form-control" required>
+                                    <select name="hora_apertura_{{ strtolower($dia) }}[]" class="form-control mr-2" required>
+                                        @for ($hora = 0; $hora < 24; $hora++)
+                                            @for ($minuto = 0; $minuto < 60; $minuto += 30)
+                                                <option value="{{ sprintf('%02d:%02d', $hora, $minuto) }}">{{ sprintf('%02d:%02d', $hora, $minuto) }}</option>
+                                            @endfor
+                                        @endfor
+                                    </select>
+
+                                    <select name="hora_cierre_{{ strtolower($dia) }}[]" class="form-control" required>
+                                        @for ($hora = 0; $hora < 24; $hora++)
+                                            @for ($minuto = 0; $minuto < 60; $minuto += 30)
+                                                <option value="{{ sprintf('%02d:%02d', $hora, $minuto) }}">{{ sprintf('%02d:%02d', $hora, $minuto) }}</option>
+                                            @endfor
+                                        @endfor
+                                    </select>
+                                </div>
                             </div>
+
+                            <button type="button" class="btn btn-primary btn-agregar-horario" data-dia="{{ strtolower($dia) }}">Agregar Horario</button>
+                            <button type="button" class="btn btn-danger btn-quitar-horario">Quitar Horario</button>
                         </div>
                     @endforeach
-
                     <div class="form-group">
                         <label for="intervalo">Intervalo:</label>
                         <input type="number" name="intervalo" class="form-control" min="1" value="60">
@@ -92,3 +109,38 @@
 
 
 @endsection
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.btn-agregar-horario').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const dia = this.getAttribute('data-dia');
+                const container = this.closest('.form-group').querySelector('.horarios-container');
+
+                const nuevoHorario = container.querySelector('.horario').cloneNode(true);
+                container.appendChild(nuevoHorario);
+
+                // Restablecer los campos de tiempo
+                nuevoHorario.querySelector('select[name^="hora_apertura"]').value = '';
+                nuevoHorario.querySelector('select[name^="hora_cierre"]').value = '';
+            });
+        });
+
+        document.querySelectorAll('.btn-quitar-horario').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const horario = this.parentNode.querySelector('.horario');
+                const container = this.closest('.form-group').querySelector('.horarios-container');
+
+                // Verificar si hay más de un horario antes de eliminar
+                if (container.querySelectorAll('.horario').length > 1) {
+                    container.removeChild(horario);
+                } else {
+                    // Si solo hay un horario, restablecer los campos de tiempo en lugar de eliminar
+                    horario.querySelector('select[name^="estado"]').value = 'abierto';
+                    horario.querySelector('select[name^="hora_apertura"]').value = '';
+                    horario.querySelector('select[name^="hora_cierre"]').value = '';
+                }
+            });
+        });
+    });
+</script>

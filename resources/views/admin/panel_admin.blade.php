@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="{{ asset('css/perfil_admin.css') }}">
     <!-- Añade SweetAlert CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.2/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 
     <div class="container">
         <h2 class="mt-4 mb-4">Bienvenido al Panel de Administrador</h2>
@@ -62,22 +64,22 @@
                                         <form method="post" action="{{ route('admin.validar', $user->id) }}" style="display:inline">
                                             @csrf
                                             @if ($user->validacion)
-                                                <button type="submit" class="btn btn-success btn-sm">Validado</button>
+                                                <button type="submit" class="btn btn-success btn-sm" title="Validado"><i class="fa fa-check"></i></button>
                                             @else
-                                                <button type="submit" class="btn btn-danger btn-sm">Invalidar</button>
+                                                <button type="submit" class="btn btn-danger btn-sm" title="Invalidar"><i class="fa fa-times"></i></button>
                                             @endif
                                         </form>
-
+                                        
                                         <form method="post" action="{{ route('admin.eliminar', $user->id) }}" class="eliminar-usuario-form" style="display:inline">
                                             @csrf
                                             @method('delete')
-                                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                            <button type="submit" class="btn btn-danger btn-sm" title="Eliminar"><i class="fa fa-trash"></i></button>
                                         </form>
-
-                                        <a href="{{ route('admin.usuarios.modificar', $user->id) }}" class="btn btn-primary btn-sm">Modificar</a>
-                                        <a href="{{ route('admin.usuarios.cambiar-contrasena-admin', $user->id) }}" class="btn btn-warning btn-sm">Cambiar Contraseña</a>
-                                        <a href="{{ route('admin.usuarios.ver-comentarios', $user->id) }}" class="btn btn-info btn-sm">Ver Comentarios</a>
-                                        <a href="{{ route('admin.usuarios.ver-reservas', $user->id) }}" class="btn btn-info btn-sm">Ver Reservas</a>
+                                        
+                                        <a href="{{ route('admin.usuarios.modificar', $user->id) }}" class="btn btn-primary btn-sm" title="Modificar"><i class="fa fa-pencil-alt"></i></a>
+                                        <a href="{{ route('admin.usuarios.cambiar-contrasena-admin', $user->id) }}" class="btn btn-warning btn-sm" title="Cambiar Contraseña"><i class="fa fa-key"></i></a>
+                                        <a href="{{ route('admin.usuarios.ver-comentarios', $user->id) }}" class="btn btn-info btn-sm" title="Ver Comentarios"><i class="fa fa-comment"></i></a>
+                                        <a href="{{ route('admin.usuarios.ver-reservas', $user->id) }}" class="btn btn-info btn-sm" title="Ver Reservas"><i class="fa fa-calendar"></i></a>
                                     </td>
                                 </tr>
                             @empty
@@ -87,7 +89,7 @@
                             @endforelse
                         </tbody>
                     </table>
-                    <a href="{{ route('admin.panel-admin-restaurante') }}" class="btn btn-primary">Ir al Panel de Restaurantes</a>
+                    <a href="{{ route('admin.panel-admin-restaurante') }}" class="btn btn-primary independent-btn">Ir al Panel de Restaurantes</a>
                 </div>
             </div>
         </div>

@@ -2,7 +2,6 @@ body {
     position: relative;
     font-family: 'Poppins', sans-serif!important;
 
-    
 }
 
 body::before {
@@ -20,25 +19,8 @@ body::before {
     z-index: -1; 
 }
 
-
-.card-body, .list-group-item {
-    background-color: #2a2f35;
-    color: white;
+.independent-btn {
+    background-color: #007bff;
+    color: #fff; 
 }
 
-.list-group-item img {
-    max-width: 100%;
-    height: auto;
-}
-
-.btn-group {
-    margin-top: 20px;
-}
-
-.comment-container {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 10px;
-    list-style-type: none;
-}

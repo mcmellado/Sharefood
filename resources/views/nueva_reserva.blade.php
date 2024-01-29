@@ -53,31 +53,41 @@ function formatHora(hora) {
     }
 
     function cargarHorasDisponibles() {
-        var fechaSeleccionada = document.getElementById('fecha').value;
+    var fechaSeleccionada = document.getElementById('fecha').value;
 
-        if (!fechaSeleccionada) {
-            document.getElementById('hora').disabled = true;
-            return;
-        }
-
-        var reservasParaFecha = obtenerHorasReservadas(fechaSeleccionada);
-        var diaSemana = new Date(fechaSeleccionada).toLocaleDateString('es', { weekday: 'long' });
-        var horarioParaDia = horariosRestaurante.find(function (horario) {
-            return horario.dia_semana.toLowerCase() === diaSemana.toLowerCase();
-        });
-        var horasDisponibles = obtenerHorasDisponibles(horarioParaDia.hora_apertura, horarioParaDia.hora_cierre, reservasParaFecha);
-        var selectHora = document.getElementById('hora');
-        
-        selectHora.disabled = false;
-        selectHora.innerHTML = '';
-
-        horasDisponibles.forEach(function (hora) {
-            var option = document.createElement('option');
-            option.value = hora;
-            option.text = hora;
-            selectHora.appendChild(option);
-        });
+    if (!fechaSeleccionada) {
+        document.getElementById('hora').disabled = true;
+        return;
     }
+
+    var reservasParaFecha = obtenerHorasReservadas(fechaSeleccionada);
+    var diaSemana = new Date(fechaSeleccionada).toLocaleDateString('es', { weekday: 'long' });
+
+    // Obtener todos los horarios para el día seleccionado
+    var horariosParaDia = horariosRestaurante.filter(function (horario) {
+        return horario.dia_semana.toLowerCase() === diaSemana.toLowerCase();
+    });
+
+    var horasDisponibles = [];
+
+    // Iterar sobre cada horario y obtener las horas disponibles
+    horariosParaDia.forEach(function (horarioParaDia) {
+        var horasDisponiblesParaHorario = obtenerHorasDisponibles(horarioParaDia.hora_apertura, horarioParaDia.hora_cierre, reservasParaFecha);
+        horasDisponibles = horasDisponibles.concat(horasDisponiblesParaHorario);
+    });
+
+    var selectHora = document.getElementById('hora');
+    
+    selectHora.disabled = false;
+    selectHora.innerHTML = '';
+
+    horasDisponibles.forEach(function (hora) {
+        var option = document.createElement('option');
+        option.value = hora;
+        option.text = hora;
+        selectHora.appendChild(option);
+    });
+}
 
     function obtenerHorasDisponibles(horaApertura, horaCierre, reservas) {
     var horasDisponibles = [];

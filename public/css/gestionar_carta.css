@@ -1,6 +1,25 @@
 body {
-    background-color: #D5EB9B;
+    position: relative;
+    font-family: 'Poppins', sans-serif!important;
+
+    
 }
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../imagenes/imagen_fondo.jpg')!important;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(10px); 
+    z-index: -1; 
+}
+
 
 .card-body, .list-group-item {
     background-color: #2a2f35;

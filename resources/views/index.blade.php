@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap">
 
 
 @if(session('notificaciones'))
@@ -56,14 +57,14 @@
         <div class="col-md-4">
             <div class="cajita bg-verde text-white">
                 <i class="material-icons mb-3 icono-verde">event</i>
-                <h4 class="mb-4 display-6">Reserva online en restaurantes de todo el mundo</h4>
+                <h4 class="mb-4 display-6">Reserva online en restaurantes</h4>
                 <p class="lead">Haz tus reservas fácilmente a través de nuestra plataforma en línea.</p>
             </div>
         </div>
     </div>
 
     <div class="row mb-5">
-        <h2 class="titulo text-verde display-4">Descubre los Mejores Restaurantes: </h2>
+        <h2 class="titulo text-verde display-4">Descubre los mejores restaurantes: </h2>
         <div class="custom-row-item my-4">
             @php
                     $mejoresLocales = \App\Models\Restaurante::with('puntuaciones')
@@ -112,5 +113,6 @@
 <br>
 
 <script src="{{ asset('js/index.js') }}" defer></script>
+
 
 @endsection 
