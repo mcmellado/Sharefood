@@ -27,7 +27,8 @@ class Restaurante extends Model
         'id_usuario',
         'aforo_maximo',
         'tiempo_permanencia',
-        'gastronomia'
+        'gastronomia',
+        'tiempo_cierre'
     ];
 
     public function comentarios()

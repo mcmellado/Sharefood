@@ -70,6 +70,18 @@
                         <p class="text-danger">No puedes modificar el tiempo de permanencia con reservas próximas pendientes.</p>
                     @endif
                 </div>
+
+                <div class="form-group">
+                    <label for="tiempo_cierre">Tiempo de cierre (en minutos):</label>
+                    @if(!$restaurante->tieneReservasFuturas())
+                        <input type="number" name="tiempo_cierre" value="{{ old('tiempo_cierre', $restaurante->tiempo_cierre) }}" class="form-control">
+                        @error('tiempo_cierre')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    @else
+                        <p class="text-danger">No puedes modificar el tiempo de cierre con reservas próximas pendientes.</p>
+                    @endif
+                </div>
                 
                 
                 <a href="{{ route('perfil.mis-restaurantes', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-danger"><i class="fas fa-arrow-left"></i></a>

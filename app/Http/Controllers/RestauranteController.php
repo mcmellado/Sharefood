@@ -108,7 +108,8 @@ class RestauranteController extends Controller
         'direccion' => 'required|string',
         'sitio_web' => 'nullable|string|url',
         'telefono' => 'nullable|string',
-        'aforo_maximo' => 'required|integer', 
+        'aforo_maximo' => 'required|integer',
+        'tiempo_permanencia' => 'required|integer',
     ]);
 
     $restaurante->update([
@@ -117,6 +118,8 @@ class RestauranteController extends Controller
         'sitio_web' => $request->input('sitio_web'),
         'telefono' => $request->input('telefono'),
         'aforo_maximo' => $request->input('aforo_maximo'), 
+        'tiempo_permanencia' => $request->input('tiempo_permanencia'),
+        'tiempo_cierre' => $request->input('tiempo_cierre'), 
         'slug' => Str::slug($request->input('nombre')),
     ]);
 

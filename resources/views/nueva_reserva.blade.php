@@ -82,8 +82,10 @@ function formatHora(hora) {
     function obtenerHorasDisponibles(horaApertura, horaCierre, reservas) {
     var horasDisponibles = [];
     var horaActual = parseHora(horaApertura);
+    var tiempo_cierre = "{{ $restaurante->tiempo_cierre }}";
 
-    var horaCierreModificada = parseHora(horaCierre).setMinutes(parseHora(horaCierre).getMinutes() - 30);
+
+    var horaCierreModificada = parseHora(horaCierre).setMinutes(parseHora(horaCierre).getMinutes() - tiempo_cierre);
 
     while (horaActual <= horaCierreModificada) {
         var horaActualString = formatHora(horaActual);
@@ -172,12 +174,12 @@ function formatHora(hora) {
         intervaloFin.setHours(intervaloFin.getHours() + 1);
 
         var reservasEnIntervalo = 1;
-        var tiempoPermanencia = {{ $restaurante->tiempo_permanencia * 60 * 1000 }}; // Convertir a milisegundos
+        var tiempoPermanencia = {{ $restaurante->tiempo_permanencia}}; 
 
         Object.keys(reservasPorFecha).forEach(function (fecha) {
             reservasPorFecha[fecha].forEach(function (reserva) {
                 var fechaReserva = new Date(fecha + 'T' + reserva.hora);
-                var fechaReservaFin = new Date(fechaReserva.getTime() + tiempoPermanencia); // Calcular fin del intervalo de la reserva
+                var fechaReservaFin = new Date(fechaReserva.getTime() + tiempoPermanencia);
                 if ((fechaReserva >= intervaloInicio && fechaReserva <= intervaloFin) || (fechaReservaFin >= intervaloInicio && fechaReservaFin <= intervaloFin)) {
                     reservasEnIntervalo += parseInt(reserva.personas);
                 }

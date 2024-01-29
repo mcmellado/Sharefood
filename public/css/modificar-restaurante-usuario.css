@@ -34,7 +34,8 @@ body {
 
 .card {
     background-color: #343a40 !important; 
-    color: white !important; 
+    color: white !important;
+
 }
 
 .table th,
@@ -47,5 +48,9 @@ body {
 
 .form-group input {
     background-color: gray;
+}
+
+.container {
+    margin-bottom: 5%!important;
 }
 

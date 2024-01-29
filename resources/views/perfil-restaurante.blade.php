@@ -33,7 +33,9 @@
                     <div class="col-md-8">
                         <h1>{{ $restaurante->nombre }}</h1>
                         <p class="text-muted">{{ $restaurante->gastronomia }}</p>
-                        <p>{{ $restaurante->direccion }}</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($restaurante->direccion) }}" target="_blank">
+                            <p>{{ $restaurante->direccion }}</p>
+                        </a>                        
                         <p>Teléfono: {{ $restaurante->telefono }}</p>
                         <p>Sitio web: <a href="{{ $restaurante->sitio_web }}" target="_blank">{{ $restaurante->sitio_web }}</a></p>
                         <div class="mb-3">
