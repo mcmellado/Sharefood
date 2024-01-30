@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+<title> Perfil restaurante </title>
+
+
 @section('contenido')
     <link rel="stylesheet" href="{{ asset('css/restaurante-perfil.css') }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">

@@ -11,7 +11,7 @@
 
     
 
-    <title>Bienvenido a ShareFood - Registro</title>
+    <title> Registro </title>
 </head>
 <body>
 

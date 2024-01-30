@@ -7,6 +7,7 @@
     <link rel="icon" type="image/jpg" href="./media/imagenes/favicon.ico"/>
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
     <title>Bienvenido a ShareFood</title>
+    <link rel="shortcut icon" href="{{ asset('imagenes/sharefood_icono.ico') }}" />
 </head>
 <body>
 

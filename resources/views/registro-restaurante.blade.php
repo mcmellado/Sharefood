@@ -7,7 +7,7 @@
     <link rel="icon" type="image/jpg" href="./media/imagenes/favicon.ico"/>
     <link rel="stylesheet" href="{{ asset('css/registro.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <title>Bienvenido a ShareFood - Registro de Restaurante</title>
+    <title> Registro de Restaurante </title>
 </head>
 <body>
 

@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+<title> Mensajes </title>
+
 @section('contenido')
 
 <link rel="stylesheet" href="{{ asset('css/mensajes.css') }}">
