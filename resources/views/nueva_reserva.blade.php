@@ -66,7 +66,6 @@ function formatHora(hora) {
     // Convertir a minúsculas y eliminar tildes
     return dia.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
-
     // Obtener todos los horarios para el día seleccionado
     var horariosParaDia = horariosRestaurante.filter(function (horario) {
         return horario.dia_semana.toLowerCase() === diaSemana.toLowerCase();
@@ -76,7 +75,7 @@ function formatHora(hora) {
 
     // Iterar sobre cada horario y obtener las horas disponibles
     horariosParaDia.forEach(function (horarioParaDia) {
-        var horasDisponiblesParaHorario = obtenerHorasDisponibles(horarioParaDia.hora_apertura, horarioParaDia.hora_cierre, reservasParaFecha);
+        var horasDisponiblesParaHorario = obtenerHorasDisponibles(horarioParaDia.hora_apertura, horarioParaDia.hora_cierre, reservasParaFecha)
         horasDisponibles = horasDisponibles.concat(horasDisponiblesParaHorario);
     });
 
@@ -160,7 +159,8 @@ function formatHora(hora) {
             return false;
         }
 
-        var diaSemana = fechaSeleccionada.toLocaleDateString('es', { weekday: 'long' });
+        var diaSemana = normalizarDia(new Date(fechaSeleccionada).toLocaleDateString('es', { weekday: 'long' }));
+        
 
         var horarioParaDia = horariosRestaurante.find(function (horario) {
             return horario.dia_semana.toLowerCase() === diaSemana.toLowerCase();
