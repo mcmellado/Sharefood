@@ -79,7 +79,7 @@
         </div>
     </div>
 
-    <footer class="bg-custom p-2 mt-5 fixed-bottom"> <!-- Reduje el padding a p-2 -->
+    <footer class="bg-custom p-2 mt-5 fixed-bottom"> 
         <div class="container text-center text-light">
             <p>&copy; 2023 ShareFood. Todos los derechos reservados.</p>
         </div>

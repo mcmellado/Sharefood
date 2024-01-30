@@ -3,7 +3,7 @@
 @section('contenido')
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<link rel="stylesheet" href="{{ asset('css/modi.css') }}">
+<link rel="stylesheet" href="{{ asset('css/crear-restaurante.css') }}">
 
 <div class="container mt-5">
     <div class="card">
@@ -118,11 +118,10 @@
                 const container = this.closest('.form-group').querySelector('.horarios-container');
 
                 const nuevoHorario = container.querySelector('.horario').cloneNode(true);
-                container.appendChild(nuevoHorario);
+                // container.appendChild(nuevoHorario);
 
-                // Restablecer los campos de tiempo
-                nuevoHorario.querySelector('select[name^="hora_apertura"]').value = '';
-                nuevoHorario.querySelector('select[name^="hora_cierre"]').value = '';
+                // nuevoHorario.querySelector('select[name^="hora_apertura"]').value = '';
+                // nuevoHorario.querySelector('select[name^="hora_cierre"]').value = '';
             });
         });
 
@@ -131,16 +130,14 @@
                 const horario = this.parentNode.querySelector('.horario');
                 const container = this.closest('.form-group').querySelector('.horarios-container');
 
-                // Verificar si hay más de un horario antes de eliminar
                 if (container.querySelectorAll('.horario').length > 1) {
                     container.removeChild(horario);
-                } else {
-                    // Si solo hay un horario, restablecer los campos de tiempo en lugar de eliminar
-                    horario.querySelector('select[name^="estado"]').value = 'abierto';
-                    horario.querySelector('select[name^="hora_apertura"]').value = '';
-                    horario.querySelector('select[name^="hora_cierre"]').value = '';
-                }
-            });
+                // } else {
+                //     horario.querySelector('select[name^="estado"]').value = 'abierto';
+                //     horario.querySelector('select[name^="hora_apertura"]').value = '';
+                //     horario.querySelector('select[name^="hora_cierre"]').value = '';
+                // } 
+        }});
         });
     });
 </script>

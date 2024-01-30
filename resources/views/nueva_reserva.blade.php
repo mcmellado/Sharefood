@@ -3,10 +3,9 @@
 @section('contenido')
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-JA9LSTp+ZMfsB01d5WVTTK9K4xXvZF7S81Lp6FDtkFZFM4/+r2kZU5JlQa86j6A+xEBk2OL/xCUZQpG6RbApRg==" crossorigin="anonymous" />
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha512-Gn5384xq1ii1+FXMYFcUfuBWCAtb2JaeQGfcYxpPuwvc8vR+5tZ/sM47KaS5tn9eqODJdSqGXCXT9RQZBmqQK/eg==" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-9BScY9K9B8WV0Ec4zLDI2+rBXTXD4bU+TfZK7K0aGj4O7TC2M0Zg9urN42Yq4oYH1C8chY3Leb4Ju6Xvmf9CEw==" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="{{ asset('css/nueva_reserva.css') }}">
+
+
 
 <div class="container mt-5">
     <div id="alerts-container"></div>
@@ -61,7 +60,12 @@ function formatHora(hora) {
     }
 
     var reservasParaFecha = obtenerHorasReservadas(fechaSeleccionada);
-    var diaSemana = new Date(fechaSeleccionada).toLocaleDateString('es', { weekday: 'long' });
+    var diaSemana = normalizarDia(new Date(fechaSeleccionada).toLocaleDateString('es', { weekday: 'long' }));
+
+    function normalizarDia(dia) {
+    // Convertir a minúsculas y eliminar tildes
+    return dia.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
 
     // Obtener todos los horarios para el día seleccionado
     var horariosParaDia = horariosRestaurante.filter(function (horario) {
