@@ -31,8 +31,8 @@
                     <label for="cantidad_personas">Cantidad de personas:</label>
                     <input type="number" class="form-control" id="cantidad_personas" name="cantidad_personas" required>
                 </div>
-                <button type="submit" class="btn btn-success">Confirmar Reserva</button>
-                <a href="{{ route('restaurantes.perfil', ['slug' => $restaurante->slug ]) }}" class="btn btn-secondary">Volver al Perfil</a>
+                <button type="submit" class="btn btn-success" id="boton-confirmar">Confirmar Reserva</button>
+                <a href="{{ route('restaurantes.perfil', ['slug' => $restaurante->slug ]) }}" class="btn btn-secondary">Volver al Perfil</a>                
             </form>
         </div>
     </div>
@@ -56,9 +56,11 @@ function formatHora(hora) {
 
     function cargarHorasDisponibles() {
     var fechaSeleccionada = document.getElementById('fecha').value;
+    var botonConfirmar = document.getElementById('boton-confirmar');
 
     if (!fechaSeleccionada) {
         document.getElementById('hora').disabled = true;
+        botonConfirmar.disabled = true;
         return;
     }
 
@@ -66,39 +68,44 @@ function formatHora(hora) {
     var diaSemana = normalizarDia(new Date(fechaSeleccionada).toLocaleDateString('es', { weekday: 'long' }));
 
     function normalizarDia(dia) {
-    // Convertir a minúsculas y eliminar tildes
-    return dia.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-}
-    // Obtener todos los horarios para el día seleccionado
+        return dia.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+
     var horariosParaDia = horariosRestaurante.filter(function (horario) {
         return horario.dia_semana.toLowerCase() === diaSemana.toLowerCase();
     });
 
     var horasDisponibles = [];
 
-    if (horasDisponibles.length === 0) {
+    if (horariosParaDia.length === 0) {
         document.getElementById('hora').disabled = true;
-    } else {
-        document.getElementById('hora').disabled = false;
+        document.getElementById('hora').innerHTML = '<option value="" disabled selected>Restaurante cerrado</option>';
+        botonConfirmar.disabled = true;
+        return;
     }
 
-    // Iterar sobre cada horario y obtener las horas disponibles
+    botonConfirmar.disabled = false;
+
     horariosParaDia.forEach(function (horarioParaDia) {
-        var horasDisponiblesParaHorario = obtenerHorasDisponibles(horarioParaDia.hora_apertura, horarioParaDia.hora_cierre, reservasParaFecha)
+        var horasDisponiblesParaHorario = obtenerHorasDisponibles(horarioParaDia.hora_apertura, horarioParaDia.hora_cierre, reservasParaFecha);
         horasDisponibles = horasDisponibles.concat(horasDisponiblesParaHorario);
     });
 
     var selectHora = document.getElementById('hora');
-    
-    selectHora.disabled = false;
-    selectHora.innerHTML = '';
 
-    horasDisponibles.forEach(function (hora) {
-        var option = document.createElement('option');
-        option.value = hora;
-        option.text = hora;
-        selectHora.appendChild(option);
-    });
+    if (horasDisponibles.length === 0) {
+        selectHora.disabled = true;
+        selectHora.innerHTML = '<option value="" disabled selected>Restaurante cerrado</option>';
+    } else {
+        selectHora.disabled = false;
+        selectHora.innerHTML = '';  
+        horasDisponibles.forEach(function (hora) {
+            var option = document.createElement('option');
+            option.value = hora;
+            option.text = hora;
+            selectHora.appendChild(option);
+        });
+    }
 }
 
     function obtenerHorasDisponibles(horaApertura, horaCierre, reservas) {

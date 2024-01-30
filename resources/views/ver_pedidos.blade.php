@@ -19,10 +19,10 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Usuario</th>
-                            <th>Precio Total</th>
-                            <th>Dirección</th>
-                            <th>Fecha del pedido:</th>
+                            <th>Usuario:</th>
+                            <th>Precio:</th>
+                            <th>Dirección:</th>
+                            <th>Fecha:</th>
                             <th>Platos Pedidos</th>
                         </tr>
                     </thead>
@@ -32,16 +32,20 @@
                                 <td>{{ $pedido->usuario->usuario }}</td> 
                                 <td>{{ $pedido->precio_total }} €</td>
                                 <td>{{ $pedido->direccion }}</td>
-                                <td>{{ $pedido->created_at }}</td>
+                                <td>{{ $pedido->created_at->locale('es_ES')->format('d/m/Y H:i') }}</td>
                                 <td>
                                     <ul>
                                         @foreach($pedido->platos as $plato)
-                                            <li>
-                                                {{ $plato->nombre }} - 
-                                                Cantidad: {{ $plato->cantidad }} - 
-                                                Precio: {{ $plato->precio }} €
-                                            </li>
-                                        @endforeach
+                                        @php
+                                            $nombrePartes = explode(' - ', $plato->nombre);
+                                            $nombrePlato = $nombrePartes[0];
+                                        @endphp
+                                        <li>
+                                            {{ $nombrePlato }} - 
+                                            Cantidad: {{ $plato->cantidad }} - 
+                                            Precio: {{ $plato->precio }} €
+                                        </li>
+                                    @endforeach
                                     </ul>
                                 </td>
                             </tr>

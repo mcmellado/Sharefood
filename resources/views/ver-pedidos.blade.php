@@ -100,10 +100,10 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Precio total:</th>
+                            <th>Precio:</th>
                             <th>Dirección:</th>
-                            <th>Fecha del Pedido:</th>
-                            <th> Local: </th>
+                            <th>Fecha:</th>
+                            <th>Local: </th>
                             <th>Platos Pedidos:</th>
                         </tr>
                     </thead>
@@ -112,15 +112,19 @@
                             <tr>
                                 <td>{{ $pedido->precio_total }} €</td>
                                 <td>{{ $pedido->direccion }}</td>
-                                <td>{{ $pedido->created_at }}</td>
+                                <td>{{ $pedido->created_at->locale('es_ES')->format('d/m/Y H:i') }}</td>
                                 <td> {{$pedido->restaurante->nombre}} </td>
                                 <td>
                                     <ul>
                                         @foreach($pedido->platos as $plato)
+                                        @php
+                                            $nombrePartes = explode(' - ', $plato->nombre);
+                                            $nombrePlato = $nombrePartes[0];
+                                        @endphp
                                         <li>
-                                            {{ $plato->nombre }} - 
+                                            {{ $nombrePlato }} - 
                                             Cantidad: {{ $plato->cantidad }} - 
-                                            Precio: {{ $plato->precio }} € - 
+                                            Precio: {{ $plato->precio }} €
                                         </li>
                                     @endforeach
                                     </ul>
