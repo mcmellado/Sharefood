@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-<title> Social </title>
+<title> Bloqueados </title>
+
 
 @section('contenido')
 

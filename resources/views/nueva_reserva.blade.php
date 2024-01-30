@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-<title> Agregar producto </title>
+<title> Nueva reserva </title>
 
 
 @section('contenido')
@@ -75,6 +75,12 @@ function formatHora(hora) {
     });
 
     var horasDisponibles = [];
+
+    if (horasDisponibles.length === 0) {
+        document.getElementById('hora').disabled = true;
+    } else {
+        document.getElementById('hora').disabled = false;
+    }
 
     // Iterar sobre cada horario y obtener las horas disponibles
     horariosParaDia.forEach(function (horarioParaDia) {

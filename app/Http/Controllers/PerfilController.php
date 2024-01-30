@@ -392,9 +392,9 @@ public function desbloquearUsuario($usuarioId)
             ->where('otro_usuario_id', $usuarioId)
             ->delete();
 
-        return view('ver-bloqueos', compact('usuario', 'bloqueos'));
+            return response()->json(['success' => true]);
     } else {
-        return view('ver-bloqueos', compact('usuario', 'bloqueos'));
+        return response()->json(['success' => true]);
         
     }
 

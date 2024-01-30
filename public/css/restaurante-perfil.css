@@ -260,3 +260,22 @@ h1, h2, h3, p, label, h4 {
     font-weight: bold;
 }
 
+.card-body a {
+    text-decoration: underline green!important; 
+    color: inherit!important;
+    text-decoration-thickness: 2px!important;
+}
+
+.card-body a:hover  {
+    text-decoration: none!important; 
+    color: green!important; 
+}
+
+.social-share-links a {
+    text-decoration: none!important;
+    text-decoration-thickness: initial!important; 
+}
+
+.social-share-links a:hover {
+    color: inherit!important; 
+}

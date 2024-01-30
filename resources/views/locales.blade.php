@@ -1,7 +1,4 @@
 @extends('layouts.app')
-
-<title> Mis restaurantes </title>
-
 @section('contenido')
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="{{ asset('css/locales.css') }}">

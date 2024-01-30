@@ -82,4 +82,10 @@ body {
     left: 6%!important;
 }
 
+ a:hover  {
+    text-decoration: none!important; 
+    color: #D5EB9B!important; 
+}
+
+
 
