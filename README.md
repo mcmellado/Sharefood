@@ -1,5 +1,8 @@
 # Sharefood
 
+
+![logo](https://github.com/mcmellado/sharefood/assets/113931748/544ae367-7636-4718-af65-b010204b77ae)
+
 Sharefood es una plataforma web que conecta a los usuarios con restaurantes, permitiéndoles explorar, reservar y evaluar diferentes establecimientos. Además, ofrece funciones sociales como la interacción con otros usuarios y la gestión de perfiles.
 
 ## Funcionalidades Principales
