@@ -163,13 +163,13 @@ public function restauranteEstaAbierto($restauranteId)
     $horaActual = Carbon::now()->addHour();
     $diaSemanaActual = $horaActual->format('l');
     $mapeoDias = [
-        'Monday' => 'Lunes',
-        'Tuesday' => 'Martes',
-        'Wednesday' => 'Miércoles',
-        'Thursday' => 'Jueves',
-        'Friday' => 'Viernes',
-        'Saturday' => 'Sábado',
-        'Sunday' => 'Domingo',
+        'Monday' => 'lunes',
+        'Tuesday' => 'martes',
+        'Wednesday' => 'miercoles',
+        'Thursday' => 'jueves',
+        'Friday' => 'viernes',
+        'Saturday' => 'sabado',
+        'Sunday' => 'domingo',
     ];
 
     $diaSemanaActualEnEspanol = $mapeoDias[$diaSemanaActual];
@@ -195,6 +195,13 @@ public function restauranteEstaAbierto($restauranteId)
     if ($horaActual >= $horaApertura && $horaActual <= $horaCierre) {
         return true;
     }
+}
+
+public function cancelarPedido($idPedido)
+{
+    $pedido = Pedido::findOrFail($idPedido);
+    $pedido->delete();
+    return redirect()->back()->with('success', 'Pedido cancelado exitosamente');
 }
 
 

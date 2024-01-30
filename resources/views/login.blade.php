@@ -25,11 +25,11 @@
 
         <div class="row justify-content-center mt-5">
             <div class="col-md-6">
-                <form method="POST" action="{{route('inicia-sesion') }}">
+                <form method="POST" action="{{ route('inicia-sesion') }}">
                     @csrf 
                     <div class="mb-3">
                         <label for="usuario_correo" class="form-label">Usuario o correo electrónico:</label>
-                        <input type="text" class="form-control @error('usuario_correo') is-invalid @enderror" id="usuario_correo" name="usuario_correo" value="{{ old('usuario_correo') }}">
+                        <input type="text" class="form-control @error('usuario_correo') is-invalid @enderror" id="usuario_correo" name="usuario_correo" value="{{ old('usuario_correo', Cookie::get('remember_username')) }}">
                         @error('usuario_correo')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -40,13 +40,17 @@
                         @error('password')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
-                    </div>                    
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="recuerdame" name="remember">
+                        <label class="form-check-label" for="recuerdame">Recuérdame</label>
+                    </div>
                     <button type="submit" class="btn btn-dark">Iniciar sesión</button>
                 </form>     
             </div>
             
             <div class="text-center mt-3">
-                <p class="text-dark ">¿Aún no tienes cuenta? <b> <a href="{{ route('registro') }}" class="text-dark">Regístrate aquí</a> </b> </p>
+                <p class="text-dark">¿Aún no tienes cuenta? <b><a href="{{ route('registro') }}" class="text-dark">Regístrate aquí</a></b></p>
                 <a href="{{ route('index') }}" class="text-dark">Entrar sin registro</a>
             </div>
         </div>

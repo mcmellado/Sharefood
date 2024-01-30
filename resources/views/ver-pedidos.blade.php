@@ -87,52 +87,55 @@
         }
     </style>
 
-    <div class="container mt-5">
-        <div class="card">
-            <div class="card-body">
-                <h1 class="mb-4">Mis Pedidos:</h1>
+    
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="mb-4">Mis Pedidos:</h1>
 
-                @if(count($pedidos) > 0)
-                    <table class="table">
-                        <thead>
+            @if(count($pedidos) > 0)
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Precio total:</th>
+                            <th>Dirección:</th>
+                            <th>Fecha del Pedido:</th>
+                            <th> Local: </th>
+                            <th>Platos Pedidos:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($pedidos as $pedido)
                             <tr>
-                                <th>Precio total</th>
-                                <th>Dirección</th>
-                                <th>Fecha del Pedido</th>
-                                <th>Platos Pedidos</th>
+                                <td>{{ $pedido->precio_total }} €</td>
+                                <td>{{ $pedido->direccion }}</td>
+                                <td>{{ $pedido->created_at }}</td>
+                                <td> {{$pedido->restaurante->nombre}} </td>
+                                <td>
+                                    <ul>
+                                        @foreach($pedido->platos as $plato)
+                                        <li>
+                                            {{ $plato->nombre }} - 
+                                            Cantidad: {{ $plato->cantidad }} - 
+                                            Precio: {{ $plato->precio }} € - 
+                                        </li>
+                                    @endforeach
+                                    </ul>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($pedidos as $pedido)
-                                <tr>
-                                    <td>{{ $pedido->precio_total }} €</td>
-                                    <td>{{ $pedido->direccion }}</td>
-                                    <td>{{ $pedido->created_at }}</td>
-                                    <td>
-                                        <ul>
-                                            @foreach($pedido->platos as $plato)
-                                                <li>
-                                                    {{ $plato->nombre }} - 
-                                                    Cantidad: {{ $plato->cantidad }} - 
-                                                    Precio: {{ $plato->precio }} €
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                @else
-                    <p>No tienes pedidos.</p>
-                @endif
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <p>No tienes pedidos.</p>
+            @endif
 
-            </div>
-        </div>
-        <div class="mt-4">
-            <a href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-danger">
-                <i class="fas fa-arrow-left"></i> 
-            </a>
         </div>
     </div>
+    <div class="mt-4">
+        <a href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-danger">
+            <i class="fas fa-arrow-left"></i> 
+        </a>
+    </div>
+</div>
 @endsection

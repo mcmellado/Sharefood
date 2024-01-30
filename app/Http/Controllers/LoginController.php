@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 
 class LoginController extends Controller
 {
@@ -65,12 +66,19 @@ class LoginController extends Controller
                 return redirect()->route('login')->withErrors(['password' => 'Usuario no validado']);
             }
 
+            // Recordar el nombre de usuario usando cookies si se seleccionó "Recuérdame"
+            $remember = $request->has('remember');
+            if ($remember) {
+                $username = $request->input('usuario_correo');
+                $minutes = 60 * 24 * 30; // 30 días
+                Cookie::queue(Cookie::make('remember_username', $username, $minutes));
+            }
+
             return redirect()->route('index')->withSuccess('Inicio de sesión correcto');
         }
 
         return redirect()->route('login')->withErrors(['password' => 'Las credenciales son incorrectas'])->withInput($request->except('password'));
     }
-
     public function logout()
     {
         Auth::logout();

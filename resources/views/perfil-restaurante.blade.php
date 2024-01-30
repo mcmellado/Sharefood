@@ -66,7 +66,15 @@
                         </div>             
                     </div>
                     <div class="col-md-4">
-                        {{-- <img src="{{ asset($restaurante->imagen) }}" alt="{{ $restaurante->nombre }}" class="img-fluid"> --}}
+                        @php
+                        if ($restaurante->imagen):
+                    @endphp
+                    
+                        <img src="{{ asset($restaurante->imagen) }}" alt="{{ $restaurante->nombre }}" class="img-fluid">
+                    
+                    @php
+                        endif;
+                    @endphp
                     </div>
                 </div>
             </div>
@@ -170,24 +178,26 @@
                                                 <form action="{{ route('restaurantes.eliminarComentario', ['comentarioId' => $comentario->id]) }}" method="POST" id="formEliminarComentario">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="button" class="btn btn-sm btn-danger" onclick="confirmarEliminacion()">
+                                                    <button title="Eliminar comentario" type="button" class="btn btn-sm btn-danger" onclick="confirmarEliminacion()">
                                                         <i class="fa fa-trash"></i> 
                                                     </button>
                                                 </form>
         
-                                                <button class="btn btn-sm btn-warning ml-2" onclick="activarEdicion({{ $comentario->id }})">
+                                                <button title="Editar comentario" class="btn btn-sm btn-warning ml-2" onclick="activarEdicion({{ $comentario->id }})">
                                                     <i class="fas fa-edit"></i> 
                                                 </button>
         
                                                 <div class="d-flex justify-content-end">
                                                     <button type="button" class="btn btn-sm btn-primary compartir-facebook ml-2"
                                                             data-comentario="{{ $comentario->contenido }}"
+                                                            title="Compartir en facebook"
                                                             data-usuario="{{ $comentario->usuario->usuario }}">
                                                         <i class="fab fa-facebook"></i>
                                                     </button>
                                                 
                                                     <button type="button" class="btn btn-sm btn-info compartir-twitter ml-2"
                                                             data-comentario="{{ $comentario->contenido }}"
+                                                            title="Compartir en twitter"
                                                             data-usuario="{{ $comentario->usuario->usuario }}">
                                                         <i class="fab fa-twitter"></i> 
                                                     </button>
