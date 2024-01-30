@@ -261,14 +261,14 @@ h1, h2, h3, p, label, h4 {
 }
 
 .card-body a {
-    text-decoration: underline green!important; 
+    text-decoration: underline  #D5EB9B!important; 
     color: inherit!important;
     text-decoration-thickness: 2px!important;
 }
 
 .card-body a:hover  {
     text-decoration: none!important; 
-    color: green!important; 
+    color:  #D5EB9B!important; 
 }
 
 .social-share-links a {
@@ -279,3 +279,19 @@ h1, h2, h3, p, label, h4 {
 .social-share-links a:hover {
     color: inherit!important; 
 }
+
+.btn {
+        text-decoration: none!important;
+        text-decoration-thickness: initial!important; 
+    }
+
+    .d-flex a {
+        text-decoration: none!important;
+        text-decoration-thickness: initial!important; 
+    }
+    
+    .d-flex a:hover {
+        color: inherit!important; 
+    }
+
+    

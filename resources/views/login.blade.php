@@ -5,24 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/jpg" href="./media/imagenes/favicon.ico"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap">
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
     <title>Bienvenido a ShareFood</title>
     <link rel="shortcut icon" href="{{ asset('imagenes/sharefood_icono.ico') }}" />
 </head>
 <body>
 
-    <header class="bg-custom p-3">
-        <nav class="container">
-            <a href="#" class="text-decoration-none text-light me-3">Sobre nosotros</a>
-            <a href="#" class="text-decoration-none text-light">Contacto</a>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
         </nav>
-    </header>
 
     <div class="container mt-5">
-        <h1 class="display-3 text-center">¡Bienvenido a ShareFood!</h1>
-        <p class="lead text-center">Encuentra los mejores lugares para disfrutar de deliciosas comidas cerca de ti.</p>
+        <div class="container text-center">
+            <img src="{{ asset('imagenes/imagen_login.png') }}" class="imagen-logo">
+            <p class="lead">Encuentra los mejores lugares para disfrutar de deliciosas comidas cerca de ti.</p>
+        </div>
 
         <div class="row justify-content-center mt-5">
             <div class="col-md-6">
@@ -57,7 +55,7 @@
         </div>
     </div>
 
-    <footer class="bg-custom p-4 mt-5 fixed-bottom">
+    <footer class="bg-dark p-4 mt-5 fixed-bottom">
         <div class="container text-center text-light">
             <p>&copy; 2023 ShareFood. Todos los derechos reservados.</p>
         </div>

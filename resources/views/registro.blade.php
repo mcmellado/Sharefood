@@ -15,13 +15,12 @@
 </head>
 <body>
 
-    <header class="header">
-        <nav class="container-sm">  
-            <a href="#" class="text-decoration-none text-light me-3">Sobre nosotros</a>
-            <a href="#" class="text-decoration-none text-light">Contacto</a>
-            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.2/dist/sweetalert2.all.min.js"></script>
-        </nav>
-    </header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <!-- Puedes agregar un texto o logo aquí si lo deseas -->
+        </div>
+    </nav>
+
 
     <div class="container mt-5">
         <h2 class="text-center">¡Regístrate en ShareFood!</h2>
@@ -64,7 +63,7 @@
         </div>
     </div>
 
-    <footer class="bg-custom p-4 mt-5 fixed-bottom">
+    <footer class="bg-dark p-4 mt-5 fixed-bottom">
         <div class="container-sm text-center text-light">
             <p>&copy; 2023 ShareFood. Todos los derechos reservados.</p>
         </div>
