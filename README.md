@@ -55,9 +55,9 @@ display_errors = On
 display_startup_errors = On
 date.timezone = 'UTC'
 ```
-Sin el ; de principio en dat.timezone
+Sin el ; de principio en date.timezone
 
-##2. Instalación de Composer
+## 2. Instalación de Composer
 
 ```
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
