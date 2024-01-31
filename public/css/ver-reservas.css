@@ -53,3 +53,9 @@ table {
 .btn btn-primary {
     width: 150px;
 }
+
+.mt-3, .my-3 {
+    margin-top: 1rem!important;
+    left: 21%!important;
+    position: relative!important;
+}

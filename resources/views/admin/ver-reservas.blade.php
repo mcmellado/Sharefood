@@ -46,9 +46,7 @@
     <p>No hay reservas.</p>
     @endforelse
 </div>
-
-<a href="{{ route('admin.panel_admin') }}" class="btn btn-primary btn-return-admin mt-3">Volver al Panel de Administrador</a>
-
+    <a href="{{ route('admin.panel_admin') }}" class="btn btn-primary btn-return-admin mt-3">Volver al Panel de Administrador</a>
 </div>
 
 <script>

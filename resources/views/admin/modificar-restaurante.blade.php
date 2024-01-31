@@ -2,6 +2,8 @@
 
 @section('contenido')
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('css/modificar-reserva-admin.css') }}">
+
 
     <div class="container">
         <h2 class="mt-4 mb-4">Modificar Restaurante</h2>
