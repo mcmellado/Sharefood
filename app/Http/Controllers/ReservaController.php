@@ -83,19 +83,22 @@ class ReservaController extends Controller
         return response()->json($horasDisponibles);
     }
 
-        public function cancelarReservaRestaurante(Reserva $reserva)
-        {
+        public function cancelarReservaRestaurante(Request $request, Reserva $reserva)
+{
+    $justificacion = $request->input('justificacion', 'Sin justificación');
 
-            Mail::to($reserva->usuario->email)->send(
-                new ReservaCancelada(
-                    $reserva->usuario->nombre,
-                    $reserva->restaurante->nombre
-                )
-            );
+    Mail::to($reserva->usuario->email)->send(
+        new ReservaCancelada(
+            $reserva->usuario->usuario,
+            $reserva->restaurante->nombre,
+            $justificacion
+        )
+    );
 
-            $reserva->delete();
+    $reserva->delete();
 
-        return redirect()->back()->with('success', 'Reserva cancelada correctamente.');
-    }
+    return redirect()->back()->with('success', 'Reserva cancelada correctamente');
+}
+
 
 }

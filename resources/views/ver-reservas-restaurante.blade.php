@@ -10,6 +10,15 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.2/dist/sweetalert2.all.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
+    @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+        {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
+
 
 <div class="container mt-5">
     <div class="card">
@@ -70,15 +79,27 @@
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
             confirmButtonText: 'Sí, cancelar reserva',
-            cancelButtonText: 'No cancelar reserva'
+            cancelButtonText: 'No cancelar reserva',
+            html: '<textarea id="justificacionCancelacion" class="swal2-textarea" placeholder="Justificación de la cancelación"></textarea>'
         }).then((result) => {
             if (result.isConfirmed) {
+                var justificacion = document.getElementById('justificacionCancelacion').value;
                 var form = document.getElementById('formCancelarReserva' + reservaId);
                 form.action = "{{ route('cancelar.reservaRestaurante', ['reserva' => ':reservaId']) }}".replace(':reservaId', reservaId);
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'justificacion';
+                input.value = justificacion;
+                form.appendChild(input);
                 form.submit();
             }
         });
     }
+
+    $(document).ready(function(){
+            $('#success').modal('show');
+        });
 </script>
+
 
 @endsection

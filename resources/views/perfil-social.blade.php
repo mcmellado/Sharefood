@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-<title> Bloqueados </title>
+
 
 
 @section('contenido')
