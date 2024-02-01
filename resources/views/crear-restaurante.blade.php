@@ -54,7 +54,7 @@
 
                     <h2>Horarios</h2>
 
-                    @foreach(['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'] as $dia)
+                    @foreach(['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'] as $dia)
                         <div class="form-group">
                             <label>{{ $dia }}:</label>
                             <div class="horarios-container">
