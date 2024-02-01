@@ -46,7 +46,7 @@
                                         <form id="formCancelarReserva{{ $reserva->id }}" method="post" style="display:inline">
                                             @csrf
                                             @method('delete')
-                                            <button type="button" class="btn btn-danger" onclick="confirmCancel({{ $reserva->id }})">❌ Cancelar Reserva</button>
+                                            <button type="button" class="btn btn-danger" onclick="confirmCancel({{ $reserva->id }})"> X Cancelar Reserva</button>
                                         </form>
                                     @else
                                         <span class="text-muted">Reserva pasada</span>

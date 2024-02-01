@@ -12,6 +12,8 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
 use App\Models\Horario;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PedidoCancelado;
 
 
 
@@ -197,11 +199,14 @@ public function restauranteEstaAbierto($restauranteId)
     }
 }
 
-public function cancelarPedido($idPedido)
+public function cancelarPedido(Request $request, Pedido $pedido)
 {
-    $pedido = Pedido::findOrFail($idPedido);
+    $justificacion = $request->input('justificacion', 'Sin justificación');
+
+    Mail::to($pedido->usuario->email)->send(new PedidoCancelado($pedido, $justificacion));
     $pedido->delete();
-    return redirect()->back()->with('success', 'Pedido cancelado exitosamente');
+
+    return redirect()->back()->with('success', 'Pedido cancelado correctamente');
 }
 
 
