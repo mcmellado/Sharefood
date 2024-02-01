@@ -14,7 +14,7 @@
         <div class="card-body">
             <h1 class="mb-4">Modificar Restaurante</h1>
 
-            <form action="{{ route('restaurante.mis-restaurantes.guardar-modificacion', ['slug' => $restaurante->slug]) }}" method="post">
+            <form action="{{ route('restaurante.mis-restaurantes.guardar-modificacion', ['slug' => $restaurante->slug]) }}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('put')
 
@@ -84,6 +84,11 @@
                     @else
                         <p class="text-danger">No puedes modificar el tiempo de cierre con reservas próximas pendientes.</p>
                     @endif
+                </div>
+
+                <div class="form-group">
+                    <label for="imagen">Imagen:</label>
+                    <input type="file" class="form-control-file" id="imagen" name="imagen">
                 </div>
                 
                 

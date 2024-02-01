@@ -123,8 +123,21 @@ class RestauranteController extends Controller
         'slug' => Str::slug($request->input('nombre')),
     ]);
 
+    // Manejar la imagen si se proporciona
+    if ($request->hasFile('imagen')) {
+        // Eliminar la imagen anterior si existe
+        if ($restaurante->imagen) {
+            Storage::delete($restaurante->imagen);
+        }
+
+        // Guardar la nueva imagen
+        $rutaImagen = $request->file('imagen')->store('restaurantes', 'public');
+        $restaurante->update(['imagen' => $rutaImagen]);
+    }
+
     return redirect()->route('perfil.mis-restaurantes', ['nombreUsuario' => $nombreUsuario])->withSuccess('Restaurante modificado correctamente');
 }
+
 
 public function verReservasRestaurante($slug)
 {
