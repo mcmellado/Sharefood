@@ -159,7 +159,6 @@ public function verPedidos($slug)
 
 public function restauranteEstaAbierto($restauranteId)
 {
-
     Carbon::setLocale('es');
 
     $horaActual = Carbon::now()->addHour();
@@ -176,28 +175,28 @@ public function restauranteEstaAbierto($restauranteId)
 
     $diaSemanaActualEnEspanol = $mapeoDias[$diaSemanaActual];
 
-    $horarioRestaurante = Horario::where('restaurante_id', $restauranteId)
+    $horariosRestaurante = Horario::where('restaurante_id', $restauranteId)
         ->where('dia_semana', $diaSemanaActualEnEspanol)
-        ->first();
+        ->get();
 
-    if (!$horarioRestaurante) {
-        return false;
+    foreach ($horariosRestaurante as $horario) {
+        $horaApertura = Carbon::parse($horario->hora_apertura);
+        $horaCierre = Carbon::parse($horario->hora_cierre);
+
+        // dd([
+        //      'horaActual' => $horaActual->format('Y-m-d H:i:s'),
+        //      'horaApertura' => $horaApertura->format('Y-m-d H:i:s'),
+        //      'horaCierre' => $horaCierre->format('Y-m-d H:i:s'),
+        // ]);
+
+        if ($horaActual >= $horaApertura && $horaActual <= $horaCierre) {
+            return true;
+        }
     }
 
-    $horaApertura = Carbon::parse($horarioRestaurante->hora_apertura);
-    $horaCierre = Carbon::parse($horarioRestaurante->hora_cierre);
-
-    // dd([
-    //     'horaActual' => $horaActual->format('Y-m-d H:i:s'),
-    //     'horaApertura' => $horaApertura->format('Y-m-d H:i:s'),
-    //     'horaCierre' => $horaCierre->format('Y-m-d H:i:s'),
-    // ]);
-
-
-    if ($horaActual >= $horaApertura && $horaActual <= $horaCierre) {
-        return true;
-    }
+    return false;
 }
+
 
 public function cancelarPedido(Request $request, Pedido $pedido)
 {

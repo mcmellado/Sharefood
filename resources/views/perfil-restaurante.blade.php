@@ -68,9 +68,12 @@
                         @php
                         if ($restaurante->imagen):
                     @endphp
-                    
-                        <img src="{{ asset($restaurante->imagen) }}" alt="{{ $restaurante->nombre }}" class="img-fluid">
-                    
+                        @if (Str::startsWith($restaurante->imagen, 'imagenes/'))
+                            <img src="{{ asset($restaurante->imagen) }}" alt="{{ $restaurante->nombre }}" class="img-fluid">
+                            @endif
+                            @if (Str::startsWith($restaurante->imagen, 'restaurantes/'))
+                            <img src="{{ asset('storage/' . $restaurante->imagen) }}" alt="{{ $restaurante->nombre }}" class="img-fluid">
+                        @endif
                     @php
                         endif;
                     @endphp

@@ -14,7 +14,7 @@
             <h1 class="mb-4">Crear Nuevo Restaurante:</h1>
 
             <div class="scroll-container">
-                <form action="{{ route('registrar-nuevo-restaurante') }}" method="post">
+                <form action="{{ route('registrar-nuevo-restaurante') }}" method="post" enctype="multipart/form-data">
                     @csrf
 
                     <div class="form-group">
@@ -86,11 +86,6 @@
                             <button type="button" class="btn btn-danger btn-quitar-horario">Quitar Horario</button>
                         </div>
                     @endforeach
-                    <div class="form-group">
-                        <label for="intervalo">Intervalo:</label>
-                        <input type="number" name="intervalo" class="form-control" min="1" value="60">
-                    </div>
-
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-save"></i> Guardar Restaurante
                     </button>
