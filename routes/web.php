@@ -135,8 +135,9 @@ Route::get('/restaurantes/{slug}/eliminar-producto/{id}', [RestauranteController
 Route::delete('/cancelar-reserva/{reserva}', [ReservaController::class, 'cancelarReservaRestaurante'])->name('cancelar.reservaRestaurante');
 Route::get('/mostrar-notificaciones', [NotificacionController::class, 'mostrarNotificaciones'])->name('mostrar.notificaciones');
 Route::delete('/cancelar-pedido/{pedido}', [PedidoController::class, 'cancelarPedido'])->name('cancelar.pedido');
-Route::get('/restaurantes/{slug}/modificar-horas', [RestauranteController::class, 'modificarHoras'])->name('restaurantes.modificarHoras');
-Route::post('/restaurantes/guardar-horas/{slug}', [RestauranteController::class, 'guardarHoras'])->name('restaurantes.guardar-horas');
 
+Route::get('/restaurantes/{slug}/editar-horarios', [RestauranteController::class, 'editarHorarios'])->name('restaurantes.horarios.editar');
+Route::post('/restaurantes/{slug}/guardar-horarios', [RestauranteController::class, 'guardarHorarios'])->name('restaurantes.horarios.guardar');
+Route::post('/eliminar-horario/{id}', [RestauranteController::class, 'eliminarHorario'])->name('eliminar.horario');
 
 

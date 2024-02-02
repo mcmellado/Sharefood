@@ -457,33 +457,61 @@ public function actualizarProducto(Request $request, $slug, $id)
     }
 
 
-    public function modificarHoras($slug)
+
+
+    public function editarHorarios($slug)
     {
         $restaurante = Restaurante::where('slug', $slug)->first();
+        $dias = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"];
+
+        $horarios = Horario::where('restaurante_id', $restaurante->id)
+        ->orderByRaw("CASE WHEN dia_semana = 'lunes' THEN 1
+                            WHEN dia_semana = 'martes' THEN 2
+                            WHEN dia_semana = 'miercoles' THEN 3
+                            WHEN dia_semana = 'jueves' THEN 4
+                            WHEN dia_semana = 'viernes' THEN 5
+                            WHEN dia_semana = 'sabado' THEN 6
+                            WHEN dia_semana = 'domingo' THEN 7
+                       END")
+        ->get();
     
-        $horarios = Horario::where('restaurante_id', $restaurante->id)->get();
-    
-        return view('modificar-horario', ['restaurante' => $restaurante, 'horarios' => $horarios]);
+
+
+
+
+        return view('editar-horarios', ['restaurante' => $restaurante, 'horarios' => $horarios]);
     }
 
-    public function guardarHoras(Request $request, $slug)
+    public function guardarHorarios(Request $request, $slug)
     {
+        $restaurante = Restaurante::where('slug', $slug)->firstOrFail();
+    
         foreach ($request->input('hora_apertura') as $horarioId => $horaApertura) {
-            $horario = Horario::find($horarioId);
+            $horario = $horarioId ? Horario::find($horarioId) : new Horario();
             $horario->hora_apertura = $horaApertura;
+            $horario->restaurante_id = $restaurante->id; 
             $horario->save();
         }
-
+    
         foreach ($request->input('hora_cierre') as $horarioId => $horaCierre) {
-            $horario = Horario::find($horarioId);
+            $horario = $horarioId ? Horario::find($horarioId) : new Horario();
             $horario->hora_cierre = $horaCierre;
+            $horario->restaurante_id = $restaurante->id; 
             $horario->save();
         }
-
-        return redirect()->route('perfil.mis-restaurantes',  ['nombreUsuario' => auth()->user()->usuario])->with('success', 'Horario restaurante modificado.');
-        
+    
+        return redirect()->route('perfil.mis-restaurantes', ['nombreUsuario' => auth()->user()->usuario])->with('success', 'Horario restaurante modificado.');
     }
 
+public function eliminarHorario($id)
+{
+    $horario = Horario::find($id);
+
+    if ($horario) {
+        $horario->delete();
+        return response()->json(['success' => true], 200);
+    }
+
+    return response()->json(['success' => false], 404);
 }
-
-
+}

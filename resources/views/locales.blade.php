@@ -60,14 +60,18 @@
                         <a href="{{ route('restaurantes.ver_pedidos', ['slug' => $restaurante->slug]) }}" class="btn btn-primary" title="Ver Pedidos">
                             <i class="fas fa-utensils"></i>
                         </a>
-                        <a href="{{ route('restaurantes.modificarHoras', ['slug' => $restaurante->slug]) }}" class="btn btn-warning" title="Modificar Horas">
+                        
+                        @if(!$restaurante->tieneReservasFuturas())
+                        <a href="{{ route('restaurantes.horarios.editar', ['slug' => $restaurante->slug]) }}" class="btn btn-warning" title="Modificar Horas">
                             <i class="fas fa-clock"></i>
                         </a>
+                        @else
+                        <button class="btn btn-warning" onclick="mostrarMensajeReservas()">
+                            <i class="fas fa-clock"></i>
+                        </button>
+                        @endif
+                    
 
-
-                        
-
-                        
                         @if(!$restaurante->tieneReservasFuturas())
                         <button class="btn btn-danger" onclick="confirmarBorrado('{{ $restaurante->slug }}')">
                             <i class="far fa-trash-alt"></i> 
@@ -133,7 +137,7 @@ function confirmarBorrado(slug) {
 
 function mostrarMensajeReservas() {
     Swal.fire({
-        title: 'No puedes borrar el restaurante',
+        title: 'No puedes borrar o editar el restaurante',
         text: 'Tienes reservas pendientes para este restaurante.',
         icon: 'warning',
         confirmButtonColor: '#3085d6',
