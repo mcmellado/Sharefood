@@ -51,6 +51,14 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="gastronomia">Gastronomía:</label>
+                    <input type="text" name="gastronomia" value="{{ old('gastronomia', $restaurante->gastronomia) }}" class="form-control">
+                    @error('gastronomia')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="form-group">
                     <label for="aforo_maximo">Aforo Máximo:</label>
                     @if(!$restaurante->tieneReservasFuturas())
                         <input type="number" name="aforo_maximo" value="{{ old('aforo_maximo', $restaurante->aforo_maximo) }}" class="form-control" required>

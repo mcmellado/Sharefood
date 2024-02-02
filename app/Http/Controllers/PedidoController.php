@@ -156,7 +156,6 @@ public function verPedidos($slug)
     return view('ver_pedidos', compact('restaurante', 'pedidos'));
 }
 
-
 public function restauranteEstaAbierto($restauranteId)
 {
     Carbon::setLocale('es');
@@ -183,15 +182,22 @@ public function restauranteEstaAbierto($restauranteId)
         $horaApertura = Carbon::parse($horario->hora_apertura);
         $horaCierre = Carbon::parse($horario->hora_cierre);
 
+        // Debugging info
         // dd([
-        //      'horaActual' => $horaActual->format('Y-m-d H:i:s'),
-        //      'horaApertura' => $horaApertura->format('Y-m-d H:i:s'),
-        //      'horaCierre' => $horaCierre->format('Y-m-d H:i:s'),
+        //     'horaActual' => $horaActual->format('Y-m-d H:i:s'),
+        //     'horaApertura' => $horaApertura->format('Y-m-d H:i:s'),
+        //     'horaCierre' => $horaCierre->format('Y-m-d H:i:s'),
         // ]);
 
+        // Verificamos si el restaurante está abierto en alguno de los horarios
         if ($horaActual >= $horaApertura && $horaActual <= $horaCierre) {
             return true;
         }
+
+        if ($horaApertura == $horaCierre) {
+            return true;
+        }
+        
     }
 
     return false;

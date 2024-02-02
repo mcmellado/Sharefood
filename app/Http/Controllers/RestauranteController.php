@@ -14,6 +14,8 @@ use App\Models\Producto;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
+
 
 
 
@@ -100,7 +102,6 @@ class RestauranteController extends Controller
     public function modificarRestaurante(Request $request, $slug)
 {
     $restaurante = Restaurante::where('slug', $slug)->firstOrFail();
-
     $nombreUsuario = $restaurante->propietario->usuario;
 
     $request->validate([
@@ -110,9 +111,19 @@ class RestauranteController extends Controller
         'telefono' => 'nullable|string',
         'aforo_maximo' => 'required|integer',
         'tiempo_permanencia' => 'required|integer',
+        'gastronomia' => 'nullable|string',
     ]);
 
+    $nuevoSlug = Str::slug($request->input('nombre'));
+    $contador = 1;
+
+    while (Restaurante::where('slug', $nuevoSlug)->where('id', '!=', $restaurante->id)->exists()) {
+        $nuevoSlug = Str::slug($request->input('nombre')) . '-' . $contador;
+        $contador++;
+    }
+
     $restaurante->update([
+        'gastronomia' => $request->input('gastronomia'), 
         'nombre' => $request->input('nombre'),
         'direccion' => $request->input('direccion'),
         'sitio_web' => $request->input('sitio_web'),
@@ -120,17 +131,14 @@ class RestauranteController extends Controller
         'aforo_maximo' => $request->input('aforo_maximo'), 
         'tiempo_permanencia' => $request->input('tiempo_permanencia'),
         'tiempo_cierre' => $request->input('tiempo_cierre'), 
-        'slug' => Str::slug($request->input('nombre')),
+        'slug' => $nuevoSlug,
     ]);
 
-    // Manejar la imagen si se proporciona
     if ($request->hasFile('imagen')) {
-        // Eliminar la imagen anterior si existe
         if ($restaurante->imagen) {
             Storage::delete($restaurante->imagen);
         }
 
-        // Guardar la nueva imagen
         $rutaImagen = $request->file('imagen')->store('restaurantes', 'public');
         $restaurante->update(['imagen' => $rutaImagen]);
     }
