@@ -56,3 +56,9 @@ li, ul {
     border-color: #dc3545;
     width: 100px;
 }
+
+.btn-success {
+    color: #fff;
+    background-color: #dc3545!important;
+    border-color: #dc3545!important;
+}

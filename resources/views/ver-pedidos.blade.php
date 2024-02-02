@@ -2,34 +2,30 @@
 
 <title> Ver pedidos </title>
 
-
 @section('contenido')
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-
     <style>
-
         body {
-        position: relative;
-        font-family: 'Poppins', sans-serif!important;
-        
-    }
+            position: relative;
+            font-family: 'Poppins', sans-serif !important;
+        }
 
-    body::before {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: url('../imagenes/imagen_fondo.jpg')!important;
-        background-size: 100% 100%;
-        background-position: center;
-        background-repeat: no-repeat;
-        filter: blur(10px); 
-        z-index: -1; 
-    }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('../imagenes/imagen_fondo.jpg') !important;
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: blur(10px);
+            z-index: -1;
+        }
 
         .container {
             margin-top: 50px;
@@ -43,20 +39,21 @@
 
         .card-body {
             padding: 20px;
-            background-color: #343a40!important;
+            background-color: #343a40 !important;
         }
 
         table {
             width: 100%;
             margin-top: 20px;
-
         }
 
-        th, td, table {
-            color: #fff!important;
+        th,
+        td,
+        table {
+            color: #fff !important;
             padding: 10px;
             text-align: center;
-            background-color: #343a40!important;
+            background-color: #343a40 !important;
         }
 
         th {
@@ -86,63 +83,63 @@
 
         p {
             color: white;
-
         }
     </style>
 
-    
-<div class="container mt-5">
-    <div class="card">
-        <div class="card-body">
-            <h1 class="mb-4">Mis Pedidos:</h1>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="mb-4">Mis Pedidos:</h1>
 
-            @if(count($pedidos) > 0)
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Precio:</th>
-                            <th>Dirección:</th>
-                            <th>Fecha:</th>
-                            <th>Local: </th>
-                            <th>Platos Pedidos:</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($pedidos as $pedido)
+                @if(count($pedidos) > 0 && collect($pedidos)->contains('estado', 'pagado'))
+                    <table class="table">
+                        <thead>
                             <tr>
-                                <td>{{ $pedido->precio_total }} €</td>
-                                <td>{{ $pedido->direccion }}</td>
-                                <td>{{ $pedido->created_at->locale('es_ES')->format('d/m/Y H:i') }}</td>
-                                <td> {{$pedido->restaurante->nombre}} </td>
-                                <td>
-                                    <ul>
-                                        @foreach($pedido->platos as $plato)
-                                        @php
-                                            $nombrePartes = explode(' - ', $plato->nombre);
-                                            $nombrePlato = $nombrePartes[0];
-                                        @endphp
-                                        <li>
-                                            {{ $nombrePlato }} - 
-                                            Cantidad: {{ $plato->cantidad }} - 
-                                            Precio: {{ $plato->precio }} €
-                                        </li>
-                                    @endforeach
-                                    </ul>
-                                </td>
+                                <th>Precio:</th>
+                                <th>Dirección:</th>
+                                <th>Fecha:</th>
+                                <th>Local: </th>
+                                <th>Platos Pedidos:</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            @else
-                <p>No tienes pedidos.</p>
-            @endif
+                        </thead>
+                        <tbody>
+                            @foreach ($pedidos as $pedido)
+                                @if($pedido->estado === 'pagado')
+                                    <tr>
+                                        <td>{{ $pedido->precio_total }} €</td>
+                                        <td>{{ $pedido->direccion }}</td>
+                                        <td>{{ $pedido->created_at->locale('es_ES')->format('d/m/Y H:i') }}</td>
+                                        <td> {{$pedido->restaurante->nombre}} </td>
+                                        <td>
+                                            <ul>
+                                                @foreach($pedido->platos as $plato)
+                                                    @php
+                                                        $nombrePartes = explode(' - ', $plato->nombre);
+                                                        $nombrePlato = $nombrePartes[0];
+                                                    @endphp
+                                                    <li>
+                                                        {{ $nombrePlato }} -
+                                                        Cantidad: {{ $plato->cantidad }} -
+                                                        Precio: {{ $plato->precio }} €
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                        </tbody>
+                    </table>
+                @else
+                    <p>No hay pedidos realizados.</p>
+                @endif
 
+            </div>
+        </div>
+        <div class="mt-4">
+            <a href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-danger">
+                <i class="fas fa-arrow-left"></i>
+            </a>
         </div>
     </div>
-    <div class="mt-4">
-        <a href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-danger">
-            <i class="fas fa-arrow-left"></i> 
-        </a>
-    </div>
-</div>
 @endsection

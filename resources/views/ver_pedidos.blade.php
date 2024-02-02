@@ -8,8 +8,6 @@
     <link rel="stylesheet" href="{{ asset('css/ver_pedidos_restaurante.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.2/dist/sweetalert2.all.min.js"></script>
     
-
-
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
             {{ session('success') }}
@@ -24,7 +22,7 @@
             <div class="card-body">
                 <h1 class="mb-4">Pedidos del Restaurante {{ $restaurante->nombre }}:</h1>
 
-                @if(count($pedidos) > 0)
+                @if(count($pedidos) > 0 && collect($pedidos)->contains('estado', 'pagado'))
                     <table class="table">
                         <thead>
                             <tr>
@@ -38,35 +36,36 @@
                         </thead>
                         <tbody>
                             @foreach($pedidos as $pedido)
-                                <tr>
-                                    <td>{{ $pedido->usuario->usuario }}</td> 
-                                    <td>{{ $pedido->precio_total }} €</td>
-                                    <td>{{ $pedido->direccion }}</td>
-                                    <td>{{ $pedido->created_at->locale('es_ES')->format('d/m/Y H:i') }}</td>
-                                    <td>
-                                        <ul>
-                                            @foreach($pedido->platos as $plato)
-                                                @php
-                                                    $nombrePartes = explode(' - ', $plato->nombre);
-                                                    $nombrePlato = $nombrePartes[0];
-                                                @endphp
-                                                <li>
-                                                    {{ $nombrePlato }} - 
-                                                    Cantidad: {{ $plato->cantidad }} - 
-                                                    Precio: {{ $plato->precio }} €
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </td>
-                                    <td>
-                                        <form id="formCancelarPedido{{ $pedido->id }}" method="POST" action="/cancelar-pedido/{{ $pedido->id }}" style="display:inline">
-                                            @csrf
-                                            @method('delete')
-                                            <button type="button" class="btn btn-danger" onclick="confirmCancelPedido({{ $pedido->id }})">Cancelar Pedido</button>
-                                        </form>
-                                                                              
-                                    </td>
-                                </tr>
+                                @if($pedido->estado === 'pagado') <!-- Filtra solo los pedidos pagados -->
+                                    <tr>
+                                        <td>{{ $pedido->usuario->usuario }}</td> 
+                                        <td>{{ $pedido->precio_total }} €</td>
+                                        <td>{{ $pedido->direccion }}</td>
+                                        <td>{{ $pedido->created_at->locale('es_ES')->format('d/m/Y H:i') }}</td>
+                                        <td>
+                                            <ul>
+                                                @foreach($pedido->platos as $plato)
+                                                    @php
+                                                        $nombrePartes = explode(' - ', $plato->nombre);
+                                                        $nombrePlato = $nombrePartes[0];
+                                                    @endphp
+                                                    <li>
+                                                        {{ $nombrePlato }} - 
+                                                        Cantidad: {{ $plato->cantidad }} - 
+                                                        Precio: {{ $plato->precio }} €
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <form id="formCancelarPedido{{ $pedido->id }}" method="POST" action="/cancelar-pedido/{{ $pedido->id }}" style="display:inline">
+                                                @csrf
+                                                @method('delete')
+                                                <button type="button" class="btn btn-success" onclick="confirmCancelPedido({{ $pedido->id }})">Cancelar Pedido</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endif
                             @endforeach
                         </tbody>
                     </table>
@@ -98,18 +97,12 @@
                 if (result.isConfirmed) {
                     var justificacion = document.getElementById('justificacionCancelacion').value;
                     var form = document.getElementById('formCancelarPedido' + pedidoId);
-
-                    // Añade un campo de justificación al formulario
                     var input = document.createElement('input');
                     input.type = 'hidden';
                     input.name = 'justificacion';
                     input.value = justificacion;
                     form.appendChild(input);
-
-                    // Actualiza la acción del formulario al endpoint de cancelar pedido
                     form.action = "/cancelar-pedido/" + pedidoId;
-
-                    // Envía el formulario
                     form.submit();
                 }
             });
