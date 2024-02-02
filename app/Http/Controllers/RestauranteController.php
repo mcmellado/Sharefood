@@ -455,4 +455,35 @@ public function actualizarProducto(Request $request, $slug, $id)
 
         return view('agregar_producto', compact('restaurante'));
     }
+
+
+    public function modificarHoras($slug)
+    {
+        $restaurante = Restaurante::where('slug', $slug)->first();
+    
+        $horarios = Horario::where('restaurante_id', $restaurante->id)->get();
+    
+        return view('modificar-horario', ['restaurante' => $restaurante, 'horarios' => $horarios]);
+    }
+
+    public function guardarHoras(Request $request, $slug)
+    {
+        foreach ($request->input('hora_apertura') as $horarioId => $horaApertura) {
+            $horario = Horario::find($horarioId);
+            $horario->hora_apertura = $horaApertura;
+            $horario->save();
+        }
+
+        foreach ($request->input('hora_cierre') as $horarioId => $horaCierre) {
+            $horario = Horario::find($horarioId);
+            $horario->hora_cierre = $horaCierre;
+            $horario->save();
+        }
+
+        return redirect()->route('perfil.mis-restaurantes',  ['nombreUsuario' => auth()->user()->usuario])->with('success', 'Horario restaurante modificado.');
+        
+    }
+
 }
+
+

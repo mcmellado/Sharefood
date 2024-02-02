@@ -60,6 +60,10 @@
                         <a href="{{ route('restaurantes.ver_pedidos', ['slug' => $restaurante->slug]) }}" class="btn btn-primary" title="Ver Pedidos">
                             <i class="fas fa-utensils"></i>
                         </a>
+                        <a href="{{ route('restaurantes.modificarHoras', ['slug' => $restaurante->slug]) }}" class="btn btn-warning" title="Modificar Horas">
+                            <i class="fas fa-clock"></i>
+                        </a>
+
 
                         
 
