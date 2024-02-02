@@ -8,6 +8,10 @@ use App\Models\Reserva;
 use App\Models\Restaurante;
 use App\Models\Horario;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+
+
     
 
 use Illuminate\Http\Request;
@@ -216,34 +220,47 @@ public function modificarReserva(Request $request, $reservaId)
     public function actualizarRestaurante(Request $request, $id)
         {
             $restaurante = Restaurante::findOrFail($id);
-
+            $slug = $restaurante->slug;
+            $nombreUsuario = $restaurante->propietario->usuario;
+        
             $request->validate([
-                'nombre' => 'required|string|max:255',
-                'direccion' => 'required|string|max:255',
-                'sitio_web' => 'nullable|url|max:255',
-                'telefono' => 'nullable|string|max:20',
-                'gastronomia' => 'nullable|string|max:255',
-                'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
-                
+                'nombre' => 'required|string',
+                'direccion' => 'required|string',
+                'sitio_web' => 'nullable|string|url',
+                'telefono' => 'nullable|string',
+                'aforo_maximo' => 'required|integer',
+                'tiempo_permanencia' => 'required|integer',
+                'gastronomia' => 'nullable|string',
             ]);
-
-            
-            $restaurante->nombre = $request->input('nombre');
-            $restaurante->direccion = $request->input('direccion');
-            $restaurante->sitio_web = $request->input('sitio_web');
-            $restaurante->telefono = $request->input('telefono');
-            $restaurante->gastronomia = $request->input('gastronomia');
-
-            
-            if ($request->hasFile('imagen')) {
-                $imagen = $request->file('imagen');
-                $nombreImagen = time() . '.' . $imagen->getClientOriginalExtension();
-                $rutaImagen = public_path('images/' . $nombreImagen);
-                $imagen->move(public_path('images'), $nombreImagen);
-                $restaurante->imagen = $nombreImagen;
+        
+            $nuevoSlug = Str::slug($request->input('nombre'));
+            $contador = 1;
+        
+            while (Restaurante::where('slug', $nuevoSlug)->where('id', '!=', $restaurante->id)->exists()) {
+                $nuevoSlug = Str::slug($request->input('nombre')) . '-' . $contador;
+                $contador++;
             }
-
-            $restaurante->save();
+        
+            $restaurante->update([
+                'gastronomia' => $request->input('gastronomia'), 
+                'nombre' => $request->input('nombre'),
+                'direccion' => $request->input('direccion'),
+                'sitio_web' => $request->input('sitio_web'),
+                'telefono' => $request->input('telefono'),
+                'aforo_maximo' => $request->input('aforo_maximo'), 
+                'tiempo_permanencia' => $request->input('tiempo_permanencia'),
+                'tiempo_cierre' => $request->input('tiempo_cierre'), 
+                'slug' => $nuevoSlug,
+            ]);
+        
+            if ($request->hasFile('imagen')) {
+                if ($restaurante->imagen) {
+                    Storage::delete($restaurante->imagen);
+                }
+        
+                $rutaImagen = $request->file('imagen')->store('restaurantes', 'public');
+                $restaurante->update(['imagen' => $rutaImagen]);
+            }
 
             return redirect()->route('admin.panel-admin-restaurante')->with('success', 'Restaurante modificado correctamente.');
             

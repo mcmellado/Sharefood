@@ -56,7 +56,7 @@
         var reservasParaFecha = reservasPorFecha[fechaSeleccionada] || [];
         return reservasParaFecha.map(function (reserva) {
             return reserva.hora;
-        }); 
+        });
     }
 
     function cargarHorasDisponibles() {
@@ -82,19 +82,24 @@
     }
 
     function obtenerHorasDisponibles(horaApertura, horaCierre, reservas) {
-        var horasDisponibles = [];
-        var horaActual = parseHora(horaApertura);
+    var horasDisponibles = [];
+    var horaActual = parseHora(horaApertura);
+    var tiempo_cierre = "{{ $restaurante->tiempo_cierre }}";
 
-        while (horaActual <= parseHora(horaCierre)) {
-            var horaActualString = formatHora(horaActual);
-            if (!reservas.includes(horaActualString)) {
-                horasDisponibles.push(horaActualString);
-            }
-            horaActual.setMinutes(horaActual.getMinutes() + 30);
+
+    var horaCierreModificada = parseHora(horaCierre).setMinutes(parseHora(horaCierre).getMinutes() - tiempo_cierre);
+
+    while (horaActual <= horaCierreModificada) {
+        var horaActualString = formatHora(horaActual);
+        if (!reservas.includes(horaActualString)) {
+            horasDisponibles.push(horaActualString);
         }
-
-        return horasDisponibles;
+        horaActual.setMinutes(horaActual.getMinutes() + 30);
     }
+
+    return horasDisponibles;
+}
+
 
     function mostrarAlerta(mensaje, tipo) {
         var alertsContainer = document.getElementById('alerts-container');
@@ -111,7 +116,7 @@
 
         alertsContainer.appendChild(alertElement);
 
-        setTimeout(function() {
+        setTimeout(function () {
             alertElement.remove();
         }, 20000);
     }
@@ -131,7 +136,7 @@
 
     var horariosRestaurante = {!! json_encode($restaurante->horarios) !!};
 
-    window.onload = function() {
+    window.onload = function () {
         cargarHorasDisponibles();
     };
 
@@ -190,20 +195,16 @@
             mostrarAlerta('Aforo completo en esos momentos. Por favor, reserva más tarde.', 'danger');
             return false;
         }
-        var mediaHora = 30 * 60 * 1000; 
-
-        if (horaSeleccionada >= horaCierre - mediaHora || horaSeleccionada <= horaApertura + mediaHora) {
-            mostrarAlerta('No puede hacer la reserva porque está cerrando o a punto de cerrar. Por favor, elija otro horario.', 'danger');
-            return false;
-        }
+        var mediaHora = 30 * 60 * 1000;
 
         return true;
-    } 
+    }
 
     function parseHora(horaString) {
         var partes = horaString.split(':');
         return new Date(1970, 0, 1, partes[0], partes[1]);
     }
 </script>
+
 
 @endsection
