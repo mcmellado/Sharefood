@@ -8,7 +8,7 @@
 
 
     <div class="container">
-        <h2 class="mt-4 mb-4">Bienvenido al Panel de Administrador de Restaurantes</h2>
+        <h2 class="mt-4 mb-4">Bienvenido al Panel de Administrador de Restaurantes:</h2>
 
         <div class="row">
             <div class="col-md-12">
@@ -44,6 +44,10 @@
                                         <button type="button" title="Eliminar" class="btn btn-danger btn-sm eliminar-restaurante" data-toggle="modal" data-target="#confirmarEliminar{{ $restaurante->id }}">
                                             <i class="fa fa-trash"></i>   
                                         </button>
+                                        <a href="{{ route('admin.verPedidosRestaurantes', $restaurante->id) }}" title="Ver Pedidos" class="btn btn-info btn-sm">
+                                            <i class="fas fa-utensils"></i> 
+                                        </a>
+                                        
                                     </td>
                                 </tr>
                                 <div class="modal fade" id="confirmarEliminar{{ $restaurante->id }}" tabindex="-1" role="dialog" aria-labelledby="confirmarEliminarLabel{{ $restaurante->id }}" aria-hidden="true">

@@ -10,6 +10,7 @@ use App\Models\Horario;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Models\Pedido;
 
 
     
@@ -292,6 +293,15 @@ public function modificarReserva(Request $request, $reservaId)
         
             return response()->json($horasDisponibles);
         }
+
+
+        public function verPedidosRestaurantes($restauranteId)
+{
+    $restaurante = Restaurante::find($restauranteId);
+    $pedidos = Pedido::where('restaurante_id', $restauranteId)->get();
+
+    return view('admin.ver-pedidos-restaurantes-admin', compact('pedidos', 'restaurante'));
+}
 
 
 

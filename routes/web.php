@@ -82,6 +82,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/admin/reservas/modificar/{reservaId}', [AdminController::class, 'modificarReserva'])->name('admin.reservas.modificar');
     Route::get('/admin/ver-reservas/{usuarioId}', [AdminController::class, 'verReservas'])->name('admin.ver-reservas');
     Route::put('/admin/reservas/modificar-cantidad-personas/{reservaId}', 'AdminController@modificarCantidadPersonas')->name('admin.reservas.modificar-cantidad-personas');
+    Route::get('/admin/restaurantes/ver-pedidos-restaurantes/{id}', [AdminController::class, 'verPedidosRestaurantes'])->name('admin.verPedidosRestaurantes');
+
+
+
 
     //RESTAURANTES:
     Route::get('/admin/panel-restaurantes', [AdminController::class, 'panelRestaurantes'])->name('admin.panel-admin-restaurante');
