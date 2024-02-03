@@ -477,31 +477,33 @@ public function actualizarProducto(Request $request, $slug, $id)
     
 
 
-
-
         return view('editar-horarios', ['restaurante' => $restaurante, 'horarios' => $horarios]);
     }
 
     public function guardarHorarios(Request $request, $slug)
-    {
-        $restaurante = Restaurante::where('slug', $slug)->firstOrFail();
-    
-        foreach ($request->input('hora_apertura') as $horarioId => $horaApertura) {
-            $horario = $horarioId ? Horario::find($horarioId) : new Horario();
-            $horario->hora_apertura = $horaApertura;
-            $horario->restaurante_id = $restaurante->id; 
-            $horario->save();
-        }
-    
-        foreach ($request->input('hora_cierre') as $horarioId => $horaCierre) {
-            $horario = $horarioId ? Horario::find($horarioId) : new Horario();
-            $horario->hora_cierre = $horaCierre;
-            $horario->restaurante_id = $restaurante->id; 
-            $horario->save();
-        }
-    
-        return redirect()->route('perfil.mis-restaurantes', ['nombreUsuario' => auth()->user()->usuario])->with('success', 'Horario restaurante modificado.');
+{
+    $restaurante = Restaurante::where('slug', $slug)->firstOrFail();
+
+    foreach ($request->input('hora_apertura') as $horarioId => $horaApertura) {
+        $dia_semana = $request->input('nuevo_dia')[$horarioId];
+        $horario = $horarioId ? Horario::find($horarioId) : new Horario();
+        $horario->dia_semana = $dia_semana;
+        $horario->hora_apertura = $horaApertura;
+        $horario->restaurante_id = $restaurante->id;
+        $horario->save();
     }
+
+    foreach ($request->input('hora_cierre') as $horarioId => $horaCierre) {
+        $dia_semana = $request->input('nuevo_dia')[$horarioId];
+        $horario = $horarioId ? Horario::find($horarioId) : new Horario();
+        $horario->dia_semana = $dia_semana;
+        $horario->hora_cierre = $horaCierre;
+        $horario->restaurante_id = $restaurante->id;
+        $horario->save();
+    }
+
+    return redirect()->route('perfil.mis-restaurantes', ['nombreUsuario' => auth()->user()->usuario])->with('success', 'Horario restaurante modificado.');
+}
 
 public function eliminarHorario($id)
 {
