@@ -3,6 +3,7 @@
 @section('contenido')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.2/dist/sweetalert2.all.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link rel="stylesheet" href="{{ asset('css/perfil.css') }}">
 
 
@@ -80,11 +81,13 @@
             </tbody>
         </table>
 
-        <button type="button" class="btn btn-success btn-sm" onclick="agregarFila()">Agregar Tramo Horario</button>
+        <a href="{{ route('perfil.mis-restaurantes', ['nombreUsuario' => Auth::user()->usuario]) }}" class="btn btn-danger" style="width: 100px;">
+            <i class="fas fa-arrow-left"></i>     
+        </a>
+        <button type="button" class="btn btn-success" onclick="agregarFila()">Agregar Tramo Horario</button>
         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
     </form>
 </div>
-
 <script>
 
 function agregarFila() {
