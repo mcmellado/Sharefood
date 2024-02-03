@@ -13,7 +13,6 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Usuario</th>
                         <th>Restaurante</th>
                         <th>Estado</th>
@@ -26,7 +25,6 @@
                 <tbody>
                     @foreach ($pedidos as $pedido)
                         <tr>
-                            <td>{{ $pedido->id }}</td>
                             <td>{{ $pedido->usuario->usuario }}</td>
                             <td>{{ $pedido->restaurante->nombre }}</td> 
                             <td>{{ $pedido->estado }}</td>

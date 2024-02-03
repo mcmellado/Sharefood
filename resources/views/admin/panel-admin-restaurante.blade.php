@@ -8,7 +8,7 @@
 
 
     <div class="container">
-        <h2 class="mt-4 mb-4">Bienvenido al Panel de Administrador de Restaurantes:</h2>
+        <h2 class="mt-4 mb-4">Panel de administrador de restaurantes:</h2>
 
         <div class="row">
             <div class="col-md-12">

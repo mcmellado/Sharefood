@@ -10,7 +10,7 @@
 
 
     <div class="container">
-        <h2 class="mt-4 mb-4">Bienvenido al Panel de Administrador</h2>
+        <h2 class="mt-4 mb-4">Panel de administrador de usuarios:</h2>
 
         <div class="row">
             <div class="col-md-12">
@@ -46,7 +46,6 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th class="text-center">ID</th>
                                 <th class="text-center">Nombre</th>
                                 <th class="text-center">Email</th>
                                 <th class="text-center">Teléfono</th>
@@ -56,7 +55,6 @@
                         <tbody>
                             @forelse ($users as $user)
                                 <tr>
-                                    <td class="text-center">{{ $user->id }}</td>
                                     <td class="text-center">{{ $user->usuario }}</td>
                                     <td class="text-center">{{ $user->email }}</td>
                                     <td class="text-center">{{ $user->telefono ?? 'No tiene' }}</td>
