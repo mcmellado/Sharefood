@@ -140,4 +140,7 @@ Route::get('/restaurantes/{slug}/editar-horarios', [RestauranteController::class
 Route::post('/restaurantes/{slug}/guardar-horarios', [RestauranteController::class, 'guardarHorarios'])->name('restaurantes.horarios.guardar');
 Route::post('/eliminar-horario/{id}', [RestauranteController::class, 'eliminarHorario'])->name('eliminar.horario');
 
+Route::post('/cancelar-pedidoUsuario/{pedidoId}', [PedidoController::class, 'cancelarPedidoUsuario'])->name('cancelar.pedidoUsuario');
+
+
 

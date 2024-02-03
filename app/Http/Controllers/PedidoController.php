@@ -14,6 +14,8 @@ use App\Models\Horario;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PedidoCancelado;
+use Illuminate\Support\Facades\Auth;
+
 
 
 
@@ -214,5 +216,24 @@ public function cancelarPedido(Request $request, Pedido $pedido)
     return redirect()->back()->with('success', 'Pedido cancelado correctamente');
 }
 
+public function cancelarPedidoUsuario($pedidoId)
+{
+    try {
+        $pedido = Pedido::findOrFail($pedidoId);
+
+        // Verifica si el usuario autenticado es el propietario del pedido
+        if (Auth::user()->id == $pedido->usuario_id) {
+            // Cambia el estado del pedido a "cancelado" u realiza la acción necesaria
+            $pedido->update(['estado' => 'cancelado']);
+
+            return response()->json(['message' => 'Pedido cancelado correctamente'], 200);
+        } else {
+            // Si el usuario no es el propietario del pedido, devuelve un error
+            return response()->json(['error' => 'No tienes permisos para cancelar este pedido'], 403);
+        }
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Error al cancelar el pedido'], 500);
+    }
+}
 
 }

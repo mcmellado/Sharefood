@@ -24,3 +24,7 @@ body::before {
     color: #fff; 
 }
 
+.container {
+    margin-bottom: 100px!important;
+}
+

@@ -1,90 +1,13 @@
 @extends('layouts.app')
 
-<title> Ver pedidos </title>
+<title>Ver pedidos</title>
 
 @section('contenido')
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-    <style>
-        body {
-            position: relative;
-            font-family: 'Poppins', sans-serif !important;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('../imagenes/imagen_fondo.jpg') !important;
-            background-size: 100% 100%;
-            background-position: center;
-            background-repeat: no-repeat;
-            filter: blur(10px);
-            z-index: -1;
-        }
-
-        .container {
-            margin-top: 50px;
-        }
-
-        .card {
-            border: 1px solid #343a40;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-
-        .card-body {
-            padding: 20px;
-            background-color: #343a40 !important;
-        }
-
-        table {
-            width: 100%;
-            margin-top: 20px;
-        }
-
-        th,
-        td,
-        table {
-            color: #fff !important;
-            padding: 10px;
-            text-align: center;
-            background-color: #343a40 !important;
-        }
-
-        th {
-            background-color: #343a40;
-        }
-
-        tbody {
-            background-color: #343a40;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        ul li {
-            margin-bottom: 10px;
-        }
-
-        .btn-danger {
-            width: 100px;
-        }
-
-        h1 {
-            color: white;
-        }
-
-        p {
-            color: white;
-        }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.2/dist/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('css/ver-pedidos-usuarios.css') }}">
 
     <div class="container mt-5">
         <div class="card">
@@ -100,6 +23,7 @@
                                 <th>Fecha:</th>
                                 <th>Local: </th>
                                 <th>Platos Pedidos:</th>
+                                <th>Acciones:</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -109,7 +33,7 @@
                                         <td>{{ $pedido->precio_total }} €</td>
                                         <td>{{ $pedido->direccion }}</td>
                                         <td>{{ $pedido->created_at->locale('es_ES')->format('d/m/Y H:i') }}</td>
-                                        <td> {{$pedido->restaurante->nombre}} </td>
+                                        <td> {{ $pedido->restaurante->nombre }} </td>
                                         <td>
                                             <ul>
                                                 @foreach($pedido->platos as $plato)
@@ -124,6 +48,11 @@
                                                     </li>
                                                 @endforeach
                                             </ul>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-danger" onclick="cancelarPedido({{ $pedido->id }})">
+                                                Cancelar
+                                            </button>
                                         </td>
                                     </tr>
                                 @endif
@@ -142,4 +71,32 @@
             </a>
         </div>
     </div>
+
+    <script>
+        function cancelarPedido(pedidoId) {
+            Swal.fire({
+                title: 'Confirmar Cancelación',
+                text: '¿Seguro que quieres cancelar este pedido?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.post(`/cancelar-pedidoUsuario/${pedidoId}`)
+                        .then(response => {
+                            location.reload();
+                        })
+                        .catch(error => {
+                            Swal.fire(
+                                'Error',
+                                'Error al cancelar el pedido: ' + error.response.data.error,
+                                'error'
+                            );
+                        });
+                }
+            });
+        }
+    </script>
 @endsection

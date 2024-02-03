@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('usuario_id');
             $table->unsignedBigInteger('restaurante_id'); 
-            $table->enum('estado', ['pendiente', 'pagado'])->default('pendiente');
+            $table->enum('estado', ['pendiente', 'pagado', 'cancelado'])->default('pendiente');
             $table->decimal('precio_total', 8, 2)->nullable();
             $table->string('direccion');
             $table->json('platos');
