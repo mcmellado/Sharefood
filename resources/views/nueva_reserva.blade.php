@@ -1,14 +1,12 @@
 @extends('layouts.app')
 
-<title> Nueva reserva </title>
-
-
 @section('contenido')
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-JA9LSTp+ZMfsB01d5WVTTK9K4xXvZF7S81Lp6FDtkFZFM4/+r2kZU5JlQa86j6A+xEBk2OL/xCUZQpG6RbApRg==" crossorigin="anonymous" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha512-Gn5384xq1ii1+FXMYFcUfuBWCAtb2JaeQGfcYxpPuwvc8vR+5tZ/sM47KaS5tn9eqODJdSqGXCXT9RQZBmqQK/eg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-9BScY9K9B8WV0Ec4zLDI2+rBXTXD4bU+TfZK7K0aGj4O7TC2M0Zg9urN42Yq4oYH1C8chY3Leb4Ju6Xvmf9CEw==" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="{{ asset('css/nueva_reserva.css') }}">
-
-
 
 <div class="container mt-5">
     <div id="alerts-container"></div>
@@ -31,8 +29,8 @@
                     <label for="cantidad_personas">Cantidad de personas:</label>
                     <input type="number" class="form-control" id="cantidad_personas" name="cantidad_personas" required>
                 </div>
-                <button type="submit" class="btn btn-success" id="boton-confirmar">Confirmar Reserva</button>
-                <a href="{{ route('restaurantes.perfil', ['slug' => $restaurante->slug ]) }}" class="btn btn-secondary">Volver al Perfil</a>                
+                <button type="submit" class="btn btn-success">Confirmar Reserva</button>
+                <a href="{{ route('restaurantes.perfil', ['slug' => $restaurante->slug ]) }}" class="btn btn-secondary">Volver al Perfil</a>
             </form>
         </div>
     </div>
@@ -55,50 +53,28 @@ function formatHora(hora) {
     }
 
     function cargarHorasDisponibles() {
-    var fechaSeleccionada = document.getElementById('fecha').value;
-    var botonConfirmar = document.getElementById('boton-confirmar');
+        var fechaSeleccionada = document.getElementById('fecha').value;
 
-    if (!fechaSeleccionada) {
-        document.getElementById('hora').disabled = true;
-        botonConfirmar.disabled = true;
-        return;
-    }
+        if (!fechaSeleccionada) {
+            document.getElementById('hora').disabled = true;
+            return;
+        }
 
-    var reservasParaFecha = obtenerHorasReservadas(fechaSeleccionada);
-    var diaSemana = normalizarDia(new Date(fechaSeleccionada).toLocaleDateString('es', { weekday: 'long' }));
-
-    function normalizarDia(dia) {
+        function normalizarDia(dia) {
         return dia.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    }
+        }
 
-    var horariosParaDia = horariosRestaurante.filter(function (horario) {
-        return horario.dia_semana.toLowerCase() === diaSemana.toLowerCase();
-    });
-
-    var horasDisponibles = [];
-
-    if (horariosParaDia.length === 0) {
-        document.getElementById('hora').disabled = true;
-        document.getElementById('hora').innerHTML = '<option value="" disabled selected>Restaurante cerrado</option>';
-        botonConfirmar.disabled = true;
-        return;
-    }
-
-    botonConfirmar.disabled = false;
-
-    horariosParaDia.forEach(function (horarioParaDia) {
-        var horasDisponiblesParaHorario = obtenerHorasDisponibles(horarioParaDia.hora_apertura, horarioParaDia.hora_cierre, reservasParaFecha);
-        horasDisponibles = horasDisponibles.concat(horasDisponiblesParaHorario);
-    });
-
-    var selectHora = document.getElementById('hora');
-
-    if (horasDisponibles.length === 0) {
-        selectHora.disabled = true;
-        selectHora.innerHTML = '<option value="" disabled selected>Restaurante cerrado</option>';
-    } else {
+        var reservasParaFecha = obtenerHorasReservadas(fechaSeleccionada);
+        var diaSemana = normalizarDia(new Date(fechaSeleccionada).toLocaleDateString('es', { weekday: 'long' }));
+        var horarioParaDia = horariosRestaurante.find(function (horario) {
+            return horario.dia_semana.toLowerCase() === diaSemana.toLowerCase();
+        });
+        var horasDisponibles = obtenerHorasDisponibles(horarioParaDia.hora_apertura, horarioParaDia.hora_cierre, reservasParaFecha);
+        var selectHora = document.getElementById('hora');
+        
         selectHora.disabled = false;
-        selectHora.innerHTML = '';  
+        selectHora.innerHTML = '';
+
         horasDisponibles.forEach(function (hora) {
             var option = document.createElement('option');
             option.value = hora;
@@ -106,8 +82,8 @@ function formatHora(hora) {
             selectHora.appendChild(option);
         });
     }
-}
 
+    
     function obtenerHorasDisponibles(horaApertura, horaCierre, reservas) {
     var horasDisponibles = [];
     var horaActual = parseHora(horaApertura);
@@ -126,6 +102,7 @@ function formatHora(hora) {
 
     return horasDisponibles;
 }
+
 
     function mostrarAlerta(mensaje, tipo) {
         var alertsContainer = document.getElementById('alerts-container');
@@ -160,7 +137,7 @@ function formatHora(hora) {
         });
     @endforeach
 
-    var horariosRestaurante = {!! json_encode($restaurante->horarios) !!};    
+    var horariosRestaurante = {!! json_encode($restaurante->horarios) !!};
 
     function validarReserva() {
         var fechaInput = document.getElementById('fecha');
@@ -175,8 +152,13 @@ function formatHora(hora) {
             return false;
         }
 
+        function normalizarDia(dia) {
+        return dia.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+        }
+
+
         var diaSemana = normalizarDia(new Date(fechaSeleccionada).toLocaleDateString('es', { weekday: 'long' }));
-        
 
         var horarioParaDia = horariosRestaurante.find(function (horario) {
             return horario.dia_semana.toLowerCase() === diaSemana.toLowerCase();
@@ -204,24 +186,21 @@ function formatHora(hora) {
         intervaloFin.setHours(intervaloFin.getHours() + 1);
 
         var reservasEnIntervalo = 1;
-        var tiempoPermanencia = {{ $restaurante->tiempo_permanencia}}; 
 
         Object.keys(reservasPorFecha).forEach(function (fecha) {
             reservasPorFecha[fecha].forEach(function (reserva) {
                 var fechaReserva = new Date(fecha + 'T' + reserva.hora);
-                var fechaReservaFin = new Date(fechaReserva.getTime() + tiempoPermanencia);
-                if ((fechaReserva >= intervaloInicio && fechaReserva <= intervaloFin) || (fechaReservaFin >= intervaloInicio && fechaReservaFin <= intervaloFin)) {
+                if (fechaReserva >= intervaloInicio && fechaReserva <= intervaloFin) {
                     reservasEnIntervalo += parseInt(reserva.personas);
                 }
             });
         });
-        
+
         if (reservasEnIntervalo + parseInt(cantidadPersonasInput.value) > {{ $restaurante->aforo_maximo }} + 1) {
             mostrarAlerta('Aforo completo en esos momentos. Por favor, reserva más tarde.', 'danger');
             return false;
         }
         var mediaHora = 30 * 60 * 1000; 
-
         return true;
     } 
 
