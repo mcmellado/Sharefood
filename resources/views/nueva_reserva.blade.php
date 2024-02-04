@@ -36,10 +36,8 @@
     </div>
 </div>
 
-
 <script>
-
-function formatHora(hora) {
+    function formatHora(hora) {
         var horas = hora.getHours().toString().padStart(2, '0');
         var minutos = hora.getMinutes().toString().padStart(2, '0');
         return horas + ':' + minutos;
@@ -61,7 +59,7 @@ function formatHora(hora) {
         }
 
         function normalizarDia(dia) {
-        return dia.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            return dia.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         }
 
         var reservasParaFecha = obtenerHorasReservadas(fechaSeleccionada);
@@ -83,26 +81,23 @@ function formatHora(hora) {
         });
     }
 
-    
     function obtenerHorasDisponibles(horaApertura, horaCierre, reservas) {
-    var horasDisponibles = [];
-    var horaActual = parseHora(horaApertura);
-    var tiempo_cierre = "{{ $restaurante->tiempo_cierre }}";
+        var horasDisponibles = [];
+        var horaActual = parseHora(horaApertura);
+        var tiempoCierre = "{{ $restaurante->tiempo_cierre }}";
 
+        var horaCierreModificada = parseHora(horaCierre).setMinutes(parseHora(horaCierre).getMinutes() - tiempoCierre);
 
-    var horaCierreModificada = parseHora(horaCierre).setMinutes(parseHora(horaCierre).getMinutes() - tiempo_cierre);
-
-    while (horaActual <= horaCierreModificada) {
-        var horaActualString = formatHora(horaActual);
-        if (!reservas.includes(horaActualString)) {
-            horasDisponibles.push(horaActualString);
+        while (horaActual <= horaCierreModificada) {
+            var horaActualString = formatHora(horaActual);
+            if (!reservas.includes(horaActualString)) {
+                horasDisponibles.push(horaActualString);
+            }
+            horaActual.setMinutes(horaActual.getMinutes() + 30);
         }
-        horaActual.setMinutes(horaActual.getMinutes() + 30);
+
+        return horasDisponibles;
     }
-
-    return horasDisponibles;
-}
-
 
     function mostrarAlerta(mensaje, tipo) {
         var alertsContainer = document.getElementById('alerts-container');
@@ -153,13 +148,10 @@ function formatHora(hora) {
         }
 
         function normalizarDia(dia) {
-        return dia.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-
+            return dia.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         }
 
-
         var diaSemana = normalizarDia(new Date(fechaSeleccionada).toLocaleDateString('es', { weekday: 'long' }));
-
         var horarioParaDia = horariosRestaurante.find(function (horario) {
             return horario.dia_semana.toLowerCase() === diaSemana.toLowerCase();
         });
@@ -171,7 +163,6 @@ function formatHora(hora) {
 
         var horaApertura = parseHora(horarioParaDia.hora_apertura);
         var horaCierre = parseHora(horarioParaDia.hora_cierre);
-
         var horaSeleccionada = parseHora(horaInput.value);
 
         if (horaSeleccionada < horaApertura || horaSeleccionada > horaCierre) {
@@ -179,13 +170,14 @@ function formatHora(hora) {
             return false;
         }
 
-        var intervaloInicio = new Date(fechaSeleccionada);
-        intervaloInicio.setHours(intervaloInicio.getHours() - 1);
-
-        var intervaloFin = new Date(fechaSeleccionada);
-        intervaloFin.setHours(intervaloFin.getHours() + 1);
-
         var reservasEnIntervalo = 1;
+        var tiempoPermanencia = parseInt("{{ $restaurante->tiempo_permanencia }}") * 60 * 1000;
+        var minuto = 1 * 60 * 1000;
+        tiempoPermanencia = tiempoPermanencia - minuto;
+
+
+        var intervaloInicio = new Date(fechaSeleccionada - tiempoPermanencia);
+        var intervaloFin = new Date(fechaSeleccionada + tiempoPermanencia);
 
         Object.keys(reservasPorFecha).forEach(function (fecha) {
             reservasPorFecha[fecha].forEach(function (reserva) {
@@ -200,15 +192,14 @@ function formatHora(hora) {
             mostrarAlerta('Aforo completo en esos momentos. Por favor, reserva más tarde.', 'danger');
             return false;
         }
-        var mediaHora = 30 * 60 * 1000; 
+
         return true;
-    } 
+    }
 
     function parseHora(horaString) {
         var partes = horaString.split(':');
         return new Date(1970, 0, 1, partes[0], partes[1]);
     }
-    
 </script>
 
 @endsection

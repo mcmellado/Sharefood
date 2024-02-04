@@ -37,6 +37,7 @@
 
 <script src="{{ asset('js/modificar_reserva.js') }}" defer></script>
 
+
 <script>
     var reservasPorFecha = {};
     reservasPorFecha["{{ $reserva->fecha }}"] = [{
@@ -82,24 +83,22 @@
     }
 
     function obtenerHorasDisponibles(horaApertura, horaCierre, reservas) {
-    var horasDisponibles = [];
-    var horaActual = parseHora(horaApertura);
-    var tiempo_cierre = "{{ $restaurante->tiempo_cierre }}";
+        var horasDisponibles = [];
+        var horaActual = parseHora(horaApertura);
+        var tiempoCierre = "{{ $restaurante->tiempo_cierre }}";
 
+        var horaCierreModificada = parseHora(horaCierre).setMinutes(parseHora(horaCierre).getMinutes() - tiempoCierre);
 
-    var horaCierreModificada = parseHora(horaCierre).setMinutes(parseHora(horaCierre).getMinutes() - tiempo_cierre);
-
-    while (horaActual <= horaCierreModificada) {
-        var horaActualString = formatHora(horaActual);
-        if (!reservas.includes(horaActualString)) {
-            horasDisponibles.push(horaActualString);
+        while (horaActual <= horaCierreModificada) {
+            var horaActualString = formatHora(horaActual);
+            if (!reservas.includes(horaActualString)) {
+                horasDisponibles.push(horaActualString);
+            }
+            horaActual.setMinutes(horaActual.getMinutes() + 30);
         }
-        horaActual.setMinutes(horaActual.getMinutes() + 30);
+
+        return horasDisponibles;
     }
-
-    return horasDisponibles;
-}
-
 
     function mostrarAlerta(mensaje, tipo) {
         var alertsContainer = document.getElementById('alerts-container');
@@ -174,13 +173,14 @@
             return false;
         }
 
-        var intervaloInicio = new Date(fechaSeleccionada);
-        intervaloInicio.setHours(intervaloInicio.getHours() - 1);
-
-        var intervaloFin = new Date(fechaSeleccionada);
-        intervaloFin.setHours(intervaloFin.getHours() + 1);
-
         var reservasEnIntervalo = 1;
+        var tiempoPermanencia = parseInt("{{ $restaurante->tiempo_permanencia }}") * 60 * 1000;
+        var minuto = 1 * 60 * 1000;
+        tiempoPermanencia = tiempoPermanencia - minuto;
+
+
+        var intervaloInicio = new Date(fechaSeleccionada - tiempoPermanencia);
+        var intervaloFin = new Date(fechaSeleccionada + tiempoPermanencia);
 
         Object.keys(reservasPorFecha).forEach(function (fecha) {
             reservasPorFecha[fecha].forEach(function (reserva) {
@@ -191,11 +191,10 @@
             });
         });
 
-        if (reservasEnIntervalo + parseInt(cantidadPersonasInput.value) > {{ $restaurante->aforo_maximo }}) {
+        if (reservasEnIntervalo + parseInt(cantidadPersonasInput.value) > {{ $restaurante->aforo_maximo }} + 1) {
             mostrarAlerta('Aforo completo en esos momentos. Por favor, reserva más tarde.', 'danger');
             return false;
         }
-        var mediaHora = 30 * 60 * 1000;
 
         return true;
     }
@@ -205,6 +204,7 @@
         return new Date(1970, 0, 1, partes[0], partes[1]);
     }
 </script>
+
 
 
 @endsection

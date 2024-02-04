@@ -250,7 +250,7 @@ public function modificarReserva(Request $request, $reservaId)
                 'telefono' => $request->input('telefono'),
                 'aforo_maximo' => $request->input('aforo_maximo'), 
                 'tiempo_permanencia' => $request->input('tiempo_permanencia'),
-                'tiempo_cierre' => $request->input('tiempo_cierre'), 
+                'tiempo_cierre' => intval($request->input('tiempo_cierre')), 
                 'slug' => $nuevoSlug,
             ]);
         
