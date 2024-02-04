@@ -27,6 +27,12 @@
                 </div>
             @endif
 
+            @if($restauranteCerrado === 'cerrado')
+            <div class="alert alert-danger mt-4" role="alert">
+                ¡Este restaurante se encuentra actualmente cerrado! Puedes seguir viendo la carta, pero ten en cuenta que no podrás realizar pedidos.
+            </div>
+            @endif
+        
             <div class="card mt-4">
                 <div class="card-body">
                     <div class="row">

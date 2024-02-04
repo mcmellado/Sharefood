@@ -184,14 +184,10 @@ public function restauranteEstaAbierto($restauranteId)
         $horaApertura = Carbon::parse($horario->hora_apertura);
         $horaCierre = Carbon::parse($horario->hora_cierre);
 
-        // Debugging info
-        // dd([
-        //     'horaActual' => $horaActual->format('Y-m-d H:i:s'),
-        //     'horaApertura' => $horaApertura->format('Y-m-d H:i:s'),
-        //     'horaCierre' => $horaCierre->format('Y-m-d H:i:s'),
-        // ]);
+        $fechaActual = $horaActual->toDateString();
+        $horaApertura->setDateFrom($fechaActual);
+        $horaCierre->setDateFrom($fechaActual);
 
-        // Verificamos si el restaurante está abierto en alguno de los horarios
         if ($horaActual >= $horaApertura && $horaActual <= $horaCierre) {
             return true;
         }
@@ -199,7 +195,6 @@ public function restauranteEstaAbierto($restauranteId)
         if ($horaApertura == $horaCierre) {
             return true;
         }
-        
     }
 
     return false;

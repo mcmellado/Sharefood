@@ -3,6 +3,7 @@
 @section('contenido')
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link rel="stylesheet" href="{{ asset('css/ver-reservas.css') }}"> 
 
 <div class="container mt-5">
@@ -20,19 +21,23 @@
     <div class="card mb-4 reserva-card">
         <div class="card-body">
             <p class="mb-2">Restaurante: {{ $reserva->restaurante->nombre }}</p>
-            <p class="mb-2">Fecha de reserva: {{ $reserva->fecha }}</p>
-            <p class="mb-2">Hora de reserva: {{ $reserva->hora }}</p>
+            <p class="mb-2">Fecha de reserva: {{ \Carbon\Carbon::parse($reserva->fecha)->locale('es')->isoFormat('LL') }}</p>
+            <p class="mb-2">Hora de reserva: {{ \Carbon\Carbon::parse($reserva->hora)->format('H:i') }}</p>
             <div class="btn-group" role="group" aria-label="Acciones de reserva">
                 <form method="post" action="{{ route('admin.reservas.cancelar', $reserva->id) }}">
                     @csrf
                     @method('delete')
-                    <button type="submit" class="btn btn-danger btn-sm btn-cancelar-reserva" onclick="return confirm('¿Seguro que quieres cancelar esta reserva?')">Cancelar</button>
+                    <button type="submit" class="btn btn-danger btn-sm btn-cancelar-reserva" onclick="return confirm('¿Seguro que quieres cancelar esta reserva?')" title="Cancelar Reserva">
+                        <i class="fa fa-calendar-times"></i> Cancelar
+                    </button>
                 </form>
-                <a href="{{ route('admin.reservas.modificar-reserva', $reserva->id) }}" class="btn btn-warning btn-sm btn-modificar-reserva">Modificar</a>
+                <a href="{{ route('admin.reservas.modificar-reserva', $reserva->id) }}" class="btn btn-warning btn-sm btn-modificar-reserva" title="Modificar Reserva">
+                    <i class="fa fa-pencil"></i> Modificar
+                </a>
             </div>
         </div>
-    </div>
-
+    </div>    
+    
     @if(session('reserva-cancelada-' . $reserva->id))
     <div id="alerta-reserva-cancelada-{{ $reserva->id }}" class="alert alert-success alert-dismissible fade show" role="alert">
         {{ session('reserva-cancelada-' . $reserva->id) }}

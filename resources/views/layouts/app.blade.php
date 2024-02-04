@@ -27,22 +27,22 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('admin.panel_admin') }}">Administrador</a>
                     </li>
-                @endif
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('index') }}">Inicio</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('restaurantes') }}">Ver Restaurantes</a>
-                </li>
-                @auth
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}">{{ Auth::user()->usuario }}</a>
-                </li>
-                @else
+                    @endif
+                    @auth
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">Iniciar Sesión</a>
+                        <a class="nav-link" href="{{ route('perfil', ['nombreUsuario' => Auth::user()->usuario]) }}">{{ Auth::user()->usuario }}</a>
                     </li>
-                @endauth
+                    @else
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">Iniciar Sesión</a>
+                        </li>
+                    @endauth
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('restaurantes') }}">Ver Restaurantes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('index') }}">Inicio</a>
+                    </li>
             </ul>
         </div>
     </nav>

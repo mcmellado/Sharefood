@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Carbon;
+
 
 
 
@@ -329,6 +331,9 @@ public function mostrarCarta($id)
 {
     try {
         $restaurante = Restaurante::findOrFail($id);
+
+        $restauranteCerrado = $this->restauranteEstaAbierto($id);
+
         $horarios = DB::table('horarios')
             ->where('restaurante_id', $id)
             ->get();
@@ -338,11 +343,12 @@ public function mostrarCarta($id)
             ->orderBy('id') 
             ->get();
 
-        return view('carta', compact('restaurante', 'productos', 'horarios'));
+        return view('carta', compact('restaurante', 'productos', 'horarios', 'restauranteCerrado'));
     } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
         abort(404, 'Restaurante no encontrado');
     }
 }
+
 
 public function gestionarCarta($slug)
     {
@@ -516,4 +522,48 @@ public function eliminarHorario($id)
 
     return response()->json(['success' => false], 404);
 }
+
+
+public function restauranteEstaAbierto($restauranteId)
+{
+    Carbon::setLocale('es');
+
+    $horaActual = Carbon::now()->addHour();
+    $diaSemanaActual = $horaActual->format('l');
+    $mapeoDias = [
+        'Monday' => 'lunes',
+        'Tuesday' => 'martes',
+        'Wednesday' => 'miercoles',
+        'Thursday' => 'jueves',
+        'Friday' => 'viernes',
+        'Saturday' => 'sabado',
+        'Sunday' => 'domingo',
+    ];
+
+    $diaSemanaActualEnEspanol = $mapeoDias[$diaSemanaActual];
+
+    $horariosRestaurante = Horario::where('restaurante_id', $restauranteId)
+        ->where('dia_semana', $diaSemanaActualEnEspanol)
+        ->get();
+
+    foreach ($horariosRestaurante as $horario) {
+        $horaApertura = Carbon::parse($horario->hora_apertura);
+        $horaCierre = Carbon::parse($horario->hora_cierre);
+
+        $fechaActual = $horaActual->toDateString();
+        $horaApertura->setDateFrom($fechaActual);
+        $horaCierre->setDateFrom($fechaActual);
+
+        if ($horaActual >= $horaApertura && $horaActual <= $horaCierre) {
+            return 'abierto';
+        }
+
+        if ($horaApertura == $horaCierre) {
+            return 'abierto';
+        }
+    }
+
+    return 'cerrado';
+}
+
 }
