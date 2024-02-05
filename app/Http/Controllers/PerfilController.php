@@ -14,6 +14,7 @@
     use Illuminate\Support\Str;
     use Illuminate\Support\Facades\Redirect;
     use App\Models\Pedido;
+    use Illuminate\Validation\Rule;
 
 
 
@@ -39,9 +40,15 @@
             $user = User::find(Auth::id());
         
             $request->validate([
-                'email' => 'required|email|unique:users,email,' . $user->id,
+                'email' => [
+                    'required',
+                    'email',
+                    Rule::unique('users', 'email')->ignore($user->id),
+                ],
                 'telefono' => 'nullable|string|max:255',
                 'biografia' => 'nullable|string',
+            ], [
+                'email.unique' => 'Este correo electrónico ya está en uso por otro usuario.',
             ]);
         
             $user->email = $request->email;
@@ -63,6 +70,7 @@
         
             return redirect()->route('perfil', ['nombreUsuario' => $user->usuario])->withSuccess('Perfil modificado correctamente');
         }
+        
 
         public function verReservas($nombreUsuario)
         {

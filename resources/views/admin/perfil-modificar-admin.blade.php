@@ -6,6 +6,13 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="{{ asset('css/perfil-modificar.css') }}">
 
+@if ($errors->has('email'))
+    <div class="alert alert-danger" role="alert">
+        {{ $errors->first('email') }} <span onclick="this.parentElement.style.display='none'" style="float:right;cursor:pointer;">&times;</span>
+    </div>
+@endif
+
+
 
 <div class="container mt-5">
     <div class="card">
@@ -23,7 +30,7 @@
 
                 <div class="form-group">
                     <label for="telefono">Teléfono:</label>
-                    <input type="text" name="telefono" value="{{ $usuario->telefono }}" class="form-control">
+                    <input type="text" name="telefono" value="{{ $usuario->telefono }}" class="form-control" pattern="[0-9]{9}" title="Teléfono debe contener solo 9 números">
                 </div>
 
                 <div class="form-group">

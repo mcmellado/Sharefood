@@ -226,14 +226,11 @@ public function cancelarPedidoUsuario($pedidoId)
     try {
         $pedido = Pedido::findOrFail($pedidoId);
 
-        // Verifica si el usuario autenticado es el propietario del pedido
         if (Auth::user()->id == $pedido->usuario_id) {
-            // Cambia el estado del pedido a "cancelado" u realiza la acción necesaria
             $pedido->update(['estado' => 'cancelado']);
 
             return response()->json(['message' => 'Pedido cancelado correctamente'], 200);
         } else {
-            // Si el usuario no es el propietario del pedido, devuelve un error
             return response()->json(['error' => 'No tienes permisos para cancelar este pedido'], 403);
         }
     } catch (\Exception $e) {

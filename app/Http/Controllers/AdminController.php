@@ -11,6 +11,8 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\Pedido;
+use Illuminate\Validation\Rule;
+
 
 
     
@@ -55,11 +57,17 @@ class AdminController extends Controller
         $usuario = User::findOrFail($usuarioId);
 
         $request->validate([
-            'email' => 'required|email',
-            'telefono' => 'nullable|string',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users', 'email')->ignore($usuarioId),
+            ],
+            'telefono' => 'nullable|string|max:255',
             'biografia' => 'nullable|string',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ], [
+            'email.unique' => 'Este correo electrónico ya está en uso por otro usuario.',
         ]);
+    
 
         $usuario->email = $request->email;
         $usuario->telefono = $request->telefono;

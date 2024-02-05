@@ -7,6 +7,11 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link rel="stylesheet" href="{{ asset('css/perfil-modificar.css') }}">
 
+@if ($errors->has('email'))
+    <div class="alert alert-danger" role="alert">
+        {{ $errors->first('email') }} <span onclick="this.parentElement.style.display='none'" style="float:right;cursor:pointer;">&times;</span>
+    </div>
+@endif
 
 
 <div class="container mt-5">
