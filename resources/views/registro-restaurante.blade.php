@@ -17,7 +17,7 @@
 
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">  </nav>
 
-
+<div class="espaciado-superior">
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -84,6 +84,7 @@
             <p>&copy; 2023 ShareFood. Todos los derechos reservados.</p>
         </div>
     </footer>
+</div>
 </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

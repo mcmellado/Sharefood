@@ -67,6 +67,10 @@ nav a {
 
 .espaciado-inferior {
     margin-top: 4%!important;
-    /* margin-bottom: 10%!important; */
+}
+
+.espaciado-superior {
+    position: relative;
+    margin-bottom: 130px;
 }
 

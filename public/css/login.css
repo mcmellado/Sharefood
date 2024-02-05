@@ -81,5 +81,11 @@ img {
     height: auto; 
 }
 
+.espaciado-superior {
+    position: relative;
+    margin-bottom: 130px;
+}
+
+
 
 

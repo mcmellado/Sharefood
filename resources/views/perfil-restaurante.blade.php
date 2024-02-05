@@ -84,47 +84,40 @@
             </div>
         </div>
         @if ($restaurante->horarios)
-        <div class="card mt-4">
-            <div class="card-body">
-                <h3 class="horarios">Horarios:</h3>
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div class="container mt-4">
+            <h3 class="text-center mb-4">Horarios:</h3>
+            <div class="row justify-content-center">
+                @php
+                    $diasSemana = ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo'];
+                @endphp
+    
+                @foreach ($diasSemana as $dia)
                     @php
-                        $diasSemana = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
+                        $horariosDia = $restaurante->horarios->where('dia_semana', $dia);
                     @endphp
     
-                    @foreach ($diasSemana as $dia)
-                        @php
-                            $horariosDia = $restaurante->horarios->where('dia_semana', $dia);
-                        @endphp
+                    <div class="col-md-4 mb-4">
+                        <div class="card text-center" style="height: 100%;">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title mb-3">{{ ucfirst($dia) }}</h5>
     
-                        <div class="col mb-3">
-                            <div class="card">
-                                <div class="card-body d-flex flex-column">
-                                    <h6 class="card-subtitle mb-2">{{ ucfirst($dia) }}</h6>
-    
+                                <div class="custom-horario">
                                     @if ($horariosDia->count() > 0)
                                         @foreach ($horariosDia as $horario)
-                                            <div class="d-flex justify-content-between">
-                                                <span>{{ \Carbon\Carbon::parse($horario->hora_apertura)->format('H:i') }}</span>
-                                                <span> - </span>
-                                                <span>{{ \Carbon\Carbon::parse($horario->hora_cierre)->format('H:i') }}</span>
-                                            </div>
+                                            <p class="card-text">{{ \Carbon\Carbon::parse($horario->hora_apertura)->format('H:i') }} - {{ \Carbon\Carbon::parse($horario->hora_cierre)->format('H:i') }}</p>
                                         @endforeach
                                     @else
-                                        <div class="text-danger">Cerrado</div>
+                                        <p class="text-danger mb-0">Cerrado</p>
                                     @endif
                                 </div>
                             </div>
                         </div>
-                    @endforeach
-                </div>
+                    </div>
+                @endforeach
             </div>
         </div>
     @endif
     
-
-    
-
 
         <div class="card mt-4">
             <div class="card-body">

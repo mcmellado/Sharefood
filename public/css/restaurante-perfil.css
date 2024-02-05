@@ -273,7 +273,8 @@ h1, h2, h3, p, label, h4 {
 
 .social-share-links a {
     text-decoration: none!important;
-    text-decoration-thickness: initial!important; 
+    text-decoration-thickness: initial!important;
+    margin-bottom: 10px!important;
 }
 
 .social-share-links a:hover {
