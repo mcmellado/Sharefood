@@ -15,8 +15,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Carbon;
-
 
 
 
@@ -331,9 +329,6 @@ public function mostrarCarta($id)
 {
     try {
         $restaurante = Restaurante::findOrFail($id);
-
-        $restauranteCerrado = $this->restauranteEstaAbierto($id);
-
         $horarios = DB::table('horarios')
             ->where('restaurante_id', $id)
             ->get();
@@ -343,12 +338,11 @@ public function mostrarCarta($id)
             ->orderBy('id') 
             ->get();
 
-        return view('carta', compact('restaurante', 'productos', 'horarios', 'restauranteCerrado'));
+        return view('carta', compact('restaurante', 'productos', 'horarios'));
     } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
         abort(404, 'Restaurante no encontrado');
     }
 }
-
 
 public function gestionarCarta($slug)
     {
@@ -487,29 +481,62 @@ public function actualizarProducto(Request $request, $slug, $id)
     }
 
     public function guardarHorarios(Request $request, $slug)
-{
-    $restaurante = Restaurante::where('slug', $slug)->firstOrFail();
+    {
+        $restaurante = Restaurante::where('slug', $slug)->firstOrFail();
+    
+        foreach ($request->input('hora_apertura') as $horarioId => $horaApertura) {
+            $dia_semana = $request->input('nuevo_dia')[$horarioId];
+            $horaCierre = $request->input('hora_cierre')[$horarioId];
+    
+            if ($horaApertura == '00:00' && $horaCierre == '00:00') {
+                Horario::where('restaurante_id', $restaurante->id)
+                    ->where('dia_semana', $dia_semana)
+                    ->delete();
 
-    foreach ($request->input('hora_apertura') as $horarioId => $horaApertura) {
-        $dia_semana = $request->input('nuevo_dia')[$horarioId];
-        $horario = $horarioId ? Horario::find($horarioId) : new Horario();
-        $horario->dia_semana = $dia_semana;
-        $horario->hora_apertura = $horaApertura;
-        $horario->restaurante_id = $restaurante->id;
-        $horario->save();
+                    $horarioNuevo = new Horario();
+                    $horarioNuevo->dia_semana = $dia_semana;
+                    $horarioNuevo->hora_apertura = '00:00';
+                    $horarioNuevo->hora_cierre = '00:00';
+                    $horarioNuevo->restaurante_id = $restaurante->id;
+                    $horarioNuevo->save();
+            } else {
+                $solapamiento = false;
+    
+                $horariosExistente = Horario::where('restaurante_id', $restaurante->id)
+                    ->where('dia_semana', $dia_semana)
+                    ->where('id', '!=', $horarioId) 
+                    ->get();
+    
+                foreach ($horariosExistente as $horarioExistente) {
+                    if ($horaApertura <= $horarioExistente->hora_cierre && $horaCierre >= $horarioExistente->hora_apertura) {
+                        // Hay solapamiento
+                        $solapamiento = true;
+    
+                        // Actualizar horario existente solo si la nueva hora de cierre es mayor
+                        if ($horaCierre > $horarioExistente->hora_cierre) {
+                            $horarioExistente->hora_cierre = $horaCierre;
+                        }
+                        $horarioExistente->hora_apertura = min($horaApertura, $horarioExistente->hora_apertura);
+                        $horarioExistente->save();
+                        break; // Salir del bucle si hay solapamiento
+                    }
+                }
+    
+                if (!$solapamiento) {
+                    // Buscar y actualizar el horario existente si se está editando
+                    $horarioNuevo = $horarioId ? Horario::find($horarioId) : new Horario();
+                    $horarioNuevo->dia_semana = $dia_semana;
+                    $horarioNuevo->hora_apertura = $horaApertura;
+                    $horarioNuevo->hora_cierre = $horaCierre;
+                    $horarioNuevo->restaurante_id = $restaurante->id;
+                    $horarioNuevo->save();
+                }
+            }
+        }
+    
+        return redirect()->route('perfil.mis-restaurantes', ['nombreUsuario' => auth()->user()->usuario])->with('success', 'Horario restaurante modificado.');
     }
-
-    foreach ($request->input('hora_cierre') as $horarioId => $horaCierre) {
-        $dia_semana = $request->input('nuevo_dia')[$horarioId];
-        $horario = $horarioId ? Horario::find($horarioId) : new Horario();
-        $horario->dia_semana = $dia_semana;
-        $horario->hora_cierre = $horaCierre;
-        $horario->restaurante_id = $restaurante->id;
-        $horario->save();
-    }
-
-    return redirect()->route('perfil.mis-restaurantes', ['nombreUsuario' => auth()->user()->usuario])->with('success', 'Horario restaurante modificado.');
-}
+    
 
 public function eliminarHorario($id)
 {
@@ -522,48 +549,4 @@ public function eliminarHorario($id)
 
     return response()->json(['success' => false], 404);
 }
-
-
-public function restauranteEstaAbierto($restauranteId)
-{
-    Carbon::setLocale('es');
-
-    $horaActual = Carbon::now()->addHour();
-    $diaSemanaActual = $horaActual->format('l');
-    $mapeoDias = [
-        'Monday' => 'lunes',
-        'Tuesday' => 'martes',
-        'Wednesday' => 'miercoles',
-        'Thursday' => 'jueves',
-        'Friday' => 'viernes',
-        'Saturday' => 'sabado',
-        'Sunday' => 'domingo',
-    ];
-
-    $diaSemanaActualEnEspanol = $mapeoDias[$diaSemanaActual];
-
-    $horariosRestaurante = Horario::where('restaurante_id', $restauranteId)
-        ->where('dia_semana', $diaSemanaActualEnEspanol)
-        ->get();
-
-    foreach ($horariosRestaurante as $horario) {
-        $horaApertura = Carbon::parse($horario->hora_apertura);
-        $horaCierre = Carbon::parse($horario->hora_cierre);
-
-        $fechaActual = $horaActual->toDateString();
-        $horaApertura->setDateFrom($fechaActual);
-        $horaCierre->setDateFrom($fechaActual);
-
-        if ($horaActual >= $horaApertura && $horaActual <= $horaCierre) {
-            return 'abierto';
-        }
-
-        if ($horaApertura == $horaCierre) {
-            return 'abierto';
-        }
-    }
-
-    return 'cerrado';
-}
-
 }
