@@ -11,12 +11,9 @@ class HorariosTableSeeder extends Seeder
     {
         DB::statement('SET CONSTRAINTS ALL DEFERRED');
 
-        // Vaciar la tabla antes de insertar nuevos registros
         DB::table('horarios')->truncate();
 
         DB::statement('SET CONSTRAINTS ALL IMMEDIATE');
-
-        // Obtén los IDs de los restaurantes para asociar los horarios
         $restaurantes = DB::table('restaurantes')->select('id')->get();
 
         foreach ($restaurantes as $restaurante) {

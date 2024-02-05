@@ -188,6 +188,16 @@ public function restauranteEstaAbierto($restauranteId)
         $horaApertura->setDateFrom($fechaActual);
         $horaCierre->setDateFrom($fechaActual);
 
+        if ($horaCierre->format('H:i:s') === '00:00:00') {
+            $horaCierre->setTime(23, 59, 59);
+        }
+
+        // dd([
+        //     'horaActual' => $horaActual->format('Y-m-d H:i:s'),
+        //     'horaApertura' => $horaApertura->format('Y-m-d H:i:s'),
+        //     'horaCierre' => $horaCierre->format('Y-m-d H:i:s'),
+        // ]);
+
         if ($horaActual >= $horaApertura && $horaActual <= $horaCierre) {
             return true;
         }
