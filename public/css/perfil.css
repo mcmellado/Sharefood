@@ -62,3 +62,8 @@ body::before {
 
 }
 
+.espaciado-superior {
+    position: relative;
+    margin-bottom: 100px!important;
+}
+

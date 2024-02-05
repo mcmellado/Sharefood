@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="{{ asset('css/perfil.css') }}">
 
 
-
+<div class="espaciado-superior">
 <div class="container mt-5">
     <h2 class="my-4">Modificar Horas de {{ $restaurante->nombre }}:</h2>
 
@@ -88,6 +88,7 @@
         <button type="button" class="btn btn-success" onclick="agregarFila()">Agregar Tramo Horario</button>
         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
     </form>
+</div>
 </div>
 <script>
 
