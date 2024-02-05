@@ -199,9 +199,9 @@ STRIPE_KEY=pk_test_51OZMHuLsmmfQt4qgVrxTP8rCMjUC7RJrbfn8gpTGFPEiKk3DvEiYP2P1d3zi
 STRIPE_SECRET_KEY=sk_test_51OZMHuLsmmfQt4qgK5UNEnA5IN8q8A8OzrGpXoyZM2J2kfAnz2vQva8UViNf3rRAyp70jqPvedNRv9kfvJZLxLpc00FcnCQy7t
 ```
 
-### Luego de acabar con la edición de .env.example, lo guardamos como ".env".
+Al acabar con la edición de .env.example, lo guardamos como ".env".
 
-Luego, ejecuta los siguientes comandos en PostgreSQL:
+### Luego, ejecuta los siguientes comandos en PostgreSQL:
 
 ```
 sudo -u postgres psql
