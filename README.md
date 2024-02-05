@@ -199,6 +199,8 @@ STRIPE_KEY=pk_test_51OZMHuLsmmfQt4qgVrxTP8rCMjUC7RJrbfn8gpTGFPEiKk3DvEiYP2P1d3zi
 STRIPE_SECRET_KEY=sk_test_51OZMHuLsmmfQt4qgK5UNEnA5IN8q8A8OzrGpXoyZM2J2kfAnz2vQva8UViNf3rRAyp70jqPvedNRv9kfvJZLxLpc00FcnCQy7t
 ```
 
+### Luego de acabar con la edición de .env.example, lo guardamos como ".env".
+
 Luego, ejecuta los siguientes comandos en PostgreSQL:
 
 ```
@@ -230,11 +232,11 @@ sudo -u postgres createuser -P laravel
 ## Finaliza la configuración de la aplicación:
 
 ```
-chmod -R 777 storage/*
+sudo chmod -R 777 storage/*
 ```
 
 ```
-chmod 777 .env
+sudo chmod 777 .env
 ```
 ```
 php artisan cache:clear
@@ -262,6 +264,10 @@ Crea un enlace simbólico para el almacenamiento:
 ```
 php artisan storage:link
 ```
-## ¡La aplicación Sharefood está lista para funcionar!
 
+```
+php artisan serve
+```
+
+## ¡La aplicación Sharefood está lista para funcionar!
 
