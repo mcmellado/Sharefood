@@ -133,7 +133,7 @@ composer dump-autoload --ignore-platform-reqs
 ```
 
 ```
-npm install
+sudo apt install npm
 ```
 
 ```
