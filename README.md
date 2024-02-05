@@ -36,8 +36,17 @@ Facilitar a los usuarios la exploración, reserva y evaluación de restaurantes,
 
 ```
 sudo add-apt-repository ppa:ondrej/php
+```
+
+```
 sudo apt-get update
+```
+
+```
 sudo apt install php8.1 php8.1-amqp php8.1-cgi php8.1-cli php8.1-common php8.1-curl php8.1-fpm php8.1-gd php8.1-igbinary php8.1-intl php8.1-mbstring php8.1-opcache php8.1-pgsql php8.1-readline php8.1-redis php8.1-sqlite3 php8.1-xml php8.1-zip
+```
+
+``` 
 sudo update-alternatives --config php
 ```
 
@@ -61,9 +70,20 @@ Sin el ; de principio en date.timezone
 
 ```
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+```
+```
 php -r "if (hash_file('sha384', 'composer-setup.php') === 'e21205b207c3ff031906575712edab6f13eb0b361f2085f1f1237b7126d785e826a450292b6cfd1d64d92e6563bbde02') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+```
+
+```
 php composer-setup.php
+```
+
+```
 php -r "unlink('composer-setup.php');"
+```
+
+```
 sudo mv composer.phar /usr/local/bin/composer
 ```
 
@@ -71,6 +91,9 @@ sudo mv composer.phar /usr/local/bin/composer
 
 ```
 type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
+```
+
+```
 curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
 && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
 && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
@@ -83,7 +106,11 @@ curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo 
 
 ```
 sudo apt-get update
+```
+```
 sudo apt install postgresql
+```
+```
 sudo service postgresql start
 ```
 
@@ -91,26 +118,59 @@ sudo service postgresql start
 
 ```
 git clone https://github.com/mcmellado/sharefood
+```
+
+```
 cd sharefood
+```
+
+```
 composer install --ignore-platform-reqs
+```
+
+```
 composer dump-autoload --ignore-platform-reqs
-npm install
+```
+
+```
+sudo apt install npm
+```
+
+```
 npm audit fix
+```
+
+```
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+```
+
+```
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")" [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+```
+
+```
 source ~/.bashrc
+```
+
+```
 nvm install 18.1.0
+```
+
+```
 nvm use 18.1.0
+```
+
+```
 npm install
-npm run dev
 ```
 
 ## 6. Configuración del Archivo .env y la Base de Datos
 
 ```
-sudo nano .env
+sudo nano .env.example
 ```
-Cambia las siguientes líneas en el archivo .env:
+
+Cambia las siguientes líneas en el archivo .env.example:
 
 ```
 DB_CONNECTION=pgsql 
@@ -139,23 +199,30 @@ STRIPE_KEY=pk_test_51OZMHuLsmmfQt4qgVrxTP8rCMjUC7RJrbfn8gpTGFPEiKk3DvEiYP2P1d3zi
 STRIPE_SECRET_KEY=sk_test_51OZMHuLsmmfQt4qgK5UNEnA5IN8q8A8OzrGpXoyZM2J2kfAnz2vQva8UViNf3rRAyp70jqPvedNRv9kfvJZLxLpc00FcnCQy7t
 ```
 
-Luego, ejecuta los siguientes comandos en PostgreSQL:
+Al acabar con la edición de .env.example, lo guardamos como ".env".
+
+### Luego, ejecuta los siguientes comandos en PostgreSQL:
 
 ```
 sudo -u postgres psql
 ```
+
 ```
 \c template1
 ```
+
 ```
 CREATE EXTENSION pgcrypto;
 ```
+
 ```
 \q
 ```
+
 ```
 sudo -u postgres createdb laravel
 ```
+
 ```
 sudo -u postgres createuser -P laravel
 ```
@@ -165,22 +232,42 @@ sudo -u postgres createuser -P laravel
 ## Finaliza la configuración de la aplicación:
 
 ```
-chmod -R 777 storage/*
+sudo chmod -R 777 storage/*
+```
+
+```
+sudo chmod 777 .env
+```
+```
 php artisan cache:clear
+```
+
+```
 php artisan key:generate
+```
+
+```
 php artisan migrate
 ```
+
 Ejecuta los seeders:
+
 ```
 php artisan db:seed --class=UsersTableSeeder
 php artisan db:seed --class=RestaurantesTableSeeder
 php artisan db:seed --class=HorariosTableSeeder
 php artisan db:seed --class=ProductosTableSeeder
 ```
+
 Crea un enlace simbólico para el almacenamiento:
+
 ```
 php artisan storage:link
 ```
-## ¡La aplicación Sharefood está lista para funcionar!
 
+```
+php artisan serve
+```
+
+## ¡La aplicación Sharefood está lista para funcionar!
 
