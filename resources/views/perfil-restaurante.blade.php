@@ -43,6 +43,7 @@
                             <div class="custom-star-rating">
                                 @php
                                     $puntuacion = $restaurante->puntuaciones->avg('puntuacion') ?: 0;
+                                    $numPuntuaciones = $restaurante->puntuaciones->count();
                                 @endphp
                                 @for ($i = 1; $i <= 5; $i++)
                                     @if ($i <= $puntuacion)
@@ -51,8 +52,9 @@
                                         <i class="far fa-star text-warning"></i>
                                     @endif
                                 @endfor
+                                <span class="ml-2 text-muted small">({{ $numPuntuaciones }} {{ $numPuntuaciones === 1 ? 'persona ha puntuado' : 'personas han puntuado' }})</span>
                             </div>
-                        </div>
+                        </div>                        
                         <div class="d-flex">
                             @auth
                                 <a href="{{ route('restaurantes.nuevaReserva', ['slug' => $restaurante->slug]) }}" class="btn btn-success mr-2">Hacer Reserva</a>
