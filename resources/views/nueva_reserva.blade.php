@@ -82,10 +82,18 @@
     }
 
     function obtenerHorasDisponibles(horaApertura, horaCierre, reservas) {
-        var horasDisponibles = [];
-        var horaActual = parseHora(horaApertura);
-        var tiempoCierre = "{{ $restaurante->tiempo_cierre }}";
+    var horasDisponibles = [];
+    var tiempoCierre = "{{ $restaurante->tiempo_cierre }}";
 
+    if (horaApertura === horaCierre || (horaApertura === '00:00:00' && horaCierre === '00:00:00')) {
+        for (var hora = 0; hora < 24; hora++) {
+            for (var minuto = 0; minuto < 60; minuto += 30) {
+                var horaActualString = hora.toString().padStart(2, '0') + ':' + minuto.toString().padStart(2, '0');
+                horasDisponibles.push(horaActualString);
+            }
+        }
+    } else {
+        var horaActual = parseHora(horaApertura);
         var horaCierreModificada = parseHora(horaCierre).setMinutes(parseHora(horaCierre).getMinutes() - tiempoCierre);
 
         while (horaActual <= horaCierreModificada) {
@@ -95,9 +103,11 @@
             }
             horaActual.setMinutes(horaActual.getMinutes() + 30);
         }
+    }
 
         return horasDisponibles;
     }
+
 
     function mostrarAlerta(mensaje, tipo) {
         var alertsContainer = document.getElementById('alerts-container');
@@ -164,6 +174,12 @@
         var horaApertura = parseHora(horarioParaDia.hora_apertura);
         var horaCierre = parseHora(horarioParaDia.hora_cierre);
         var horaSeleccionada = parseHora(horaInput.value);
+
+        if (horaApertura.getTime() === horaCierre.getTime()) {
+            // Abierto un 24 horas equisde
+            return true;
+        }
+
 
         if (horaSeleccionada < horaApertura || horaSeleccionada > horaCierre) {
             mostrarAlerta('La reserva debe estar dentro del horario de apertura (' + horarioParaDia.hora_apertura + ' - ' + horarioParaDia.hora_cierre + ').', 'danger');

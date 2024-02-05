@@ -143,7 +143,6 @@
                                 ->where('usuario_bloqueado_id', $usuarioId)
                                 ->exists();
                         @endphp
-        
                         <div class="media mt-3">
                             @if ($comentario->usuario->imagen)
                                 <img src="{{ '/storage/' . $comentario->usuario->imagen }}" class="mr-3 rounded-circle" alt="{{ $comentario->usuario->usuario }}" width="50">
