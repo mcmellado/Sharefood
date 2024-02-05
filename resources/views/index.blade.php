@@ -27,7 +27,7 @@
 
 
 <div class="container mt-5">
-    <form action="{{ route('restaurantes.buscar') }}" method="GET">
+    <form action="{{ route('restaurantes.buscar') }}" method="GET" onsubmit="return false;">
         <div class="input-group mb-3 position-relative"> 
             <input type="text" class="form-control" placeholder="Buscar restaurantes..." name="q" id="buscar-input">
             <div class="sugerencias-desplegable position-absolute" id="sugerencias-desplegable"></div>

@@ -509,21 +509,18 @@ public function actualizarProducto(Request $request, $slug, $id)
     
                 foreach ($horariosExistente as $horarioExistente) {
                     if ($horaApertura <= $horarioExistente->hora_cierre && $horaCierre >= $horarioExistente->hora_apertura) {
-                        // Hay solapamiento
                         $solapamiento = true;
     
-                        // Actualizar horario existente solo si la nueva hora de cierre es mayor
                         if ($horaCierre > $horarioExistente->hora_cierre) {
                             $horarioExistente->hora_cierre = $horaCierre;
                         }
                         $horarioExistente->hora_apertura = min($horaApertura, $horarioExistente->hora_apertura);
                         $horarioExistente->save();
-                        break; // Salir del bucle si hay solapamiento
+                        break;
                     }
                 }
     
                 if (!$solapamiento) {
-                    // Buscar y actualizar el horario existente si se está editando
                     $horarioNuevo = $horarioId ? Horario::find($horarioId) : new Horario();
                     $horarioNuevo->dia_semana = $dia_semana;
                     $horarioNuevo->hora_apertura = $horaApertura;
