@@ -248,15 +248,17 @@ php artisan key:generate
 php artisan migrate
 ```
 
-```
 Ejecuta los seeders:
+
 ```
 php artisan db:seed --class=UsersTableSeeder
 php artisan db:seed --class=RestaurantesTableSeeder
 php artisan db:seed --class=HorariosTableSeeder
 php artisan db:seed --class=ProductosTableSeeder
 ```
+
 Crea un enlace simbólico para el almacenamiento:
+
 ```
 php artisan storage:link
 ```
