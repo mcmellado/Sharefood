@@ -36,8 +36,14 @@ Facilitar a los usuarios la exploración, reserva y evaluación de restaurantes,
 
 ```
 sudo add-apt-repository ppa:ondrej/php
+```
+```
 sudo apt-get update
+```
+```
 sudo apt install php8.1 php8.1-amqp php8.1-cgi php8.1-cli php8.1-common php8.1-curl php8.1-fpm php8.1-gd php8.1-igbinary php8.1-intl php8.1-mbstring php8.1-opcache php8.1-pgsql php8.1-readline php8.1-redis php8.1-sqlite3 php8.1-xml php8.1-zip
+
+``` 
 sudo update-alternatives --config php
 ```
 
@@ -61,9 +67,20 @@ Sin el ; de principio en date.timezone
 
 ```
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+```
+```
 php -r "if (hash_file('sha384', 'composer-setup.php') === 'e21205b207c3ff031906575712edab6f13eb0b361f2085f1f1237b7126d785e826a450292b6cfd1d64d92e6563bbde02') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+```
+
+```
 php composer-setup.php
+```
+
+```
 php -r "unlink('composer-setup.php');"
+```
+
+```
 sudo mv composer.phar /usr/local/bin/composer
 ```
 
@@ -71,6 +88,9 @@ sudo mv composer.phar /usr/local/bin/composer
 
 ```
 type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
+```
+
+```
 curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
 && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
 && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
@@ -83,34 +103,63 @@ curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo 
 
 ```
 sudo apt-get update
+```
+```
 sudo apt install postgresql
+```
+```
 sudo service postgresql start
 ```
 
 ## 5. Instalación de la Aplicación Sharefood
 
 ```
+
+```
 git clone https://github.com/mcmellado/sharefood
+```
+```
 cd sharefood
+```
+```
 composer install --ignore-platform-reqs
+```
+```
 composer dump-autoload --ignore-platform-reqs
+```
+```
 npm install
+```
+```
 npm audit fix
+```
+```
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+```
+```
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")" [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+```
+```
 source ~/.bashrc
+```
+```
 nvm install 18.1.0
+```
+
+```
 nvm use 18.1.0
+```
+
+```
 npm install
-npm run dev
 ```
 
 ## 6. Configuración del Archivo .env y la Base de Datos
 
 ```
-sudo nano .env
+sudo nano .env.example
 ```
-Cambia las siguientes líneas en el archivo .env:
+Cambia las siguientes líneas en el archivo .env.example:
 
 ```
 DB_CONNECTION=pgsql 
@@ -166,9 +215,23 @@ sudo -u postgres createuser -P laravel
 
 ```
 chmod -R 777 storage/*
+```
+
+```
+chmod 777 .env
+```
+```
 php artisan cache:clear
+```
+
+```
 php artisan key:generate
+```
+
+```
 php artisan migrate
+```
+
 ```
 Ejecuta los seeders:
 ```
