@@ -121,6 +121,10 @@ git clone https://github.com/mcmellado/sharefood
 ```
 
 ```
+sudo chmood 777 sharefood
+```
+
+```
 cd sharefood
 ```
 
