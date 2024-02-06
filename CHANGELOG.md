@@ -1,6 +1,10 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v10.2.7...10.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v3...main)
+
+## [v3](https://github.com/laravel/laravel/compare/v10.2.7...v3) - 2024-02-06
+
+Entrega de la versión 3 del proyecto de Celeste Mellado Gallero. "Sharefood"
 
 ## [v10.2.7](https://github.com/laravel/laravel/compare/v10.2.6...v10.2.7) - 2023-10-31
 
