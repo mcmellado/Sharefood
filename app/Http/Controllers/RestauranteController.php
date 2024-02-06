@@ -488,6 +488,10 @@ public function actualizarProducto(Request $request, $slug, $id)
     public function guardarHorarios(Request $request, $slug)
     {
         $restaurante = Restaurante::where('slug', $slug)->firstOrFail();
+
+        if (!$request->has('hora_apertura') || count($request->input('hora_apertura')) === 0) {
+            return redirect()->back()->with('error', 'No se han enviado datos para guardar el horario.');
+        }
     
         foreach ($request->input('hora_apertura') as $horarioId => $horaApertura) {
             $dia_semana = $request->input('nuevo_dia')[$horarioId];

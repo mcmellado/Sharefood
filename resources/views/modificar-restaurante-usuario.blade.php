@@ -36,7 +36,7 @@
 
                 <div class="form-group">
                     <label for="sitio_web">Sitio web:</label>
-                    <input type="text" name="sitio_web" value="{{ old('sitio_web', $restaurante->sitio_web) }}" class="form-control">
+                    <input type="text" name="sitio_web" pattern="^(https?:\/\/)?([a-zA-Z0-9-]+\.)*[a-zA-Z]{2,}(:[0-9]+)?(\/[^\s]*)?$" title="Formato de sitio web válido" value="{{ old('sitio_web', $restaurante->sitio_web) }}" class="form-control" required>
                     @error('sitio_web')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -44,7 +44,7 @@
 
                 <div class="form-group">
                     <label for="telefono">Teléfono:</label>
-                    <input type="text" name="telefono" value="{{ old('telefono', $restaurante->telefono) }}" class="form-control">
+                    <input type="text" name="telefono" pattern="\d{9}" title="Formato de teléfono: xxxxxxxx (Solo números)" value="{{ old('telefono', $restaurante->telefono) }}" class="form-control" required>
                     @error('telefono')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror

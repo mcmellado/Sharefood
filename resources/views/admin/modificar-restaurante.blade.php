@@ -44,7 +44,7 @@
 
                 <div class="form-group">
                     <label for="telefono">Teléfono:</label>
-                    <input type="text" name="telefono" value="{{ old('telefono', $restaurante->telefono) }}" class="form-control">
+                    <input type="text" name="telefono" pattern="\d{3}-\d{3}-\d{4}" title="Formato de teléfono: xxx-xxx-xxxx" value="{{ old('telefono', $restaurante->telefono) }}" class="form-control" required>
                     @error('telefono')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
