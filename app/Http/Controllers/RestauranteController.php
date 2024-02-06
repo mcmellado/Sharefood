@@ -485,10 +485,10 @@ public function actualizarProducto(Request $request, $slug, $id)
         return view('editar-horarios', ['restaurante' => $restaurante, 'horarios' => $horarios]);
     }
 
-    public function guardarHorarios(Request $request, $slug)
+    function guardarHorarios(Request $request, $slug)
     {
         $restaurante = Restaurante::where('slug', $slug)->firstOrFail();
-
+    
         if (!$request->has('hora_apertura') || count($request->input('hora_apertura')) === 0) {
             return redirect()->back()->with('error', 'No se han enviado datos para guardar el horario.');
         }
@@ -497,19 +497,14 @@ public function actualizarProducto(Request $request, $slug, $id)
             $dia_semana = $request->input('nuevo_dia')[$horarioId];
             $horaCierre = $request->input('hora_cierre')[$horarioId];
     
+            $horarioExistente = $horarioId ? Horario::find($horarioId) : null;
+    
             if ($horaApertura == '00:00' && $horaCierre == '00:00') {
                 Horario::where('restaurante_id', $restaurante->id)
                     ->where('dia_semana', $dia_semana)
                     ->delete();
-
-                    
-
-                    $horarioNuevo = new Horario();
-                    $horarioNuevo->dia_semana = $dia_semana;
-                    $horarioNuevo->hora_apertura = '00:00';
-                    $horarioNuevo->hora_cierre = '00:00';
-                    $horarioNuevo->restaurante_id = $restaurante->id;
-                    $horarioNuevo->save();
+    
+                $horarioNuevo = new Horario();
             } else {
                 $solapamiento = false;
     
@@ -518,33 +513,33 @@ public function actualizarProducto(Request $request, $slug, $id)
                     ->where('id', '!=', $horarioId) 
                     ->get();
     
-                foreach ($horariosExistente as $horarioExistente) {
-                    if ($horaApertura <= $horarioExistente->hora_cierre && $horaCierre >= $horarioExistente->hora_apertura) {
+                foreach ($horariosExistente as $horario) {
+                    if ($horaApertura <= $horario->hora_cierre && $horaCierre >= $horario->hora_apertura) {
                         $solapamiento = true;
     
-                        if ($horaCierre > $horarioExistente->hora_cierre) {
-                            $horarioExistente->hora_cierre = $horaCierre;
+                        if ($horaCierre > $horario->hora_cierre) {
+                            $horario->hora_cierre = $horaCierre;
                         }
-                        $horarioExistente->hora_apertura = min($horaApertura, $horarioExistente->hora_apertura);
-                        $horarioExistente->save();
+                        $horario->hora_apertura = min($horaApertura, $horario->hora_apertura);
+                        $horario->save();
                         break;
                     }
                 }
     
                 if (!$solapamiento) {
-                    $dia_semana = $request->input('nuevo_dia')[$horarioId];  
-                    $horarioNuevo = $horarioId ? Horario::find($horarioId) : new Horario();
-                    $horarioNuevo->dia_semana = $dia_semana;
-                    $horarioNuevo->hora_apertura = $horaApertura;
-                    $horarioNuevo->hora_cierre = $horaCierre;
-                    $horarioNuevo->restaurante_id = $restaurante->id;
-                    $horarioNuevo->save();
+                    $horarioNuevo = $horarioExistente ?: new Horario();
                 }
             }
+            $horarioNuevo->dia_semana = $dia_semana;
+            $horarioNuevo->hora_apertura = $horaApertura;
+            $horarioNuevo->hora_cierre = $horaCierre;
+            $horarioNuevo->restaurante_id = $restaurante->id;
+            $horarioNuevo->save();
         }
     
         return redirect()->route('perfil.mis-restaurantes', ['nombreUsuario' => auth()->user()->usuario])->with('success', 'Horario restaurante modificado.');
     }
+    
     
 
 public function eliminarHorario($id)
