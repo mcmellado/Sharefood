@@ -88,7 +88,7 @@
             <h3 class="text-center mb-4">Horarios:</h3>
             <div class="row justify-content-center">
                 @php
-                    $diasSemana = ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo'];
+                    $diasSemana = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
                 @endphp
     
                 @foreach ($diasSemana as $dia)

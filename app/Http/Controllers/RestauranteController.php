@@ -498,6 +498,8 @@ public function actualizarProducto(Request $request, $slug, $id)
                     ->where('dia_semana', $dia_semana)
                     ->delete();
 
+                    
+
                     $horarioNuevo = new Horario();
                     $horarioNuevo->dia_semana = $dia_semana;
                     $horarioNuevo->hora_apertura = '00:00';
@@ -526,6 +528,7 @@ public function actualizarProducto(Request $request, $slug, $id)
                 }
     
                 if (!$solapamiento) {
+                    $dia_semana = $request->input('nuevo_dia')[$horarioId];  
                     $horarioNuevo = $horarioId ? Horario::find($horarioId) : new Horario();
                     $horarioNuevo->dia_semana = $dia_semana;
                     $horarioNuevo->hora_apertura = $horaApertura;
